@@ -1,0 +1,14 @@
+In fruit tile class, have to change the fruits to not be random but on the level itself
+
+
+
+/////////////////////////////////////////
+tile char meanings:
+
+b = tile with pellet
+- = tile with dot
+| = null tile
+f = tile with fruit
+g = tile with gate
+0 = border tile
+//////////////////////////////////////////
