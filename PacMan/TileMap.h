@@ -14,6 +14,7 @@ public:
 	TileMap(const char * fileName);
 	auto getMap() { return tileArr; };
 	void updateTileMap();
+	void tileType(char tileChar);
 	auto getChars() { return m_board; };
 	~TileMap();
 private:
@@ -33,27 +34,13 @@ private:
 	//std::shared_ptr<BorderTile> borderTile = std::make_shared<BorderTile>();
 
 	NullTile nullTile;
-	FruitTile fruitTile;
-	PelletTile pelletTile;
-	DotTile dotTile;
-	GateTile gateTile;
 	BorderTile borderTile;
 
-	//std::shared_ptr<Texture2D> nullTexture = std::make_shared<Texture2D>("black.jpg");
-	//std::shared_ptr<Texture2D> fruitTexture = std::make_shared<Texture2D>("green.jpg");
-	//std::shared_ptr<Texture2D> pelletTexture = std::make_shared<Texture2D>("green.jpg");
-	//std::shared_ptr<Texture2D> dotTexture = std::make_shared<Texture2D>("blue.jpg");
-	//std::shared_ptr<Texture2D> borderTexture = std::make_shared<Texture2D>("green.jpg");
-	Texture2D *nullTexture;
-	Texture2D *fruitTexture;
-	Texture2D *pelletTexture;
-	Texture2D *dotTexture;
-	Texture2D *borderTexture;
+	Texture2D nullTexture;
+	Texture2D borderTexture;
 
 
 	tile_ptrs tileArr;
-
-	void tileType(char tileChar);
 
 	void readFile(const char * fileName);
 	std::vector<char> splitStringToChars(std::string fullString, char delimiter);

@@ -2,8 +2,9 @@
 #include "Texture2D.h"
 
 
-Texture2D::Texture2D(const char * filePath)
+Texture2D::Texture2D()
 {
+	glGenTextures(1, &this->ID);
 	glBindTexture(GL_TEXTURE_2D, this->ID); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
 											// set the texture wrapping parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
@@ -11,7 +12,10 @@ Texture2D::Texture2D(const char * filePath)
 	// set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	std::cout << "Binding: " << this->ID << std::endl;
+}
+
+void Texture2D::textureImage(const char * filePath)
+{
 	int width, height, nrChannels;
 
 	unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);

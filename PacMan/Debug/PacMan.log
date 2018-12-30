@@ -1,11 +1,6 @@
-﻿  TileMap.cpp
-c:\users\ianhu\source\repos\pacman\pacman\tilemap.cpp(25): error C2664: 'void std::vector<Tiles,std::allocator<_Ty>>::push_back(_Ty &&)': cannot convert argument 1 from 'void' to 'const Tiles &'
-          with
-          [
-              _Ty=Tiles
-          ]
-  c:\users\ianhu\source\repos\pacman\pacman\tilemap.cpp(25): note: Expressions of type void cannot be converted to other types
-c:\users\ianhu\source\repos\pacman\pacman\tilemap.cpp(43): error C2556: 'Tiles TileMap::tileType(char)': overloaded function differs only by return type from 'void TileMap::tileType(char)'
-  c:\users\ianhu\source\repos\pacman\pacman\tilemap.h(56): note: see declaration of 'TileMap::tileType'
-c:\users\ianhu\source\repos\pacman\pacman\tilemap.cpp(42): error C2371: 'TileMap::tileType': redefinition; different basic types
-  c:\users\ianhu\source\repos\pacman\pacman\tilemap.h(56): note: see declaration of 'TileMap::tileType'
+﻿  PacMan.cpp
+  Texture2D.cpp
+  TileMap.cpp
+  Tiles.cpp
+  Generating Code...
+  PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe
