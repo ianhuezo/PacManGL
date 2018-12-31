@@ -31,6 +31,12 @@
     <Filter Include="Resource Files\Game Tiles">
       <UniqueIdentifier>{bbf0e439-e25b-40e8-9a73-57090d18b258}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\commands">
+      <UniqueIdentifier>{fcefd1ad-faec-43e7-a160-78ae1fc7134d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\commands">
+      <UniqueIdentifier>{3d3e7ee7-01db-43eb-bf85-1dbe9ae2b83f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tiles.h">
@@ -53,6 +59,12 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files\visual studio</Filter>
+    </ClInclude>
+    <ClInclude Include="InputCommand.h">
+      <Filter>Header Files\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +91,12 @@
     </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="InputCommand.cpp">
+      <Filter>Source Files\commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
