@@ -185,10 +185,12 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="black.jpg" />
-    <Image Include="blue.jpg" />
+    <Image Include="border.jpg" />
+    <Image Include="dot.jpg" />
     <Image Include="fruit.jpg" />
-    <Image Include="gate.png" />
+    <Image Include="gate.jpg" />
     <Image Include="green.jpg" />
+    <Image Include="pellet.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

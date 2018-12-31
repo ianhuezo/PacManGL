@@ -13,54 +13,72 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\rendering">
+      <UniqueIdentifier>{44fbbf35-d670-4778-bb37-ad531e0137af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rendering">
+      <UniqueIdentifier>{7bde317e-b4ec-4a54-b0f5-5dbfa750a2be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\visual studio">
+      <UniqueIdentifier>{7e5ec6e3-99a1-4b0e-a95f-44e58a6ce31f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\visual studio">
+      <UniqueIdentifier>{80649c54-ea72-48d6-b744-c85bdb3b6256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{7abc48a1-39ac-48e3-9674-f5ead6def954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Game Tiles">
+      <UniqueIdentifier>{bbf0e439-e25b-40e8-9a73-57090d18b258}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Tiles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TileMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files\visual studio</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files\visual studio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PacMan.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Tiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TileMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files\visual studio</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files\rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,28 +90,34 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragmentShader.fs">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="vertexShader.vs">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="fragmentShader.fs">
+      <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="black.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="green.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="blue.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="gate.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Game Tiles</Filter>
     </Image>
     <Image Include="fruit.jpg">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Game Tiles</Filter>
+    </Image>
+    <Image Include="green.jpg">
+      <Filter>Resource Files\Game Tiles</Filter>
+    </Image>
+    <Image Include="dot.jpg">
+      <Filter>Resource Files\Game Tiles</Filter>
+    </Image>
+    <Image Include="gate.jpg">
+      <Filter>Resource Files\Game Tiles</Filter>
+    </Image>
+    <Image Include="pellet.jpg">
+      <Filter>Resource Files\Game Tiles</Filter>
+    </Image>
+    <Image Include="border.jpg">
+      <Filter>Resource Files\Game Tiles</Filter>
     </Image>
   </ItemGroup>
 </Project>

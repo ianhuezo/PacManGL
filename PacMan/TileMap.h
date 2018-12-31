@@ -20,7 +20,12 @@ class TileMap
 public:
 	TileMap(const char * fileName);
 	auto getMap() { return tileArr; };
+	auto getRowSize() { return m_rows; };
+	auto getColSize() { return m_cols; };
+
 	void updateTileMap();
+	void clearTile(int row, int col);
+	void putTile(int row, int col);
 	auto getChars() { return m_board; };
 	~TileMap();
 private:
@@ -41,10 +46,10 @@ private:
 
 	std::shared_ptr<Texture2D> nullTexture = std::make_shared<Texture2D>("black.jpg");
 	std::shared_ptr<Texture2D> fruitTexture = std::make_shared<Texture2D>("fruit.jpg");
-	std::shared_ptr<Texture2D> pelletTexture = std::make_shared<Texture2D>("green.jpg");
-	std::shared_ptr<Texture2D> dotTexture = std::make_shared<Texture2D>("green.jpg");
-	std::shared_ptr<Texture2D> gateTexture = std::make_shared<Texture2D>("gate.png");
-	std::shared_ptr<Texture2D> borderTexture = std::make_shared<Texture2D>("blue.jpg");
+	std::shared_ptr<Texture2D> pelletTexture = std::make_shared<Texture2D>("pellet.jpg");
+	std::shared_ptr<Texture2D> dotTexture = std::make_shared<Texture2D>("dot.jpg");
+	std::shared_ptr<Texture2D> gateTexture = std::make_shared<Texture2D>("gate.jpg");
+	std::shared_ptr<Texture2D> borderTexture = std::make_shared<Texture2D>("border.jpg");
 
 	BindedTile tileType(char tileChar);
 	tile2d tileArr;
@@ -52,5 +57,7 @@ private:
 	void readFile(const char * fileName);
 	std::vector<char> splitStringToChars(std::string fullString, char delimiter);
 	char2d m_board;
+	int m_rows;
+	int m_cols;
 };
 

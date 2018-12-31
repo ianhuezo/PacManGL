@@ -19,7 +19,6 @@ Texture2D::Texture2D(const char * filePath)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
-		std::cout << "Texture Created" << std::endl;
 	}
 	else
 	{

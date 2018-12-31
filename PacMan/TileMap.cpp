@@ -12,6 +12,8 @@ TileMap::TileMap(const char * fileName)
 
 	readFile(fileName);
 	updateTileMap();
+	m_rows = tileArr.size();
+	m_cols = tileArr[0].size();
 }
 
 void TileMap::updateTileMap()
@@ -27,6 +29,24 @@ void TileMap::updateTileMap()
 		tileArr.push_back(vec);
 	}
 }
+
+void TileMap::clearTile(int row, int col)
+{
+	tileArr[row][col] = BindedTile(*nullTexture, nullTile);
+	putTile(row, col);
+}
+
+void TileMap::putTile(int row, int col)
+{
+	try {
+		tileArr[row][col].tile.assignTexture(tileArr[row][col].texture);
+	}
+	catch (int e)
+	{
+		std::cout<<"The index is out of range for the vector with error code : "<< e << std::endl;
+	}
+}
+
 
 
 TileMap::~TileMap()
