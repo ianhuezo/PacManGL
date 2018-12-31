@@ -2,7 +2,7 @@
 #include "Texture2D.h"
 
 
-Texture2D::Texture2D()
+Texture2D::Texture2D(const char * filePath)
 {
 	glGenTextures(1, &this->ID);
 	glBindTexture(GL_TEXTURE_2D, this->ID); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
@@ -12,10 +12,6 @@ Texture2D::Texture2D()
 	// set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-}
-
-void Texture2D::textureImage(const char * filePath)
-{
 	int width, height, nrChannels;
 
 	unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);
@@ -23,10 +19,12 @@ void Texture2D::textureImage(const char * filePath)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
+		std::cout << "Texture Created" << std::endl;
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		std::cout << "Failed to load texture " << filePath << std::endl;
 	}
 	stbi_image_free(data);
 }
+

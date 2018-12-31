@@ -9,3 +9,7 @@ void FruitTile::assignRandomFruit()
 						 MELON, BOSS, KEY, BELL };
 	m_randFruit = static_cast<int>(allFruits[randNum]);
 }
+
+Tiles::Tiles()
+{
+}

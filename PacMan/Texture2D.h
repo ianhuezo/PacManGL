@@ -7,11 +7,10 @@ class Texture2D
 {
 public:
 	GLuint ID;
-	Texture2D();
-	void textureImage(const char * filePath);
+	Texture2D(const char * filePath);
 	void assignTexture() {glBindTexture(GL_TEXTURE_2D, this->ID); };
 	//disable copy constructor
-	Texture2D(const Texture2D&) = delete;
+	//Texture2D(const Texture2D&) = delete;
 	
 };
 

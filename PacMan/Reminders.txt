@@ -12,3 +12,6 @@ f = tile with fruit
 g = tile with gate
 0 = border tile
 //////////////////////////////////////////
+
+current changes:
+deleted filereader class in texture, added to main class instead. Now, bind will do most of the work.

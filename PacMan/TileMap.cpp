@@ -4,15 +4,28 @@
 
 TileMap::TileMap(const char * fileName)
 {
-	nullTexture.textureImage("blue.jpg");
-	borderTexture.textureImage("green.jpg");
+	nullTile.assignTexture(*nullTexture);
+	fruitTile.assignTexture(*fruitTexture);
+	dotTile.assignTexture(*pelletTexture);
+	gateTile.assignTexture(*dotTexture);
+	borderTile.assignTexture(*borderTexture);
+
 	readFile(fileName);
 	updateTileMap();
 }
 
 void TileMap::updateTileMap()
 {
-
+	std::vector<BindedTile> vec;
+	for (auto row : m_board)
+	{
+		vec.clear();
+		for (auto col : row)
+		{
+			vec.push_back(tileType(col));
+		}
+		tileArr.push_back(vec);
+	}
 }
 
 
@@ -21,16 +34,31 @@ TileMap::~TileMap()
 }
 
 
-void TileMap::tileType(char tileChar)
-{
-	if (tileChar == '|')
-	{
-		borderTile.setTexture(borderTexture);
-	}
-	else {
-		borderTile.setTexture(nullTexture);
-	}
 
+
+BindedTile TileMap::tileType(char tileChar)
+{
+	switch (tileChar)
+	{
+		case TILE::FRUIT:
+			return BindedTile(*fruitTexture, fruitTile);
+			break;
+		case TILE::BORDER:
+			return BindedTile(*borderTexture, borderTile);
+			break;
+		case TILE::PELLET:
+			return BindedTile(*pelletTexture, pelletTile);
+			break;
+		case TILE::DOT:
+			return BindedTile(*dotTexture, dotTile);
+			break;
+		case TILE::GATE:
+			return BindedTile(*gateTexture, gateTile);
+		case TILE::NILL:
+			return BindedTile(*nullTexture, nullTile);
+		default:
+			return BindedTile(*nullTexture, nullTile);
+	}
 }
 
 void TileMap::readFile(const char * fileName)

@@ -89,5 +89,11 @@
     <Image Include="blue.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="gate.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="fruit.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

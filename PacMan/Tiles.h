@@ -4,14 +4,16 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <random>
 #include "Texture2D.h"
+#include <iostream>
 class Tiles
 {
 public:
 	//assigns the point value
+	Tiles();
 	virtual ~Tiles() = default;
 	virtual void assignTileValue() { mm_tileValue = 0; };
 	//assigns the texture to the tile
-	virtual void setTexture(Texture2D& texture) { texture.assignTexture(); };
+	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
 	int setTileDimensions(glm::vec2 tileDimensions) { m_tileDimensions = tileDimensions; };
 
 	/*getters for tile attributes*/
@@ -57,7 +59,7 @@ class FruitTile : public Tiles
 	};
 public:
 	virtual void assignTileValue() { assignRandomFruit(); mm_tileValue = m_randFruit; };
-	virtual void setTexture(Texture2D& texture) { texture.assignTexture(); };
+	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
 
 private:
 	int m_randFruit;
@@ -68,7 +70,7 @@ class PelletTile : public Tiles
 {
 public:
 	virtual void assignTileValue() { mm_tileValue = 50; };
-	virtual void setTexture(Texture2D& texture) { texture.assignTexture(); };
+	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
 
 };
 
@@ -76,25 +78,28 @@ class DotTile : public Tiles
 {
 public:
 	virtual void assignTileValue() { mm_tileValue = 10; };
-	virtual void setTexture(Texture2D& texture) { texture.assignTexture(); };
+	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
 
 };
 
 class NullTile : public Tiles
 {
 public:
-	virtual void setTexture(Texture2D& texture) { texture.assignTexture(); };
+	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
+
 };
 
 class BorderTile : public Tiles
 {
 public:
-	virtual void setTexture(Texture2D& texture) { texture.assignTexture(); };
+	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
+
 };
 
 class GateTile : public Tiles
 {
 public:
-	virtual void setTexture(Texture2D& texture) { texture.assignTexture(); };
+	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
+
 };
 
