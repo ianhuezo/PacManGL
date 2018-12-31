@@ -28,6 +28,7 @@ void TileMap::updateTileMap()
 		}
 		tileArr.push_back(vec);
 	}
+	originalArr = tileArr;
 }
 
 void TileMap::clearTile(int row, int col)

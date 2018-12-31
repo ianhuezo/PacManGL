@@ -29,6 +29,8 @@ public:
 	auto getChars() { return m_board; };
 	~TileMap();
 private:
+	void readFile(const char * fileName);
+
 	enum TILE {
 		NILL = '0',
 		FRUIT = 'f',
@@ -53,10 +55,11 @@ private:
 
 	BindedTile tileType(char tileChar);
 	tile2d tileArr;
+	tile2d originalArr;
 
-	void readFile(const char * fileName);
 	std::vector<char> splitStringToChars(std::string fullString, char delimiter);
 	char2d m_board;
+	
 	int m_rows;
 	int m_cols;
 };
