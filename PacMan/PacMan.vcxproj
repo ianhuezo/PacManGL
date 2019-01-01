@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="InputCommand.h" />
+    <ClInclude Include="PacSprite.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stb_image.h" />
@@ -166,6 +167,7 @@
     </ClCompile>
     <ClCompile Include="InputCommand.cpp" />
     <ClCompile Include="PacMan.cpp" />
+    <ClCompile Include="PacSprite.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -194,6 +196,11 @@
     <Image Include="fruit.jpg" />
     <Image Include="gate.jpg" />
     <Image Include="green.jpg" />
+    <Image Include="pacdown.png" />
+    <Image Include="pacleft.png" />
+    <Image Include="pacman.png" />
+    <Image Include="pacright.png" />
+    <Image Include="pacup.png" />
     <Image Include="pellet.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

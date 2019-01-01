@@ -42,22 +42,37 @@ class InputHandler
 {
 public:
 	InputHandler(GLFWwindow* window);
-	InputCommand* handleInput() {
+	~InputHandler()
+	{
+		delete moveLeft;
+		delete moveRight;
+		delete moveUp;
+		delete moveDown;
+	}
+	InputCommand* handleKeyInput() {
 		if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS)
 		{
+			currentCommand = moveUp;
 			return moveUp;
 		}
 		if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		{
+			currentCommand = moveRight;
 			return moveRight;
 		}
 		if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		{
+			currentCommand = moveLeft;
 			return moveLeft;
 		}
 		if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		{
+			currentCommand = moveDown;
 			return moveDown;
+		}
+		if (currentCommand != NULL)
+		{
+			return currentCommand;
 		}
 		return NULL;
 	}
@@ -66,10 +81,8 @@ private:
 	InputCommand* moveRight;
 	InputCommand* moveUp;
 	InputCommand* moveDown;
+	InputCommand* currentCommand = NULL;
 	GLFWwindow* m_window;
 
-
-
-private:
 	
 };

@@ -10,7 +10,6 @@ public:
 	Texture2D texture;
 	Tiles tile;
 	BindedTile(Texture2D texture, Tiles tile) : texture(texture), tile(tile) {}
-	//BindedTile& operator = (const BindedTile& bt) { texture = bt.texture; tile = bt.tile; return *this; }
 };
 
 class TileMap

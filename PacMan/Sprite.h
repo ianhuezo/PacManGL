@@ -1,21 +1,20 @@
 #pragma once
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include "Texture2D.h"
 class Sprite
 {
 public:
-	Sprite();
-	~Sprite();
-	void moveUp() {
-		std::cout << "Moving Up" << std::endl;
-	}
-	void moveDown() {
-		std::cout << "Moving Down" << std::endl;
-	}
-	void moveRight() {
-		std::cout << "Moving Right" << std::endl;
-	}
-	void moveLeft() {
-		std::cout << "Moving Left" << std::endl;
-	}
+	auto getModel() { return m_model; };
+	virtual ~Sprite();
+	virtual void drawSprite() {};
+	void moveUp();
+	void moveDown();
+	void moveRight();
+	void moveLeft();
+protected:
+	glm::mat4 m_model;
 };
 
