@@ -33,7 +33,7 @@ void TileMap::updateTileMap()
 
 void TileMap::clearTile(int row, int col)
 {
-	tileArr[row][col] = BindedTile(*nullTexture, nullTile);
+	tileArr[row][col] = BindedTile(*nullTexture, nullTile,'-');
 	putTile(row, col);
 }
 
@@ -62,23 +62,23 @@ BindedTile TileMap::tileType(char tileChar)
 	switch (tileChar)
 	{
 		case TILE::FRUIT:
-			return BindedTile(*fruitTexture, fruitTile);
+			return BindedTile(*fruitTexture, fruitTile, tileChar);
 			break;
 		case TILE::BORDER:
-			return BindedTile(*borderTexture, borderTile);
+			return BindedTile(*borderTexture, borderTile, tileChar);
 			break;
 		case TILE::PELLET:
-			return BindedTile(*pelletTexture, pelletTile);
+			return BindedTile(*pelletTexture, pelletTile, tileChar);
 			break;
 		case TILE::DOT:
-			return BindedTile(*dotTexture, dotTile);
+			return BindedTile(*dotTexture, dotTile,tileChar);
 			break;
 		case TILE::GATE:
-			return BindedTile(*gateTexture, gateTile);
+			return BindedTile(*gateTexture, gateTile,tileChar);
 		case TILE::NILL:
-			return BindedTile(*nullTexture, nullTile);
+			return BindedTile(*nullTexture, nullTile,tileChar);
 		default:
-			return BindedTile(*nullTexture, nullTile);
+			return BindedTile(*nullTexture, nullTile,tileChar);
 	}
 }
 

@@ -9,7 +9,8 @@ class BindedTile {
 public:
 	Texture2D texture;
 	Tiles tile;
-	BindedTile(Texture2D texture, Tiles tile) : texture(texture), tile(tile) {}
+	char c_tile;
+	BindedTile(Texture2D texture, Tiles tile, char c_tile) : texture(texture), tile(tile), c_tile(c_tile) {}
 };
 
 class TileMap

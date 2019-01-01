@@ -151,7 +151,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="InputCommand.h" />
-    <ClInclude Include="PacSprite.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stb_image.h" />
@@ -167,7 +166,6 @@
     </ClCompile>
     <ClCompile Include="InputCommand.cpp" />
     <ClCompile Include="PacMan.cpp" />
-    <ClCompile Include="PacSprite.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stb_image.cpp" />

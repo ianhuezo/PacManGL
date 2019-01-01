@@ -76,6 +76,7 @@ public:
 		}
 		return NULL;
 	}
+	virtual InputCommand* handleBotInput() { return NULL; };
 private:
 	InputCommand* moveLeft;
 	InputCommand* moveRight;

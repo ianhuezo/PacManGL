@@ -66,9 +66,6 @@
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PacSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PacMan.cpp">
@@ -99,9 +96,6 @@
       <Filter>Source Files\commands</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PacSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
