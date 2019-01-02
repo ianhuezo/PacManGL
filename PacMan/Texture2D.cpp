@@ -12,6 +12,8 @@ Texture2D::Texture2D(const char * filePath)
 	// set texture filtering parameters
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
 	int width, height, nrChannels;
 	std::size_t isPng = std::string(filePath).find(".png");
 	unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);
