@@ -12,3 +12,7 @@ f = tile with fruit
 g = tile with gate
 0 = border tile
 //////////////////////////////////////////
+
+Need to refactor sprite class;
+
+rows and columns are mixed up :)

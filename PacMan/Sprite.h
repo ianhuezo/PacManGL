@@ -10,14 +10,15 @@
 
 class Sprite
 {
-	#define ROW_SIZE 28
-	#define COL_SIZE 36
+	#define ROW_SIZE 36
+	#define COL_SIZE 28
 public:
 	Sprite(float tileLength, const char * filePath, glm::vec2(indices));
 	auto getModel() { return m_model; };
+	auto getTileIndices() { return m_indices; };
+
 	virtual ~Sprite() {};
 	void drawSprite();
-	void updateIndices();
 	virtual void moveUp();
 	virtual void moveDown();
 	virtual void moveRight();
