@@ -10,8 +10,9 @@
 
 class Sprite
 {
+	//should be 36 rows by 28 columns, need to refactor, for now just added more than needed columns
 	#define ROW_SIZE 36
-	#define COL_SIZE 28
+	#define COL_SIZE 40
 public:
 	Sprite(float tileLength, const char * filePath, glm::vec2(indices));
 	auto getModel() { return m_model; };
@@ -19,10 +20,10 @@ public:
 
 	virtual ~Sprite() {};
 	void drawSprite();
-	virtual void moveUp();
-	virtual void moveDown();
-	virtual void moveRight();
-	virtual void moveLeft();
+	virtual void moveUp(float deltaTime);
+	virtual void moveDown(float deltaTime);
+	virtual void moveRight(float deltaTime);
+	virtual void moveLeft(float deltaTime);
 	void disableMovement() { movementEnabled = false; };
 	void enableMovement() { movementEnabled = true; };
 protected:
@@ -49,10 +50,10 @@ public:
 	PacMan(float tileLength, const char * filePath, glm::vec2(indices)) :
 		Sprite(tileLength, filePath, glm::vec2(indices)) {}
 	~PacMan();
-	virtual void moveUp();
-	virtual void moveDown();
-	virtual void moveLeft();
-	virtual void moveRight();
+	virtual void moveUp(float deltaTime);
+	virtual void moveDown(float deltaTime);
+	virtual void moveLeft(float deltaTime);
+	virtual void moveRight(float deltaTime);
 private:
 	std::shared_ptr<Texture2D> m_textureUp = std::make_shared<Texture2D>("pacup.png");
 	std::shared_ptr<Texture2D> m_textureDown = std::make_shared<Texture2D>("pacdown.png");

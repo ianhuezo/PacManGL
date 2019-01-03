@@ -10,32 +10,32 @@ class InputCommand
 {
 public:
 	InputCommand();
-	virtual void execute(Sprite& sprite) = 0;
+	virtual void execute(Sprite& sprite, float deltaTime) = 0;
 	virtual ~InputCommand();
 };
 
 class UpCommand : public InputCommand
 {
 public:
-	virtual void execute(Sprite& sprite) { sprite.moveUp(); }
+	virtual void execute(Sprite& sprite, float deltaTime) { sprite.moveUp(deltaTime); }
 };
 
 class DownCommand : public InputCommand
 {
 public:
-	virtual void execute(Sprite& sprite) { sprite.moveDown(); }
+	virtual void execute(Sprite& sprite, float deltaTime) { sprite.moveDown(deltaTime); }
 };
 
 class RightCommand : public InputCommand
 {
 public:
-	virtual void execute(Sprite& sprite) { sprite.moveRight(); }
+	virtual void execute(Sprite& sprite, float deltaTime) { sprite.moveRight(deltaTime); }
 };
 
 class LeftCommand : public InputCommand
 {
 public:
-	virtual void execute(Sprite& sprite) { sprite.moveLeft(); }
+	virtual void execute(Sprite& sprite, float deltaTime) { sprite.moveLeft(deltaTime); }
 };
 
 class InputHandler

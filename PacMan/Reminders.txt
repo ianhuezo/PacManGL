@@ -15,4 +15,4 @@ g = tile with gate
 
 Need to refactor sprite class;
 
-rows and columns are mixed up :)
+rows and columns are mixed up :) for sprites, refactored slightly to avoid game breaking bug but still need to fix

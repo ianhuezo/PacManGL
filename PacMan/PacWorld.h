@@ -29,7 +29,6 @@ private:
 	int m_screenHeight;
 
 	float m_tileLength;
-
 	glm::mat4 m_projection;
 	glm::mat4 m_view;
 	glm::mat4 PVM[ROW_SIZE][COL_SIZE];

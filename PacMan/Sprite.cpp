@@ -23,68 +23,72 @@ void Sprite::drawSprite()
 	m_texture->assignTexture();
 }
 
-void Sprite::moveUp()
+void Sprite::moveUp(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.y -= 0.5;
-		m_model = glm::translate(m_model, glm::vec3(0, -0.5, 0.0f));
+		mm_pixelPosition.y -= 100.0f*deltaTime;
+		m_model = glm::translate(m_model, glm::vec3(0, -100.0f*deltaTime, 0.0f));
 		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
 		{
 			m_indices.y--;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.x << std::endl;
 		}
 	}
 }
 
-void Sprite::moveDown()
+void Sprite::moveDown(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.y += 0.5;
-		m_model = glm::translate(m_model, glm::vec3(0, 0.5, 0.0f));
+		mm_pixelPosition.y += 100.0f*deltaTime;
+		m_model = glm::translate(m_model, glm::vec3(0, 100.0f*deltaTime, 0.0f));
 		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
 		{
 			m_indices.y++;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.y << std::endl;
 
 		}
 	}
 }
 
-void Sprite::moveRight()
+void Sprite::moveRight(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.x += 0.5;
-		m_model = glm::translate(m_model, glm::vec3(0.5, 0, 0.0f));
+		mm_pixelPosition.x += 100.0f*deltaTime;
+		m_model = glm::translate(m_model, glm::vec3(100.0f*deltaTime, 0, 0.0f));
 		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
 		{
 			m_indices.x++;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.x << std::endl;
 
 		}
 	}
 }
 
-void Sprite::moveLeft()
+void Sprite::moveLeft(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.x -= 0.5;
-		m_model = glm::translate(m_model, glm::vec3(-0.5, 0, 0.0f));
+		mm_pixelPosition.x -= 100.0f*deltaTime;
+		m_model = glm::translate(m_model, glm::vec3(-100.0f*deltaTime, 0, 0.0f));
 		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
 		{
 			m_indices.x--;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.x << std::endl;
 
 		}
 	}
@@ -94,72 +98,76 @@ PacMan::~PacMan()
 
 }
 //Pacman Specific movements
-void PacMan::moveUp()
+void PacMan::moveUp(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.y -= 0.5;
+		mm_pixelPosition.y -= 100.0f * deltaTime;
 		m_texture = m_textureUp;
-		m_model = glm::translate(m_model, glm::vec3(0, -0.5, 0.0f));
+		m_model = glm::translate(m_model, glm::vec3(0, -100.0f * deltaTime, 0.0f));
 		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
 		{
 			m_indices.y--;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.y << std::endl;
 		}
 	}
 }
 
-void PacMan::moveDown()
+void PacMan::moveDown(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.y += 0.5;
+		mm_pixelPosition.y += 100.0f * deltaTime;
 		m_texture = m_textureDown;
-		m_model = glm::translate(m_model, glm::vec3(0, 0.5, 0.0f));
+		m_model = glm::translate(m_model, glm::vec3(0, 100.0f * deltaTime, 0.0f));
 		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
 		{
 			m_indices.y++;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.y << std::endl;
 
 		}
 	}
 }
 
-void PacMan::moveLeft()
+void PacMan::moveLeft(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.x -= 0.5;
+		mm_pixelPosition.x -= 100.0f * deltaTime;
 		m_texture = m_textureLeft;
-		m_model = glm::translate(m_model, glm::vec3(-0.5, 0, 0.0f));
+		m_model = glm::translate(m_model, glm::vec3(-100.0f*deltaTime, 0, 0.0f));
 		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
 		{
 			m_indices.x--;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.x << std::endl;
 
 		}
 	}
 }
 
-void PacMan::moveRight()
+void PacMan::moveRight(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.x += 0.5;
+		mm_pixelPosition.x += 100.0f * deltaTime;
 		m_texture = m_textureRight;
-		m_model = glm::translate(m_model, glm::vec3(0.5, 0, 0.0f));
+		m_model = glm::translate(m_model, glm::vec3(100.0f * deltaTime, 0, 0.0f));
 		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
 		{
 			m_indices.x++;
 			int row = m_indices.x;
 			int col = m_indices.y;
 			mm_fixedPosition = tilePositions[row][col];
+			std::cout << m_indices.x << std::endl;
 
 		}
 	}
