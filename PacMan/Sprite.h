@@ -20,12 +20,13 @@ public:
 
 	virtual ~Sprite() {};
 	void drawSprite();
+	float spriteSpeed = 100;
+	//number is used for subtraction or addition
+	void generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number);
 	virtual void moveUp(float deltaTime);
 	virtual void moveDown(float deltaTime);
 	virtual void moveRight(float deltaTime);
 	virtual void moveLeft(float deltaTime);
-	void disableMovement() { movementEnabled = false; };
-	void enableMovement() { movementEnabled = true; };
 protected:
 	//the position of the model
 	float m_tileLength;
@@ -49,7 +50,7 @@ class PacMan: public Sprite
 public:
 	PacMan(float tileLength, const char * filePath, glm::vec2(indices)) :
 		Sprite(tileLength, filePath, glm::vec2(indices)) {}
-	~PacMan();
+	~PacMan() {};
 	virtual void moveUp(float deltaTime);
 	virtual void moveDown(float deltaTime);
 	virtual void moveLeft(float deltaTime);

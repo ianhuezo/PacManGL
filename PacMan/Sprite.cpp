@@ -16,159 +16,86 @@ Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices))
 	m_model = glm::translate(m_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
 }
 
-
-
 void Sprite::drawSprite()
 {
 	m_texture->assignTexture();
 }
 
+
+//Function does the general move for each direction
+void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number)
+{
+	pixelPosition = pixelPosition + (number*spriteSpeed*deltaTime);
+	if (abs(pixelPosition - fixedPosition) >= m_tileLength)
+	{
+		index = index + number;
+		int row = m_indices.x;
+		int col = m_indices.y;
+		mm_fixedPosition = tilePositions[row][col];
+		std::cout << index << std::endl;
+	}
+}
+//UP
 void Sprite::moveUp(float deltaTime)
 {
-	if (movementEnabled)
-	{
-		mm_pixelPosition.y -= 100.0f*deltaTime;
-		m_model = glm::translate(m_model, glm::vec3(0, -100.0f*deltaTime, 0.0f));
-		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
-		{
-			m_indices.y--;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.x << std::endl;
-		}
-	}
+	m_model = glm::translate(m_model, glm::vec3(0, -spriteSpeed*deltaTime, 0.0f));
+	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, m_indices.y, deltaTime, -1);
 }
-
+//DOWN
 void Sprite::moveDown(float deltaTime)
 {
-	if (movementEnabled)
-	{
-		mm_pixelPosition.y += 100.0f*deltaTime;
-		m_model = glm::translate(m_model, glm::vec3(0, 100.0f*deltaTime, 0.0f));
-		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
-		{
-			m_indices.y++;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.y << std::endl;
 
-		}
-	}
+	m_model = glm::translate(m_model, glm::vec3(0, spriteSpeed*deltaTime, 0.0f));
+	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, m_indices.y, deltaTime, 1);
 }
-
+//RIGHT
 void Sprite::moveRight(float deltaTime)
 {
-	if (movementEnabled)
-	{
-		mm_pixelPosition.x += 100.0f*deltaTime;
-		m_model = glm::translate(m_model, glm::vec3(100.0f*deltaTime, 0, 0.0f));
-		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
-		{
-			m_indices.x++;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.x << std::endl;
-
-		}
-	}
+	m_model = glm::translate(m_model, glm::vec3(spriteSpeed*deltaTime, 0, 0.0f));
+	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, m_indices.x, deltaTime, 1);
 }
-
+//LEFT
 void Sprite::moveLeft(float deltaTime)
 {
-	if (movementEnabled)
-	{
-		mm_pixelPosition.x -= 100.0f*deltaTime;
-		m_model = glm::translate(m_model, glm::vec3(-100.0f*deltaTime, 0, 0.0f));
-		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
-		{
-			m_indices.x--;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.x << std::endl;
-
-		}
-	}
+	m_model = glm::translate(m_model, glm::vec3(-spriteSpeed*deltaTime, 0, 0.0f));
+	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, m_indices.x, deltaTime, -1);
 }
-PacMan::~PacMan()
-{
 
-}
-//Pacman Specific movements
+
+//PACMAN Specifc up functions(Same as above, just added a texture to the movement
+//UP
 void PacMan::moveUp(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.y -= 100.0f * deltaTime;
 		m_texture = m_textureUp;
-		m_model = glm::translate(m_model, glm::vec3(0, -100.0f * deltaTime, 0.0f));
-		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
-		{
-			m_indices.y--;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.y << std::endl;
-		}
+		Sprite::moveUp(deltaTime);
 	}
 }
-
+//DOWN
 void PacMan::moveDown(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.y += 100.0f * deltaTime;
 		m_texture = m_textureDown;
-		m_model = glm::translate(m_model, glm::vec3(0, 100.0f * deltaTime, 0.0f));
-		if (abs(mm_pixelPosition.y - mm_fixedPosition.y) >= m_tileLength)
-		{
-			m_indices.y++;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.y << std::endl;
-
-		}
+		Sprite::moveDown(deltaTime);
 	}
 }
-
+//LEFT
 void PacMan::moveLeft(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.x -= 100.0f * deltaTime;
 		m_texture = m_textureLeft;
-		m_model = glm::translate(m_model, glm::vec3(-100.0f*deltaTime, 0, 0.0f));
-		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
-		{
-			m_indices.x--;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.x << std::endl;
-
-		}
+		Sprite::moveLeft(deltaTime);
 	}
 }
-
+//RIGHT
 void PacMan::moveRight(float deltaTime)
 {
 	if (movementEnabled)
 	{
-		mm_pixelPosition.x += 100.0f * deltaTime;
 		m_texture = m_textureRight;
-		m_model = glm::translate(m_model, glm::vec3(100.0f * deltaTime, 0, 0.0f));
-		if (abs(mm_pixelPosition.x - mm_fixedPosition.x) >= m_tileLength)
-		{
-			m_indices.x++;
-			int row = m_indices.x;
-			int col = m_indices.y;
-			mm_fixedPosition = tilePositions[row][col];
-			std::cout << m_indices.x << std::endl;
-
-		}
+		Sprite::moveRight(deltaTime);
 	}
 }

@@ -52,3 +52,9 @@ void PacWorld::genTilePVMs()
 		}
 	}
 }
+
+void PacWorld::collisionDetect(int inX, int inY)
+{
+	glm::vec2 pacIndices = pacman->getTileIndices();
+	bool goodUp = (m_boardMap->getChars()[pacIndices.x + inX][pacIndices.y + inY] != '|');
+}
