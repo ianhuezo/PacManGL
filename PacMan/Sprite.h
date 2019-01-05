@@ -12,7 +12,7 @@ class Sprite
 {
 	//should be 36 rows by 28 columns, need to refactor, for now just added more than needed columns
 	#define ROW_SIZE 36
-	#define COL_SIZE 40
+	#define COL_SIZE 28
 public:
 	Sprite(float tileLength, const char * filePath, glm::vec2(indices));
 	auto getModel() { return m_model; };
@@ -36,7 +36,7 @@ protected:
 	bool movementEnabled = true;
 
 	//array for each tile position
-	glm::vec2 tilePositions[ROW_SIZE][COL_SIZE];
+	glm::vec2 tilePositions[36][28];
 	//row col compared to the tiles
 	glm::vec2 m_indices;
 	//actual pixel position

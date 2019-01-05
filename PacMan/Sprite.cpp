@@ -3,15 +3,16 @@
 Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices))
 	:m_tileLength(tileLength), m_model(glm::mat4(1.0f)), m_texture(std::make_shared<Texture2D>(filePath)), m_indices(indices)
 {
+	//pacman position is row 26 col 14
 	for (int i = 0; i < ROW_SIZE; i++)
 	{
 		for (int j = 0; j < COL_SIZE; j++)
 		{
-			tilePositions[i][j] = glm::vec2(m_tileLength * i, m_tileLength * j);
+			tilePositions[i][j] = glm::vec2(m_tileLength * j, m_tileLength * i);
 		}
 	}
-	int row = m_indices.x;
-	int col = m_indices.y;
+	int row = m_indices.y;
+	int col = m_indices.x;
 	mm_pixelPosition = tilePositions[row][col];
 	mm_fixedPosition = mm_pixelPosition;
 	m_model = glm::translate(m_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
@@ -29,8 +30,8 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 	if (abs(pixelPosition - fixedPosition) >= m_tileLength)
 	{
 		index = index + number;
-		int row = m_indices.x;
-		int col = m_indices.y;
+		int row = m_indices.y;
+		int col = m_indices.x;
 		mm_fixedPosition = tilePositions[row][col];
 		std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
 	}
