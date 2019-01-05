@@ -11,6 +11,8 @@ class InputCommand
 public:
 	InputCommand();
 	virtual void execute(Sprite& sprite, float deltaTime) = 0;
+	int x;
+	int y;
 	virtual ~InputCommand();
 };
 

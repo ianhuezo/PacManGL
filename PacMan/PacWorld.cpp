@@ -33,11 +33,6 @@ void PacWorld::drawPacMan()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-
-PacWorld::~PacWorld()
-{
-}
-
 void PacWorld::genTilePVMs()
 {
 	m_projection = glm::ortho(0.0f, static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight), 0.0f, -1.0f, 1.0f);
@@ -56,5 +51,6 @@ void PacWorld::genTilePVMs()
 void PacWorld::collisionDetect(int inX, int inY)
 {
 	glm::vec2 pacIndices = pacman->getTileIndices();
-	bool goodUp = (m_boardMap->getChars()[pacIndices.x + inX][pacIndices.y + inY] != '|');
+	bool goodRight = (m_boardMap->getChars()[pacIndices.x + inX][pacIndices.y + inY] != '|');
+	std::cout << m_boardMap->getChars()[pacIndices.x + inX][pacIndices.y + inY] << std::endl;
 }

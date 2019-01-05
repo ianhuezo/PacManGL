@@ -17,7 +17,6 @@ public:
 	void collisionDetect(int inX, int inY);
 	std::shared_ptr<PacMan> pacman;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
-	~PacWorld();
 private:
 
 	void genTilePVMs();

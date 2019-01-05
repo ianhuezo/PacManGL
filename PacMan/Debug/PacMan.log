@@ -1,9 +1,8 @@
-﻿  InputCommand.cpp
-  PacMan.cpp
+﻿  PacMan.cpp
 c:\users\ianhu\source\repos\pacman\pacman\pacman.cpp(114): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  PacWorld.cpp
-c:\users\ianhu\source\repos\pacman\pacman\pacworld.cpp(59): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
   Sprite.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(14): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(32): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   Generating Code...

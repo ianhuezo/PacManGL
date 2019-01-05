@@ -1,6 +1,5 @@
 #include "Sprite.h"
 
-
 Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices))
 	:m_tileLength(tileLength), m_model(glm::mat4(1.0f)), m_texture(std::make_shared<Texture2D>(filePath)), m_indices(indices)
 {
@@ -11,7 +10,9 @@ Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices))
 			tilePositions[i][j] = glm::vec2(m_tileLength * i, m_tileLength * j);
 		}
 	}
-	mm_pixelPosition = tilePositions[14][26];
+	int row = m_indices.x;
+	int col = m_indices.y;
+	mm_pixelPosition = tilePositions[row][col];
 	mm_fixedPosition = mm_pixelPosition;
 	m_model = glm::translate(m_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
 }
@@ -20,7 +21,6 @@ void Sprite::drawSprite()
 {
 	m_texture->assignTexture();
 }
-
 
 //Function does the general move for each direction
 void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number)
@@ -32,7 +32,7 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 		int row = m_indices.x;
 		int col = m_indices.y;
 		mm_fixedPosition = tilePositions[row][col];
-		std::cout << index << std::endl;
+		std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
 	}
 }
 //UP
@@ -62,7 +62,7 @@ void Sprite::moveLeft(float deltaTime)
 }
 
 
-//PACMAN Specifc up functions(Same as above, just added a texture to the movement
+//PACMAN Specifc up functions(Same as above, just added a texture to the movement)
 //UP
 void PacMan::moveUp(float deltaTime)
 {
