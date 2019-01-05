@@ -48,9 +48,11 @@ void PacWorld::genTilePVMs()
 	}
 }
 
-void PacWorld::collisionDetect(int inX, int inY)
+bool PacWorld::collisionDetect(int inX, int inY)
 {
 	glm::vec2 pacIndices = pacman->getTileIndices();
-	bool goodRight = (m_boardMap->getChars()[pacIndices.x + inX][pacIndices.y + inY] != '|');
-	std::cout << m_boardMap->getChars()[pacIndices.x + inX][pacIndices.y + inY] << std::endl;
+	//rows are y, cols are x
+	bool goodMovement = !(m_boardMap->getChars()[pacIndices.y + inY][pacIndices.x + inX] != '|' &&
+		m_boardMap->getChars()[pacIndices.y + inY][pacIndices.x + inX] != 'g');
+	return goodMovement;
 }

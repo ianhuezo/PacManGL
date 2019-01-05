@@ -14,7 +14,7 @@ public:
 	PacWorld(int screenWidth, int screenHeight, float tileLength);
 	void drawWorld();
 	void drawPacMan();
-	void collisionDetect(int inX, int inY);
+	bool collisionDetect(int inX, int inY);
 	std::shared_ptr<PacMan> pacman;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:

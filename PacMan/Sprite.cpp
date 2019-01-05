@@ -33,7 +33,7 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 		int row = m_indices.y;
 		int col = m_indices.x;
 		mm_fixedPosition = tilePositions[row][col];
-		std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
+		//std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
 	}
 }
 //UP
