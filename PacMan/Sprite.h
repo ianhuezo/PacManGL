@@ -17,6 +17,7 @@ public:
 	Sprite(float tileLength, const char * filePath, glm::vec2(indices));
 	auto getModel() { return m_model; };
 	auto getTileIndices() { return m_indices; };
+	auto getModelPosition() { return mm_pixelPosition; };
 
 	virtual ~Sprite() {};
 	void drawSprite();
@@ -30,16 +31,17 @@ public:
 protected:
 	//the position of the model
 	float m_tileLength;
+	float halfTileLength;
 	glm::mat4 m_model;
 	std::shared_ptr<Texture2D> m_texture;
 
 	bool movementEnabled = true;
 
-	//array for each tile position
+	//array for each tile position in mm_pixelPosition
 	glm::vec2 tilePositions[36][28];
 	//row col compared to the tiles
 	glm::vec2 m_indices;
-	//actual pixel position
+	//actual pixel position i.e. top left corner of every tile
 	glm::vec2 mm_pixelPosition;
 	//current position on the tile(variable)
 	glm::vec2 mm_fixedPosition;

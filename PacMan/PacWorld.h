@@ -29,6 +29,8 @@ private:
 	int m_screenHeight;
 
 	float m_tileLength;
+	bool m_canMove;
+	glm::vec2 m_mapPixel[ROW_SIZE][COL_SIZE];
 	glm::mat4 m_projection;
 	glm::mat4 m_view;
 	glm::mat4 PVM[ROW_SIZE][COL_SIZE];

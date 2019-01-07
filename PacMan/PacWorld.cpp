@@ -42,6 +42,7 @@ void PacWorld::genTilePVMs()
 		for (auto j = 0; j < m_boardMap->getColSize(); j++)
 		{
 			glm::mat4 model;
+			m_mapPixel[i][j] = glm::vec2(m_tileLength*j, m_tileLength*i);
 			model = glm::translate(model, glm::vec3(m_tileLength*j, m_tileLength * i, 0.0f));
 			PVM[i][j] = m_projection * m_view * model;
 		}
@@ -52,7 +53,27 @@ bool PacWorld::collisionDetect(int inX, int inY)
 {
 	glm::vec2 pacIndices = pacman->getTileIndices();
 	//rows are y, cols are x
-	bool goodMovement = !(m_boardMap->getChars()[pacIndices.y + inY][pacIndices.x + inX] != '|' &&
-		m_boardMap->getChars()[pacIndices.y + inY][pacIndices.x + inX] != 'g');
-	return goodMovement;
+	int row = pacIndices.y + inY;
+	int col = pacIndices.x + inX;
+	//top left corner of each sprite tile
+	glm::vec2 rect1 = pacman->getModelPosition();
+	//currently in the top left corner of each  game tile
+	glm::vec2 rect2 = glm::vec2(m_mapPixel[row][col].x, m_mapPixel[row][col].y);
+	char somechar = m_boardMap->getChars()[row][col];
+	//std::cout << somechar << std::endl;
+	bool badchar = (somechar == 'g' || somechar == '|');
+	std::cout << "Next tile is: " << somechar << std::endl;
+	std::cout << rect1.x << std::endl;
+	std::cout << rect2.x << std::endl << std::endl;
+	if (rect1.x + m_tileLength >= rect2.x  &&
+		rect1.x - m_tileLength < rect2.x &&
+		rect1.y + m_tileLength > rect2.y &&
+		rect1.y - m_tileLength < rect2.y &&
+		badchar) {
+		return true;
+	}
+	else {
+		return false;
+	}
+
 }

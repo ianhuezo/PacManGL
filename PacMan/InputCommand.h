@@ -72,10 +72,10 @@ public:
 			currentCommand = moveDown;
 			return moveDown;
 		}
-		if (currentCommand != NULL)
-		{
-			return currentCommand;
-		}
+		//if (currentCommand != NULL)
+		//{
+		//	return currentCommand;
+		//}
 		return NULL;
 	}
 	virtual InputCommand* handleBotInput() { return NULL; };

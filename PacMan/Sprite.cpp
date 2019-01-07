@@ -8,7 +8,7 @@ Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices))
 	{
 		for (int j = 0; j < COL_SIZE; j++)
 		{
-			tilePositions[i][j] = glm::vec2(m_tileLength * j, m_tileLength * i);
+			tilePositions[i][j] = glm::vec2(m_tileLength * j , m_tileLength * i);
 		}
 	}
 	int row = m_indices.y;
@@ -27,13 +27,16 @@ void Sprite::drawSprite()
 void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number)
 {
 	pixelPosition = pixelPosition + (number*spriteSpeed*deltaTime);
-	if (abs(pixelPosition - fixedPosition) >= m_tileLength)
+	if (abs(pixelPosition - fixedPosition) > m_tileLength/2)
 	{
 		index = index + number;
 		int row = m_indices.y;
 		int col = m_indices.x;
 		mm_fixedPosition = tilePositions[row][col];
 		//std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
+		//std::cout << "Sprites position: " <<  mm_fixedPosition.x << ": " << mm_fixedPosition.y << std::endl;
+		//std::cout << "Sprites pixel position: " << mm_pixelPosition.x << ": " << mm_pixelPosition.y << std::endl;
+		//std::cout << "Sprites tile length: " << halfTileLength << std::endl << std::endl;
 	}
 }
 //UP
