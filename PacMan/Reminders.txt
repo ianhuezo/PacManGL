@@ -13,6 +13,4 @@ g = tile with gate
 0 = border tile
 //////////////////////////////////////////
 
-Need to refactor sprite class;
-
-rows and columns are mixed up :) for sprites, refactored slightly to avoid game breaking bug but still need to fix
+Currently setting tolerances for collision detection within sprite class

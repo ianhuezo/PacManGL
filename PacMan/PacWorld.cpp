@@ -5,7 +5,7 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
 {
 	m_boardMap = std::make_shared<TileMap>("maze.txt");
 	m_originalMap = m_boardMap;
-	pacman = std::make_shared<PacMan>(m_tileLength, "pacright.png", glm::vec2(14, 26));
+	pacman = std::make_shared<PacMan>(m_tileLength, "pacleft.png", glm::vec2(14, 26));
 	shader.use();
 	glUniform1i(glGetUniformLocation(shader.ID, "mtexture"), 0);
 	genTilePVMs();
@@ -62,13 +62,13 @@ bool PacWorld::collisionDetect(int inX, int inY)
 	char somechar = m_boardMap->getChars()[row][col];
 	//std::cout << somechar << std::endl;
 	bool badchar = (somechar == 'g' || somechar == '|');
-	std::cout << "Next tile is: " << somechar << std::endl;
-	std::cout << rect1.x << std::endl;
-	std::cout << rect2.x << std::endl << std::endl;
-	if (rect1.x + m_tileLength >= rect2.x  &&
-		rect1.x - m_tileLength < rect2.x &&
+	//std::cout << "Next tile is: " << somechar << std::endl;
+	//std::cout << rect1.x << std::endl;
+	//std::cout << rect2.x << std::endl << std::endl;
+	if (rect1.x < rect2.x + m_tileLength &&
+		rect1.x + m_tileLength > rect2.x &&
+		rect1.y < m_tileLength + rect2.y &&
 		rect1.y + m_tileLength > rect2.y &&
-		rect1.y - m_tileLength < rect2.y &&
 		badchar) {
 		return true;
 	}

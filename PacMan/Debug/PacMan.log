@@ -1,10 +1,6 @@
-﻿  PacWorld.cpp
-c:\users\ianhu\source\repos\pacman\pacman\pacworld.cpp(56): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\pacworld.cpp(57): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  Sprite.cpp
+﻿  Sprite.cpp
 c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(14): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
 c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(34): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(37): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(38): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
   PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe

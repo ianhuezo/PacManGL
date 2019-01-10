@@ -22,8 +22,11 @@ public:
 	virtual ~Sprite() {};
 	void drawSprite();
 	float spriteSpeed = 100;
+	float tolerance = 0.30f;
+
 	//number is used for subtraction or addition
 	void generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number);
+	void testTolerances(float pixelPosition);
 	virtual void moveUp(float deltaTime);
 	virtual void moveDown(float deltaTime);
 	virtual void moveRight(float deltaTime);
@@ -32,10 +35,19 @@ protected:
 	//the position of the model
 	float m_tileLength;
 	float halfTileLength;
+
 	glm::mat4 m_model;
 	std::shared_ptr<Texture2D> m_texture;
 
 	bool movementEnabled = true;
+
+	//tolerance for movement on each tile 
+	//will allow sprite to move if able to
+	bool frontToleranceTripped = 0;
+	float frontTolerancePosition = 0;
+
+	bool rearToleranceTripped = 0;
+	float rearTolerancePosition = 0;
 
 	//array for each tile position in mm_pixelPosition
 	glm::vec2 tilePositions[36][28];

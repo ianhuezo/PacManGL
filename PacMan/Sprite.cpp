@@ -26,19 +26,40 @@ void Sprite::drawSprite()
 //Function does the general move for each direction
 void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number)
 {
+	//need to reverse for tiles :)
 	pixelPosition = pixelPosition + (number*spriteSpeed*deltaTime);
-	if (abs(pixelPosition - fixedPosition) > m_tileLength/2)
+	testTolerances(pixelPosition);
+	if (abs(pixelPosition - fixedPosition) > (m_tileLength/2))
 	{
 		index = index + number;
+		frontToleranceTripped = true;
+		frontTolerancePosition = pixelPosition;
 		int row = m_indices.y;
 		int col = m_indices.x;
 		mm_fixedPosition = tilePositions[row][col];
-		//std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
-		//std::cout << "Sprites position: " <<  mm_fixedPosition.x << ": " << mm_fixedPosition.y << std::endl;
-		//std::cout << "Sprites pixel position: " << mm_pixelPosition.x << ": " << mm_pixelPosition.y << std::endl;
-		//std::cout << "Sprites tile length: " << halfTileLength << std::endl << std::endl;
+		std::cout << "Front Tolerance was tripped" << std::endl;
+	//std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
+	//	std::cout << "Sprites position: " << mm_fixedPosition.x << ": " << mm_fixedPosition.y << std::endl;
+	//	std::cout << "Sprites pixel position: " << mm_pixelPosition.x << ": " << mm_pixelPosition.y << std::endl;
+	//	std::cout << "Sprites tile length: " << abs(pixelPosition - fixedPosition) << std::endl << std::endl;
 	}
+
 }
+
+void Sprite::testTolerances(float pixelPosition)
+{
+	if (frontToleranceTripped && abs(frontTolerancePosition - pixelPosition) > m_tileLength*tolerance)
+	{
+		rearToleranceTripped = true;
+		rearTolerancePosition = pixelPosition;
+		std::cout << "Rear Tolerance was tripped" << std::endl;
+		frontTolerancePosition = 0;
+		frontToleranceTripped = false;
+	}
+
+
+}
+
 //UP
 void Sprite::moveUp(float deltaTime)
 {
