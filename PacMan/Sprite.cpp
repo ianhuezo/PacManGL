@@ -16,6 +16,7 @@ Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices))
 	mm_pixelPosition = tilePositions[row][col];
 	mm_fixedPosition = mm_pixelPosition;
 	m_model = glm::translate(m_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
+
 }
 
 void Sprite::drawSprite()
@@ -28,16 +29,17 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 {
 	//need to reverse for tiles :)
 	pixelPosition = pixelPosition + (number*spriteSpeed*deltaTime);
-	testTolerances(pixelPosition);
-	if (abs(pixelPosition - fixedPosition) > (m_tileLength/2))
+	if (abs(pixelPosition - fixedPosition) > (m_tileLength))
 	{
+		commandCounter = 0;
 		index = index + number;
 		frontToleranceTripped = true;
 		frontTolerancePosition = pixelPosition;
 		int row = m_indices.y;
 		int col = m_indices.x;
 		mm_fixedPosition = tilePositions[row][col];
-		std::cout << "Front Tolerance was tripped" << std::endl;
+		canMove = false;
+		//std::cout << "Front Tolerance was tripped" << std::endl;
 	//std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
 	//	std::cout << "Sprites position: " << mm_fixedPosition.x << ": " << mm_fixedPosition.y << std::endl;
 	//	std::cout << "Sprites pixel position: " << mm_pixelPosition.x << ": " << mm_pixelPosition.y << std::endl;
@@ -46,18 +48,27 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 
 }
 
-void Sprite::testTolerances(float pixelPosition)
+void Sprite::testTolerances(const float& pixelPosition)
 {
-	if (frontToleranceTripped && abs(frontTolerancePosition - pixelPosition) > m_tileLength*tolerance)
-	{
-		rearToleranceTripped = true;
-		rearTolerancePosition = pixelPosition;
-		std::cout << "Rear Tolerance was tripped" << std::endl;
-		frontTolerancePosition = 0;
-		frontToleranceTripped = false;
-	}
-
-
+	//if (frontToleranceTripped && abs(frontTolerancePosition - pixelPosition) > frontTolerance)
+	//{
+	//	rearToleranceTripped = true;
+	//	rearTolerancePosition = pixelPosition;
+	//	//std::cout << "Rear Tolerance was tripped" << std::endl;
+	//	frontTolerancePosition = 0;
+	//	frontToleranceTripped = false;
+	//	canMove = false;
+	//}
+	//if (rearToleranceTripped && abs(rearTolerancePosition - pixelPosition) < nextTolerance)
+	//{
+	//	//std::cout << "Good movement"<<std::endl;
+	//	canMove = true;
+	//}
+	//else if (rearToleranceTripped && abs(rearTolerancePosition - pixelPosition) > rearTolerance)
+	//{
+	//	canMove = false;
+	//	//std::cout << "Bad Movement" << std::endl;
+	//}
 }
 
 //UP
@@ -65,6 +76,7 @@ void Sprite::moveUp(float deltaTime)
 {
 	m_model = glm::translate(m_model, glm::vec3(0, -spriteSpeed*deltaTime, 0.0f));
 	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, m_indices.y, deltaTime, -1);
+	commandCounter++;
 }
 //DOWN
 void Sprite::moveDown(float deltaTime)
@@ -72,18 +84,21 @@ void Sprite::moveDown(float deltaTime)
 
 	m_model = glm::translate(m_model, glm::vec3(0, spriteSpeed*deltaTime, 0.0f));
 	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, m_indices.y, deltaTime, 1);
+	commandCounter++;
 }
 //RIGHT
 void Sprite::moveRight(float deltaTime)
 {
 	m_model = glm::translate(m_model, glm::vec3(spriteSpeed*deltaTime, 0, 0.0f));
 	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, m_indices.x, deltaTime, 1);
+	commandCounter++;
 }
 //LEFT
 void Sprite::moveLeft(float deltaTime)
 {
 	m_model = glm::translate(m_model, glm::vec3(-spriteSpeed*deltaTime, 0, 0.0f));
 	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, m_indices.x, deltaTime, -1);
+	commandCounter++;
 }
 
 

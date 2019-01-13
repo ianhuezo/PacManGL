@@ -33,6 +33,56 @@ void PacWorld::drawPacMan()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
+void PacWorld::processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime)
+{
+	if (command)
+	{
+		if (!collisionDetect(command->x, command->y))
+		{
+			command->execute(*pacman, deltaTime);
+		}
+		
+		//if (pacman->commandCounter <= 1 && !collisionDetect(command->x, command->y))
+		//{
+		//	std::cout << "case 1" << std::endl;
+		//	std::cout << pacman->commandCounter << std::endl;
+		//	std::cout << !collisionDetect(command->x, command->y) << std::endl;
+		//	std::cout << !collisionDetect(currentCommand->x, currentCommand->y) << std::endl << std::endl;
+
+		//	prevCommand = currentCommand;
+		//	currentCommand = command;
+		//	currentCommand->execute(*pacman, deltaTime);
+		//	currentState = 1;
+		//}
+
+		//else if (!collisionDetect(currentCommand->x, currentCommand->y) && pacman->commandCounter >= 1)
+		//{
+		//	std::cout << "case 2" << std::endl;
+		//	std::cout << pacman->commandCounter << std::endl;
+		//	std::cout << !collisionDetect(command->x, command->y) << std::endl;
+		//	std::cout << !collisionDetect(currentCommand->x, currentCommand->y) << std::endl << std::endl;
+		//	prevCommand = currentCommand;
+		//	currentCommand->execute(*pacman, deltaTime);
+		//	currentState = 4;
+		//}
+		//else if (pacman->commandCounter > 1)
+		//{
+		//	currentCommand = prevCommand;
+		//	prevCommand->execute(*pacman, deltaTime);
+		//}
+		//else {
+		//	std::cout << "case 3" << std::endl;
+		//	std::cout << pacman->commandCounter << std::endl;
+		//	std::cout << !collisionDetect(command->x, command->y) << std::endl;
+		//	std::cout << !collisionDetect(currentCommand->x, currentCommand->y) << std::endl << std::endl;
+
+		//	prevCommand = currentCommand;
+		//	pacman->commandCounter = 0;
+		//	currentState = 4;
+		//}
+	}
+}
+
 void PacWorld::genTilePVMs()
 {
 	m_projection = glm::ortho(0.0f, static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight), 0.0f, -1.0f, 1.0f);
@@ -54,6 +104,7 @@ bool PacWorld::collisionDetect(int inX, int inY)
 	glm::vec2 pacIndices = pacman->getTileIndices();
 	//rows are y, cols are x
 	int row = pacIndices.y + inY;
+
 	int col = pacIndices.x + inX;
 	//top left corner of each sprite tile
 	glm::vec2 rect1 = pacman->getModelPosition();
@@ -65,10 +116,10 @@ bool PacWorld::collisionDetect(int inX, int inY)
 	//std::cout << "Next tile is: " << somechar << std::endl;
 	//std::cout << rect1.x << std::endl;
 	//std::cout << rect2.x << std::endl << std::endl;
-	if (rect1.x < rect2.x + m_tileLength &&
-		rect1.x + m_tileLength > rect2.x &&
-		rect1.y < m_tileLength + rect2.y &&
-		rect1.y + m_tileLength > rect2.y &&
+	if (rect1.x <= rect2.x + m_tileLength &&
+		rect1.x + m_tileLength >= rect2.x &&
+		rect1.y <= m_tileLength + rect2.y &&
+		rect1.y + m_tileLength >= rect2.y &&
 		badchar) {
 		return true;
 	}

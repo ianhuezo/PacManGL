@@ -23,10 +23,12 @@ public:
 	void drawSprite();
 	float spriteSpeed = 100;
 	float tolerance = 0.30f;
+	bool canMove = true;
+	int commandCounter = 0;
 
 	//number is used for subtraction or addition
 	void generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number);
-	void testTolerances(float pixelPosition);
+	void testTolerances(const float& pixelPosition);
 	virtual void moveUp(float deltaTime);
 	virtual void moveDown(float deltaTime);
 	virtual void moveRight(float deltaTime);
@@ -44,9 +46,9 @@ protected:
 	//tolerance for movement on each tile 
 	//will allow sprite to move if able to
 	bool frontToleranceTripped = 0;
-	float frontTolerancePosition = 0;
-
 	bool rearToleranceTripped = 0;
+
+	float frontTolerancePosition = 0;
 	float rearTolerancePosition = 0;
 
 	//array for each tile position in mm_pixelPosition
@@ -57,6 +59,10 @@ protected:
 	glm::vec2 mm_pixelPosition;
 	//current position on the tile(variable)
 	glm::vec2 mm_fixedPosition;
+
+	float frontTolerance = 0;
+	float nextTolerance = 0;
+	float rearTolerance = 0;
 };
 
 class PacMan: public Sprite

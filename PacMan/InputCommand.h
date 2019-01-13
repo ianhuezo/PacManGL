@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 #include <iostream>
+#include <memory>
 
 class InputCommand
 {
@@ -46,12 +47,9 @@ public:
 	InputHandler(GLFWwindow* window);
 	~InputHandler()
 	{
-		delete moveLeft;
-		delete moveRight;
-		delete moveUp;
-		delete moveDown;
+
 	}
-	InputCommand* handleKeyInput() {
+	std::shared_ptr<InputCommand> handleKeyInput() {
 		if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS)
 		{
 			currentCommand = moveUp;
@@ -72,19 +70,19 @@ public:
 			currentCommand = moveDown;
 			return moveDown;
 		}
-		//if (currentCommand != NULL)
-		//{
-		//	return currentCommand;
-		//}
+		if (currentCommand != NULL)
+		{
+			return currentCommand;
+		}
 		return NULL;
 	}
 	virtual InputCommand* handleBotInput() { return NULL; };
 private:
-	InputCommand* moveLeft;
-	InputCommand* moveRight;
-	InputCommand* moveUp;
-	InputCommand* moveDown;
-	InputCommand* currentCommand = NULL;
+	std::shared_ptr<InputCommand> moveLeft;
+	std::shared_ptr<InputCommand> moveRight;
+	std::shared_ptr<InputCommand> moveUp;
+	std::shared_ptr<InputCommand> moveDown;
+	std::shared_ptr<InputCommand> currentCommand = NULL;
 	GLFWwindow* m_window;
 
 	

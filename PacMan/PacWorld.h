@@ -6,6 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
+#include "InputCommand.h"
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
 class PacWorld
@@ -14,6 +15,7 @@ public:
 	PacWorld(int screenWidth, int screenHeight, float tileLength);
 	void drawWorld();
 	void drawPacMan();
+	void processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime);
 	bool collisionDetect(int inX, int inY);
 	std::shared_ptr<PacMan> pacman;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
@@ -30,10 +32,14 @@ private:
 
 	float m_tileLength;
 	bool m_canMove;
+	int currentState = 1;
 	glm::vec2 m_mapPixel[ROW_SIZE][COL_SIZE];
 	glm::mat4 m_projection;
 	glm::mat4 m_view;
 	glm::mat4 PVM[ROW_SIZE][COL_SIZE];
+
+	std::shared_ptr<InputCommand> currentCommand = std::make_shared<LeftCommand>();
+	std::shared_ptr<InputCommand> prevCommand = NULL;
 
 };
 
