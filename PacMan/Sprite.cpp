@@ -1,27 +1,19 @@
 #include "Sprite.h"
 
-Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices))
-	:m_tileLength(tileLength), m_model(glm::mat4(1.0f)), m_texture(std::make_shared<Texture2D>(filePath)), m_indices(indices)
+Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices), TileMap& charMap)
+	:mm_tileLength(tileLength), mm_model(glm::mat4(1.0f)), mm_texture(std::make_shared<Texture2D>(filePath)), mm_indices(indices), charMap(charMap)
 {
-	//pacman position is row 26 col 14
-	for (int i = 0; i < ROW_SIZE; i++)
-	{
-		for (int j = 0; j < COL_SIZE; j++)
-		{
-			tilePositions[i][j] = glm::vec2(m_tileLength * j , m_tileLength * i);
-		}
-	}
-	int row = m_indices.y;
-	int col = m_indices.x;
-	mm_pixelPosition = tilePositions[row][col];
+	int row = mm_indices.y;
+	int col = mm_indices.x;
+	mm_pixelPosition = charMap.getBindedTile(row,col).position;
 	mm_fixedPosition = mm_pixelPosition;
-	m_model = glm::translate(m_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
-
+	mm_halfTileLength = mm_tileLength / 2;
+	mm_model = glm::translate(mm_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
 }
 
 void Sprite::drawSprite()
 {
-	m_texture->assignTexture();
+	mm_texture->assignTexture();
 }
 
 //Function does the general move for each direction
@@ -29,113 +21,64 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 {
 	//need to reverse for tiles :)
 	pixelPosition = pixelPosition + (number*spriteSpeed*deltaTime);
-	if (abs(pixelPosition - fixedPosition) > (m_tileLength))
+	if (abs(pixelPosition - fixedPosition) > (mm_tileLength))
 	{
-		commandCounter = 0;
+		tileChanged = true;
 		index = index + number;
-		frontToleranceTripped = true;
-		frontTolerancePosition = pixelPosition;
-		int row = m_indices.y;
-		int col = m_indices.x;
-		mm_fixedPosition = tilePositions[row][col];
-		canMove = false;
-		//std::cout << "Front Tolerance was tripped" << std::endl;
-	//std::cout << "Moved to position x: " << m_indices.x << " y:" << m_indices.y << std::endl;
-	//	std::cout << "Sprites position: " << mm_fixedPosition.x << ": " << mm_fixedPosition.y << std::endl;
-	//	std::cout << "Sprites pixel position: " << mm_pixelPosition.x << ": " << mm_pixelPosition.y << std::endl;
-	//	std::cout << "Sprites tile length: " << abs(pixelPosition - fixedPosition) << std::endl << std::endl;
+		int row = mm_indices.y;
+		int col = mm_indices.x;
+		mm_fixedPosition = charMap.getBindedTile(row,col).position;
 	}
 
-}
-
-void Sprite::testTolerances(const float& pixelPosition)
-{
-	//if (frontToleranceTripped && abs(frontTolerancePosition - pixelPosition) > frontTolerance)
-	//{
-	//	rearToleranceTripped = true;
-	//	rearTolerancePosition = pixelPosition;
-	//	//std::cout << "Rear Tolerance was tripped" << std::endl;
-	//	frontTolerancePosition = 0;
-	//	frontToleranceTripped = false;
-	//	canMove = false;
-	//}
-	//if (rearToleranceTripped && abs(rearTolerancePosition - pixelPosition) < nextTolerance)
-	//{
-	//	//std::cout << "Good movement"<<std::endl;
-	//	canMove = true;
-	//}
-	//else if (rearToleranceTripped && abs(rearTolerancePosition - pixelPosition) > rearTolerance)
-	//{
-	//	canMove = false;
-	//	//std::cout << "Bad Movement" << std::endl;
-	//}
 }
 
 //UP
 void Sprite::moveUp(float deltaTime)
 {
-	m_model = glm::translate(m_model, glm::vec3(0, -spriteSpeed*deltaTime, 0.0f));
-	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, m_indices.y, deltaTime, -1);
-	commandCounter++;
+	mm_model = glm::translate(mm_model, glm::vec3(0, -spriteSpeed * deltaTime, 0.0f));
+	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, deltaTime, -1);
 }
 //DOWN
 void Sprite::moveDown(float deltaTime)
 {
-
-	m_model = glm::translate(m_model, glm::vec3(0, spriteSpeed*deltaTime, 0.0f));
-	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, m_indices.y, deltaTime, 1);
-	commandCounter++;
+	mm_model = glm::translate(mm_model, glm::vec3(0, spriteSpeed*deltaTime, 0.0f));
+	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, deltaTime, 1);
 }
 //RIGHT
 void Sprite::moveRight(float deltaTime)
 {
-	m_model = glm::translate(m_model, glm::vec3(spriteSpeed*deltaTime, 0, 0.0f));
-	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, m_indices.x, deltaTime, 1);
-	commandCounter++;
+	mm_model = glm::translate(mm_model, glm::vec3(spriteSpeed*deltaTime, 0, 0.0f));
+	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, deltaTime, 1);
 }
 //LEFT
 void Sprite::moveLeft(float deltaTime)
 {
-	m_model = glm::translate(m_model, glm::vec3(-spriteSpeed*deltaTime, 0, 0.0f));
-	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, m_indices.x, deltaTime, -1);
-	commandCounter++;
+	mm_model = glm::translate(mm_model, glm::vec3(-spriteSpeed * deltaTime, 0, 0.0f));
+	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, deltaTime, -1);
+}
+
+void Sprite::moveStill(float deltaTime)
+{
+
 }
 
 
-//PACMAN Specifc up functions(Same as above, just added a texture to the movement)
-//UP
-void PacMan::moveUp(float deltaTime)
+char Sprite::checkLeft()
 {
-	if (movementEnabled)
-	{
-		m_texture = m_textureUp;
-		Sprite::moveUp(deltaTime);
-	}
+	return charMap.getBindedTile(mm_indices.y,mm_indices.x - 1).c_tile;
 }
-//DOWN
-void PacMan::moveDown(float deltaTime)
+
+char Sprite::checkRight()
 {
-	if (movementEnabled)
-	{
-		m_texture = m_textureDown;
-		Sprite::moveDown(deltaTime);
-	}
+	return charMap.getBindedTile(mm_indices.y, mm_indices.x + 1).c_tile;
 }
-//LEFT
-void PacMan::moveLeft(float deltaTime)
+
+char Sprite::checkUp()
 {
-	if (movementEnabled)
-	{
-		m_texture = m_textureLeft;
-		Sprite::moveLeft(deltaTime);
-	}
+	return charMap.getBindedTile(mm_indices.y - 1, mm_indices.x).c_tile;
 }
-//RIGHT
-void PacMan::moveRight(float deltaTime)
+
+char Sprite::checkDown()
 {
-	if (movementEnabled)
-	{
-		m_texture = m_textureRight;
-		Sprite::moveRight(deltaTime);
-	}
+	 return charMap.getBindedTile(mm_indices.y + 1, mm_indices.x).c_tile;
 }

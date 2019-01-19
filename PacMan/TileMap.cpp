@@ -2,7 +2,7 @@
 #include "TileMap.h"
 
 
-TileMap::TileMap(const char * fileName)
+TileMap::TileMap(const char * fileName, float tileLength)
 {
 	nullTile.assignTexture(*nullTexture);
 	fruitTile.assignTexture(*fruitTexture);
@@ -10,6 +10,7 @@ TileMap::TileMap(const char * fileName)
 	gateTile.assignTexture(*dotTexture);
 	borderTile.assignTexture(*borderTexture);
 
+	m_tileLength = tileLength;
 	readFile(fileName);
 	updateTileMap();
 	m_rows = tileArr.size();
@@ -19,13 +20,19 @@ TileMap::TileMap(const char * fileName)
 void TileMap::updateTileMap()
 {
 	std::vector<BindedTile> vec;
+	int i = 0;
+	int j = 0;
 	for (auto row : m_board)
 	{
 		vec.clear();
 		for (auto col : row)
 		{
-			vec.push_back(tileType(col));
+			glm::vec2 position = glm::vec2(m_tileLength*j, m_tileLength*i);
+			vec.push_back(tileType(col,position));
+			j++;
 		}
+		j = 0;
+		i++;
 		tileArr.push_back(vec);
 	}
 	originalArr = tileArr;
@@ -33,7 +40,7 @@ void TileMap::updateTileMap()
 
 void TileMap::clearTile(int row, int col)
 {
-	tileArr[row][col] = BindedTile(*nullTexture, nullTile,'-');
+	tileArr[row][col] = BindedTile(*nullTexture, nullTile,'-',tileArr[row][col].position);
 	putTile(row, col);
 }
 
@@ -57,28 +64,28 @@ TileMap::~TileMap()
 
 
 
-BindedTile TileMap::tileType(char tileChar)
+BindedTile TileMap::tileType(char tileChar, glm::vec2 position)
 {
 	switch (tileChar)
 	{
 		case TILE::FRUIT:
-			return BindedTile(*fruitTexture, fruitTile, tileChar);
+			return BindedTile(*fruitTexture, fruitTile, tileChar,position);
 			break;
 		case TILE::BORDER:
-			return BindedTile(*borderTexture, borderTile, tileChar);
+			return BindedTile(*borderTexture, borderTile, tileChar, position);
 			break;
 		case TILE::PELLET:
-			return BindedTile(*pelletTexture, pelletTile, tileChar);
+			return BindedTile(*pelletTexture, pelletTile, tileChar, position);
 			break;
 		case TILE::DOT:
-			return BindedTile(*dotTexture, dotTile,tileChar);
+			return BindedTile(*dotTexture, dotTile, tileChar, position);
 			break;
 		case TILE::GATE:
-			return BindedTile(*gateTexture, gateTile,tileChar);
+			return BindedTile(*gateTexture, gateTile, tileChar, position);
 		case TILE::NILL:
-			return BindedTile(*nullTexture, nullTile,tileChar);
+			return BindedTile(*nullTexture, nullTile, tileChar, position);
 		default:
-			return BindedTile(*nullTexture, nullTile,tileChar);
+			return BindedTile(*nullTexture, nullTile, tileChar, position);
 	}
 }
 

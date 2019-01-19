@@ -7,6 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
 #include "InputCommand.h"
+#include "PacManSprite.h"
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
 class PacWorld
@@ -15,11 +16,14 @@ public:
 	PacWorld(int screenWidth, int screenHeight, float tileLength);
 	void drawWorld();
 	void drawPacMan();
-	void processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime);
-	bool collisionDetect(int inX, int inY);
-	std::shared_ptr<PacMan> pacman;
+	void processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime, InputHandler& handler);
+	std::shared_ptr<PacManSprite> pacman;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
+
+	std::shared_ptr<InputCommand> storedCommand = std::make_shared<StillCommand>();
+
+	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
 
 	void genTilePVMs();
 	//the current tile map
@@ -31,15 +35,11 @@ private:
 	int m_screenHeight;
 
 	float m_tileLength;
-	bool m_canMove;
+	bool m_moveExecuted = false;
 	int currentState = 1;
 	glm::vec2 m_mapPixel[ROW_SIZE][COL_SIZE];
 	glm::mat4 m_projection;
 	glm::mat4 m_view;
 	glm::mat4 PVM[ROW_SIZE][COL_SIZE];
-
-	std::shared_ptr<InputCommand> currentCommand = std::make_shared<LeftCommand>();
-	std::shared_ptr<InputCommand> prevCommand = NULL;
-
 };
 

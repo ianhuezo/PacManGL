@@ -3,9 +3,9 @@
 PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
 	m_screenWidth(screenWidth), m_screenHeight(screenHeight), m_tileLength(tileLength)
 {
-	m_boardMap = std::make_shared<TileMap>("maze.txt");
+	m_boardMap = std::make_shared<TileMap>("maze.txt", m_tileLength);
 	m_originalMap = m_boardMap;
-	pacman = std::make_shared<PacMan>(m_tileLength, "pacleft.png", glm::vec2(14, 26));
+	pacman = std::make_shared<PacManSprite>(m_tileLength, "pacleft.png", glm::vec2(14, 26), *m_boardMap);
 	shader.use();
 	glUniform1i(glGetUniformLocation(shader.ID, "mtexture"), 0);
 	genTilePVMs();
@@ -33,55 +33,46 @@ void PacWorld::drawPacMan()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void PacWorld::processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime)
+void PacWorld::processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime, InputHandler& handler)
 {
 	if (command)
 	{
-		if (!collisionDetect(command->x, command->y))
+		if (pacman->checkUp() != '|' && command->command == MOVE::UP)
 		{
-			command->execute(*pacman, deltaTime);
+			playerDispatcher = command;
 		}
-		
-		//if (pacman->commandCounter <= 1 && !collisionDetect(command->x, command->y))
-		//{
-		//	std::cout << "case 1" << std::endl;
-		//	std::cout << pacman->commandCounter << std::endl;
-		//	std::cout << !collisionDetect(command->x, command->y) << std::endl;
-		//	std::cout << !collisionDetect(currentCommand->x, currentCommand->y) << std::endl << std::endl;
+		else if (pacman->checkLeft() != '|' && command->command == MOVE::LEFT)
+		{
+			playerDispatcher = command;
+		}
+		else if (pacman->checkRight() != '|' && command->command == MOVE::RIGHT)
+		{
+			playerDispatcher = command;
+		}
+		else if (pacman->checkDown() != '|' && command->command == MOVE::DOWN)
+		{
+			playerDispatcher = command;
+		}
 
-		//	prevCommand = currentCommand;
-		//	currentCommand = command;
-		//	currentCommand->execute(*pacman, deltaTime);
-		//	currentState = 1;
-		//}
-
-		//else if (!collisionDetect(currentCommand->x, currentCommand->y) && pacman->commandCounter >= 1)
-		//{
-		//	std::cout << "case 2" << std::endl;
-		//	std::cout << pacman->commandCounter << std::endl;
-		//	std::cout << !collisionDetect(command->x, command->y) << std::endl;
-		//	std::cout << !collisionDetect(currentCommand->x, currentCommand->y) << std::endl << std::endl;
-		//	prevCommand = currentCommand;
-		//	currentCommand->execute(*pacman, deltaTime);
-		//	currentState = 4;
-		//}
-		//else if (pacman->commandCounter > 1)
-		//{
-		//	currentCommand = prevCommand;
-		//	prevCommand->execute(*pacman, deltaTime);
-		//}
-		//else {
-		//	std::cout << "case 3" << std::endl;
-		//	std::cout << pacman->commandCounter << std::endl;
-		//	std::cout << !collisionDetect(command->x, command->y) << std::endl;
-		//	std::cout << !collisionDetect(currentCommand->x, currentCommand->y) << std::endl << std::endl;
-
-		//	prevCommand = currentCommand;
-		//	pacman->commandCounter = 0;
-		//	currentState = 4;
-		//}
+		if (pacman->checkUp() != '|' && playerDispatcher->command == MOVE::UP)
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
+		else if (pacman->checkLeft() != '|' && playerDispatcher->command == MOVE::LEFT)
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
+		else if (pacman->checkRight() != '|' && playerDispatcher->command == MOVE::RIGHT)
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
+		else if (pacman->checkDown() != '|' && playerDispatcher->command == MOVE::DOWN)
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
 	}
 }
+
 
 void PacWorld::genTilePVMs()
 {
@@ -92,39 +83,36 @@ void PacWorld::genTilePVMs()
 		for (auto j = 0; j < m_boardMap->getColSize(); j++)
 		{
 			glm::mat4 model;
-			m_mapPixel[i][j] = glm::vec2(m_tileLength*j, m_tileLength*i);
-			model = glm::translate(model, glm::vec3(m_tileLength*j, m_tileLength * i, 0.0f));
+			float x = m_boardMap->getBindedTile(i, j).position.x;
+			float y = m_boardMap->getBindedTile(i, j).position.y;
+			model = glm::translate(model, glm::vec3(x, y, 0.0f));
 			PVM[i][j] = m_projection * m_view * model;
 		}
 	}
 }
 
-bool PacWorld::collisionDetect(int inX, int inY)
-{
-	glm::vec2 pacIndices = pacman->getTileIndices();
-	//rows are y, cols are x
-	int row = pacIndices.y + inY;
 
-	int col = pacIndices.x + inX;
-	//top left corner of each sprite tile
-	glm::vec2 rect1 = pacman->getModelPosition();
-	//currently in the top left corner of each  game tile
-	glm::vec2 rect2 = glm::vec2(m_mapPixel[row][col].x, m_mapPixel[row][col].y);
-	char somechar = m_boardMap->getChars()[row][col];
-	//std::cout << somechar << std::endl;
-	bool badchar = (somechar == 'g' || somechar == '|');
-	//std::cout << "Next tile is: " << somechar << std::endl;
-	//std::cout << rect1.x << std::endl;
-	//std::cout << rect2.x << std::endl << std::endl;
-	if (rect1.x <= rect2.x + m_tileLength &&
-		rect1.x + m_tileLength >= rect2.x &&
-		rect1.y <= m_tileLength + rect2.y &&
-		rect1.y + m_tileLength >= rect2.y &&
-		badchar) {
-		return true;
-	}
-	else {
-		return false;
-	}
-
-}
+//if (storedCommand->command != command->command)
+//{
+//	storedCommand = command;
+//	if (pacman->checkUp() != '|' && storedCommand->command == MOVE::UP)
+//	{
+//		storedCommand->execute(*pacman, deltaTime);
+//		handler.currentCommand = storedCommand;
+//	}
+//	else if (pacman->checkLeft() != '|' && storedCommand->command == MOVE::LEFT)
+//	{
+//		storedCommand->execute(*pacman, deltaTime);
+//		handler.currentCommand = storedCommand;
+//	}
+//	else if (pacman->checkRight() != '|' && storedCommand->command == MOVE::RIGHT)
+//	{
+//		storedCommand->execute(*pacman, deltaTime);
+//		handler.currentCommand = storedCommand;
+//	}
+//	else if (pacman->checkDown() != '|' && storedCommand->command == MOVE::DOWN)
+//	{
+//		storedCommand->execute(*pacman, deltaTime);
+//		handler.currentCommand = storedCommand;
+//	}
+//}

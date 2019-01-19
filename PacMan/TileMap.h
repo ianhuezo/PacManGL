@@ -5,12 +5,17 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 class BindedTile {
 public:
 	Texture2D texture;
 	Tiles tile;
 	char c_tile;
-	BindedTile(Texture2D texture, Tiles tile, char c_tile) : texture(texture), tile(tile), c_tile(c_tile) {}
+	glm::vec2 position;
+	BindedTile(Texture2D texture, Tiles tile, char c_tile, glm::vec2 m_position) : texture(texture), tile(tile), c_tile(c_tile), position(m_position) {}
 };
 
 class TileMap
@@ -18,10 +23,11 @@ class TileMap
 	typedef std::vector<std::vector<char>> char2d;
 	typedef std::vector < std::vector<BindedTile>> tile2d;
 public:
-	TileMap(const char * fileName);
+	TileMap(const char * fileName, float tilength);
 	auto getMap() { return tileArr; };
 	auto getRowSize() { return m_rows; };
 	auto getColSize() { return m_cols; };
+	auto getBindedTile(int i, int j) { return tileArr[i][j]; };
 
 	void updateTileMap();
 	void clearTile(int row, int col);
@@ -53,9 +59,10 @@ private:
 	std::shared_ptr<Texture2D> gateTexture = std::make_shared<Texture2D>("gate.jpg");
 	std::shared_ptr<Texture2D> borderTexture = std::make_shared<Texture2D>("border.jpg");
 
-	BindedTile tileType(char tileChar);
+	BindedTile tileType(char tileChar, glm::vec2 position);
 	tile2d tileArr;
 	tile2d originalArr;
+	float m_tileLength;
 
 	std::vector<char> splitStringToChars(std::string fullString, char delimiter);
 	char2d m_board;

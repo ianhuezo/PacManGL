@@ -7,13 +7,21 @@
 #include <iostream>
 #include <memory>
 
+
+enum MOVE {
+	LEFT,
+	RIGHT,
+	STILL,
+	UP,
+	DOWN
+};
+
 class InputCommand
 {
 public:
 	InputCommand();
 	virtual void execute(Sprite& sprite, float deltaTime) = 0;
-	int x;
-	int y;
+	int command;
 	virtual ~InputCommand();
 };
 
@@ -41,10 +49,17 @@ public:
 	virtual void execute(Sprite& sprite, float deltaTime) { sprite.moveLeft(deltaTime); }
 };
 
+class StillCommand : public InputCommand
+{
+public:
+	virtual void execute(Sprite& sprite, float deltaTime) { sprite.moveStill(deltaTime); }
+};
+
 class InputHandler
 {
 public:
 	InputHandler(GLFWwindow* window);
+	std::shared_ptr<InputCommand> currentCommand = NULL;
 	~InputHandler()
 	{
 
@@ -74,6 +89,10 @@ public:
 		{
 			return currentCommand;
 		}
+		if (currentCommand == NULL)
+		{
+			return moveNone;
+		}
 		return NULL;
 	}
 	virtual InputCommand* handleBotInput() { return NULL; };
@@ -82,7 +101,7 @@ private:
 	std::shared_ptr<InputCommand> moveRight;
 	std::shared_ptr<InputCommand> moveUp;
 	std::shared_ptr<InputCommand> moveDown;
-	std::shared_ptr<InputCommand> currentCommand = NULL;
+	std::shared_ptr<InputCommand> moveNone;
 	GLFWwindow* m_window;
 
 	

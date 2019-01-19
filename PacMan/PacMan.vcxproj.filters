@@ -69,11 +69,14 @@
     <ClInclude Include="PacWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacManSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PacMan.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Tiles.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,6 +105,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PacWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PacManSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

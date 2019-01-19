@@ -14,13 +14,11 @@ public:
 	virtual void assignTileValue() { mm_tileValue = 0; };
 	//assigns the texture to the tile
 	virtual void assignTexture(Texture2D& texture) { texture.assignTexture(); };
-	int setTileDimensions(glm::vec2 tileDimensions) { m_tileDimensions = tileDimensions; };
 
 	/*getters for tile attributes*/
 	//returns the tiles points value
 	auto getTileValue() { return mm_tileValue; };
 	//returns the tile's width/height
-	auto getTileDimensions() { return m_tileDimensions; };
 	//returns the tile's x/y coordinates
 	glm::vec2 m_position;
 
@@ -39,7 +37,6 @@ private:
 	//enemies - maybe not a tile attribute, but added just for reference
 
 	//i.e. the width and height of each tile
-	glm::vec2 m_tileDimensions = glm::vec2(20,20);
 };
 //for setTexture2D I did a different function call for each texture
 //making it simpler to follow

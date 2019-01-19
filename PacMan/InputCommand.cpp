@@ -11,18 +11,13 @@ InputHandler::InputHandler(GLFWwindow * window)
 	moveRight = std::make_shared<RightCommand>();
 	moveDown = std::make_shared<DownCommand>();
 	moveUp = std::make_shared<UpCommand>();
+	moveNone = std::make_shared<StillCommand>();
 
-	moveLeft->x = -1;
-	moveLeft->y = 0;
-
-	moveRight->x = 1;
-	moveRight->y = 0;
-
-	moveUp->y = -1;
-	moveUp->x = 0;
-
-	moveDown->x = 0;
-	moveDown->y = 1;
+	moveLeft->command = MOVE::LEFT;
+	moveRight->command = MOVE::RIGHT;
+	moveUp->command = MOVE::UP;
+	moveDown->command = MOVE::DOWN;
+	moveNone->command = MOVE::STILL;
 }
 
 InputCommand::~InputCommand()
