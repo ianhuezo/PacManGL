@@ -29,7 +29,9 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 		int col = mm_indices.x;
 		mm_fixedPosition = charMap.getBindedTile(row,col).position;
 	}
-
+	else {
+		tileChanged = false;
+	}
 }
 
 //UP

@@ -37,23 +37,24 @@ void PacWorld::processPlayerCommands(std::shared_ptr<InputCommand> command, floa
 {
 	if (command)
 	{
-		if (pacman->checkUp() != '|' && command->command == MOVE::UP)
+		//will store new playerdispatcher command if new ones appears correctly, otherwise keeping the old dispatcher
+		if (pacman->checkUp() != '|' && command->command == MOVE::UP && pacman->tileChanged)
 		{
 			playerDispatcher = command;
 		}
-		else if (pacman->checkLeft() != '|' && command->command == MOVE::LEFT)
+		else if (pacman->checkLeft() != '|' && command->command == MOVE::LEFT && pacman->tileChanged)
 		{
 			playerDispatcher = command;
 		}
-		else if (pacman->checkRight() != '|' && command->command == MOVE::RIGHT)
+		else if (pacman->checkRight() != '|' && command->command == MOVE::RIGHT && pacman->tileChanged)
 		{
 			playerDispatcher = command;
 		}
-		else if (pacman->checkDown() != '|' && command->command == MOVE::DOWN)
+		else if (pacman->checkDown() != '|' && command->command == MOVE::DOWN && pacman->tileChanged)
 		{
 			playerDispatcher = command;
 		}
-
+		//updates pacman movement if the movement is not on a border
 		if (pacman->checkUp() != '|' && playerDispatcher->command == MOVE::UP)
 		{
 			playerDispatcher->execute(*pacman, deltaTime);
@@ -90,29 +91,3 @@ void PacWorld::genTilePVMs()
 		}
 	}
 }
-
-
-//if (storedCommand->command != command->command)
-//{
-//	storedCommand = command;
-//	if (pacman->checkUp() != '|' && storedCommand->command == MOVE::UP)
-//	{
-//		storedCommand->execute(*pacman, deltaTime);
-//		handler.currentCommand = storedCommand;
-//	}
-//	else if (pacman->checkLeft() != '|' && storedCommand->command == MOVE::LEFT)
-//	{
-//		storedCommand->execute(*pacman, deltaTime);
-//		handler.currentCommand = storedCommand;
-//	}
-//	else if (pacman->checkRight() != '|' && storedCommand->command == MOVE::RIGHT)
-//	{
-//		storedCommand->execute(*pacman, deltaTime);
-//		handler.currentCommand = storedCommand;
-//	}
-//	else if (pacman->checkDown() != '|' && storedCommand->command == MOVE::DOWN)
-//	{
-//		storedCommand->execute(*pacman, deltaTime);
-//		handler.currentCommand = storedCommand;
-//	}
-//}
