@@ -17,14 +17,14 @@ void Sprite::drawSprite()
 }
 
 //Function does the general move for each direction
-void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number)
+void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& index, const float& velocity, float indexNum)
 {
 	//need to reverse for tiles :)
-	pixelPosition = pixelPosition + (number*spriteSpeed*deltaTime);
+	pixelPosition = pixelPosition + velocity;
 	if (abs(pixelPosition - fixedPosition) > (mm_tileLength))
 	{
 		tileChanged = true;
-		index = index + number;
+		index = index + indexNum;
 		int row = mm_indices.y;
 		int col = mm_indices.x;
 		mm_fixedPosition = charMap.getBindedTile(row,col).position;
@@ -37,33 +37,36 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 //UP
 void Sprite::moveUp(float deltaTime)
 {
-	mm_model = glm::translate(mm_model, glm::vec3(0, -spriteSpeed * deltaTime, 0.0f));
-	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, deltaTime, -1);
+	float velocity = -spriteSpeed * deltaTime;
+	mm_model = glm::translate(mm_model, glm::vec3(0, velocity, 0.0f));
+	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, velocity, -1.0f);
 }
 //DOWN
 void Sprite::moveDown(float deltaTime)
 {
-	mm_model = glm::translate(mm_model, glm::vec3(0, spriteSpeed*deltaTime, 0.0f));
-	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, deltaTime, 1);
+	float velocity = spriteSpeed * deltaTime;
+	mm_model = glm::translate(mm_model, glm::vec3(0, velocity, 0.0f));
+	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, velocity, 1);
 }
 //RIGHT
 void Sprite::moveRight(float deltaTime)
 {
-	mm_model = glm::translate(mm_model, glm::vec3(spriteSpeed*deltaTime, 0, 0.0f));
-	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, deltaTime, 1);
+	float velocity = spriteSpeed * deltaTime;
+	mm_model = glm::translate(mm_model, glm::vec3(velocity, 0, 0.0f));
+	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, velocity, 1);
 }
 //LEFT
 void Sprite::moveLeft(float deltaTime)
 {
-	mm_model = glm::translate(mm_model, glm::vec3(-spriteSpeed * deltaTime, 0, 0.0f));
-	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, deltaTime, -1);
+	float velocity = -spriteSpeed * deltaTime;
+	mm_model = glm::translate(mm_model, glm::vec3(velocity, 0, 0.0f));
+	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, velocity, -1);
 }
 
 void Sprite::moveStill(float deltaTime)
 {
 
 }
-
 
 char Sprite::checkLeft()
 {

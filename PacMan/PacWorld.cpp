@@ -33,48 +33,6 @@ void PacWorld::drawPacMan()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void PacWorld::processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime, InputHandler& handler)
-{
-	if (command)
-	{
-		//will store new playerdispatcher command if new ones appears correctly, otherwise keeping the old dispatcher
-		if (pacman->checkUp() != '|' && command->command == MOVE::UP && pacman->tileChanged)
-		{
-			playerDispatcher = command;
-		}
-		else if (pacman->checkLeft() != '|' && command->command == MOVE::LEFT && pacman->tileChanged)
-		{
-			playerDispatcher = command;
-		}
-		else if (pacman->checkRight() != '|' && command->command == MOVE::RIGHT && pacman->tileChanged)
-		{
-			playerDispatcher = command;
-		}
-		else if (pacman->checkDown() != '|' && command->command == MOVE::DOWN && pacman->tileChanged)
-		{
-			playerDispatcher = command;
-		}
-		//updates pacman movement if the movement is not on a border
-		if (pacman->checkUp() != '|' && playerDispatcher->command == MOVE::UP)
-		{
-			playerDispatcher->execute(*pacman, deltaTime);
-		}
-		else if (pacman->checkLeft() != '|' && playerDispatcher->command == MOVE::LEFT)
-		{
-			playerDispatcher->execute(*pacman, deltaTime);
-		}
-		else if (pacman->checkRight() != '|' && playerDispatcher->command == MOVE::RIGHT)
-		{
-			playerDispatcher->execute(*pacman, deltaTime);
-		}
-		else if (pacman->checkDown() != '|' && playerDispatcher->command == MOVE::DOWN)
-		{
-			playerDispatcher->execute(*pacman, deltaTime);
-		}
-	}
-}
-
-
 void PacWorld::genTilePVMs()
 {
 	m_projection = glm::ortho(0.0f, static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight), 0.0f, -1.0f, 1.0f);
@@ -91,3 +49,45 @@ void PacWorld::genTilePVMs()
 		}
 	}
 }
+
+void PacWorld::processPlayerCommands(const std::shared_ptr<InputCommand>& command, float deltaTime)
+{
+	if (command)
+	{
+		//will store new playerdispatcher command if new ones appears correctly, otherwise keeping the old dispatcher
+		if (pacman->checkUp() != '|'  && command->command == MOVE::UP && pacman->tileChanged && pacman->checkUp() != 'g')
+		{
+			playerDispatcher = command;
+		}
+		else if (pacman->checkLeft() != '|'  && command->command == MOVE::LEFT && pacman->tileChanged && pacman->checkLeft() != 'g')
+		{
+			playerDispatcher = command;
+		}
+		else if (pacman->checkRight() != '|'  && command->command == MOVE::RIGHT && pacman->tileChanged && pacman->checkRight() != 'g')
+		{
+			playerDispatcher = command;
+		}
+		else if (pacman->checkDown() != '|'  && command->command == MOVE::DOWN && pacman->tileChanged && pacman->checkDown() != 'g')
+		{
+			playerDispatcher = command;
+		}
+		//updates pacman movement if the movement is not on a border
+		if (pacman->checkUp() != '|' && playerDispatcher->command == MOVE::UP  && pacman->checkUp() != 'g')
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
+		else if (pacman->checkLeft() != '|' && playerDispatcher->command == MOVE::LEFT  && pacman->checkLeft() != 'g')
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
+		else if (pacman->checkRight() != '|' && playerDispatcher->command == MOVE::RIGHT  && pacman->checkRight() != 'g')
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
+		else if (pacman->checkDown() != '|' && playerDispatcher->command == MOVE::DOWN  && pacman->checkDown() != 'g')
+		{
+			playerDispatcher->execute(*pacman, deltaTime);
+		}
+	}
+}
+

@@ -25,7 +25,7 @@ public:
 	float spriteSpeed = 100;
 
 	//movements for pacman
-	void generalMove(float& pixelPosition, float& fixedPosition, float& index, float& deltaTime, float number);
+	void generalMove(float& pixelPosition, float& fixedPosition, float& index,const float& velocity, float indexNum);
 	virtual void moveUp(float deltaTime);
 	virtual void moveDown(float deltaTime);
 	virtual void moveRight(float deltaTime);
@@ -36,6 +36,7 @@ public:
 	char checkRight();
 	char checkUp();
 	char checkDown();
+	//tells sprite if tile has changed for movement
 	bool tileChanged = true;
 
 	TileMap charMap;

@@ -1,2 +1,5 @@
-﻿  PacWorld.cpp
+﻿  Main.cpp
+c:\users\ianhu\source\repos\pacman\pacman\main.cpp(115): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  PacWorld.cpp
+  Generating Code...
   PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe

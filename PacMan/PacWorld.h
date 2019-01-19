@@ -16,14 +16,13 @@ public:
 	PacWorld(int screenWidth, int screenHeight, float tileLength);
 	void drawWorld();
 	void drawPacMan();
-	void processPlayerCommands(std::shared_ptr<InputCommand> command, float deltaTime, InputHandler& handler);
+	void processPlayerCommands(const std::shared_ptr<InputCommand>& command, float deltaTime);
 	std::shared_ptr<PacManSprite> pacman;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
 
-	std::shared_ptr<InputCommand> storedCommand = std::make_shared<StillCommand>();
+	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<LeftCommand>();
 
-	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
 
 	void genTilePVMs();
 	//the current tile map
