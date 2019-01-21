@@ -1,6 +1,6 @@
 ﻿# Pacman Game
 
-#### __Completed game mechanics/visuals__:
+### __Completed game mechanics/visuals__:
 * Generation of a quad with VBOs and VAOs for sprites
 * Shader input for sprites
 * Opengl texture loading
