@@ -154,6 +154,7 @@
     <ClInclude Include="InputCommand.h" />
     <ClInclude Include="PacManSprite.h" />
     <ClInclude Include="PacWorld.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stb_image.h" />
@@ -192,6 +193,7 @@
     <Text Include="Reminders.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md" />
     <None Include="fragmentShader.fs" />
     <None Include="vertexShader.vs" />
   </ItemGroup>

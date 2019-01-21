@@ -78,6 +78,9 @@
     <ClInclude Include="WorldDispatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Tiles.cpp">
@@ -137,6 +140,9 @@
     </None>
     <None Include="fragmentShader.fs">
       <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="..\README.md">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
