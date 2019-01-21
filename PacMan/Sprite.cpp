@@ -87,3 +87,8 @@ char Sprite::checkDown()
 {
 	 return charMap.getBindedTile(mm_indices.y + 1, mm_indices.x).c_tile;
 }
+
+char Sprite::checkCurrent()
+{
+	return charMap.getBindedTile(mm_indices.y, mm_indices.x).c_tile;
+}

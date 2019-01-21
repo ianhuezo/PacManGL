@@ -12,5 +12,3 @@ f = tile with fruit
 g = tile with gate
 0 = border tile
 //////////////////////////////////////////
-
-Currently setting tolerances for collision detection within sprite class

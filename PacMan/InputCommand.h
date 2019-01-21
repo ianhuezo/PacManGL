@@ -22,6 +22,7 @@ public:
 	InputCommand();
 	virtual void execute(Sprite& sprite, float deltaTime) = 0;
 	int command;
+	int spriteState = MOVE::STILL;
 	virtual ~InputCommand();
 };
 

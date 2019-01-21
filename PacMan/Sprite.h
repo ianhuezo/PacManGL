@@ -36,6 +36,9 @@ public:
 	char checkRight();
 	char checkUp();
 	char checkDown();
+	char checkCurrent();
+
+	//the current state of the sprite
 	//tells sprite if tile has changed for movement
 	bool tileChanged = true;
 

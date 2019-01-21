@@ -8,6 +8,7 @@
 #include <memory>
 #include "InputCommand.h"
 #include "PacManSprite.h"
+#include "WorldDispatcher.h"
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
 class PacWorld
@@ -16,13 +17,16 @@ public:
 	PacWorld(int screenWidth, int screenHeight, float tileLength);
 	void drawWorld();
 	void drawPacMan();
-	void processPlayerCommands(const std::shared_ptr<InputCommand>& command, float deltaTime);
+	void processCommands(const std::shared_ptr<InputCommand>& command, float deltaTime);
 	std::shared_ptr<PacManSprite> pacman;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
+	void eatFood();
 
+
+	WorldDispatcher dispatcher;
 	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<LeftCommand>();
-
+	
 
 	void genTilePVMs();
 	//the current tile map

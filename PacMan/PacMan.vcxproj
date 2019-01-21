@@ -162,6 +162,7 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TileMap.h" />
     <ClInclude Include="Tiles.h" />
+    <ClInclude Include="WorldDispatcher.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CollisionInterface.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TileMap.cpp" />
     <ClCompile Include="Tiles.cpp" />
+    <ClCompile Include="WorldDispatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="maze.txt" />
