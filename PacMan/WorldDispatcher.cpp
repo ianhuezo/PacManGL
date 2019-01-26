@@ -5,7 +5,7 @@ void WorldDispatcher::playerDispatch(const std::shared_ptr<PacManSprite>& pacman
 {
 	playerConstrain(pacman, command, playerDispatcher, deltaTime);
 }
-
+//note: could use pattern here, but I felt it wasn't necessary and makes more sense 
 void WorldDispatcher::playerConstrain(const std::shared_ptr<Sprite>& sprite, std::shared_ptr<InputCommand>& command, std::shared_ptr<InputCommand>& dispatcher,float deltaTime)
 {
 	if (sprite->checkUp() != '|'  && command->command == MOVE::UP && sprite->tileChanged && sprite->checkUp() != 'g')

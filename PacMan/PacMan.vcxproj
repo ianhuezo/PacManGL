@@ -150,7 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CollisionInterface.h" />
+    <ClInclude Include="Chase.h" />
     <ClInclude Include="InputCommand.h" />
     <ClInclude Include="PacManSprite.h" />
     <ClInclude Include="PacWorld.h" />
@@ -166,7 +166,7 @@
     <ClInclude Include="WorldDispatcher.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CollisionInterface.cpp" />
+    <ClCompile Include="Chase.cpp" />
     <ClCompile Include="glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

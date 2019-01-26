@@ -69,9 +69,6 @@
     <ClInclude Include="PacWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PacManSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -79,6 +76,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,13 +116,13 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PacManSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorldDispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Chase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

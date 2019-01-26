@@ -1,3 +1,1 @@
-﻿  Main.cpp
-c:\users\ianhu\source\repos\pacman\pacman\main.cpp(116): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe
+﻿  PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe
