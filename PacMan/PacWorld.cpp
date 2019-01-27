@@ -6,6 +6,7 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
 	m_boardMap = std::make_shared<TileMap>("maze.txt", m_tileLength);
 	m_originalMap = m_boardMap;
 	pacman = std::make_shared<PacManSprite>(m_tileLength, "pacleft.png", glm::vec2(14, 26), *m_boardMap);
+	blinky = std::make_shared<Sprite>(m_tileLength, "blinky.png", glm::vec2(14, 14), *m_boardMap);
 	shader.use();
 	glUniform1i(glGetUniformLocation(shader.ID, "mtexture"), 0);
 	genTilePVMs();
@@ -33,6 +34,20 @@ void PacWorld::drawPacMan()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
+void PacWorld::drawEnemies()
+{
+	auto pvm = m_projection * m_view * blinky->getModel();
+	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "pvm"), 1, GL_FALSE, &pvm[0][0]);
+	blinky->drawSprite();
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void PacWorld::processAI(float deltaTime)
+{
+	blinkyDispatcher = blinkyHandler.handleEnemyInput()->chase(*pacman, *blinky, *m_boardMap);
+	dispatcher.blinkyDispatch(blinky, blinkyDispatcher, deltaTime);
+}
+
 void PacWorld::genTilePVMs()
 {
 	m_projection = glm::ortho(0.0f, static_cast<float>(m_screenWidth), static_cast<float>(m_screenHeight), 0.0f, -1.0f, 1.0f);
@@ -52,12 +67,16 @@ void PacWorld::genTilePVMs()
 
 void PacWorld::processCommands(const std::shared_ptr<InputCommand>& command, float deltaTime)
 {
+	//pacman commands
 	if (command)
 	{
 		dispatcher.playerDispatch(pacman, command, deltaTime);
 		eatFood();
 	}
+	//enemy commands
 }
+
+
 
 void PacWorld::eatFood()
 {

@@ -96,7 +96,6 @@ public:
 		}
 		return NULL;
 	}
-	virtual InputCommand* handleBotInput() { return NULL; };
 private:
 	std::shared_ptr<InputCommand> moveLeft;
 	std::shared_ptr<InputCommand> moveRight;

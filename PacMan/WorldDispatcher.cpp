@@ -5,6 +5,11 @@ void WorldDispatcher::playerDispatch(const std::shared_ptr<PacManSprite>& pacman
 {
 	playerConstrain(pacman, command, playerDispatcher, deltaTime);
 }
+void WorldDispatcher::blinkyDispatch(const std::shared_ptr<Sprite>& blinky, std::shared_ptr<InputCommand>& command, float deltaTime)
+{
+	/*enemyConstrain(blinky, command, blinkyDispatcher, deltaTime);*/
+	enemyConstrain(blinky, command, blinkyDispatcher, deltaTime);
+}
 //note: could use pattern here, but I felt it wasn't necessary and makes more sense 
 void WorldDispatcher::playerConstrain(const std::shared_ptr<Sprite>& sprite, std::shared_ptr<InputCommand>& command, std::shared_ptr<InputCommand>& dispatcher,float deltaTime)
 {
@@ -48,4 +53,13 @@ void WorldDispatcher::playerConstrain(const std::shared_ptr<Sprite>& sprite, std
 	else {
 		dispatcher->spriteState = MOVE::STILL;
 	}
+}
+
+void WorldDispatcher::enemyConstrain(const std::shared_ptr<Sprite>& sprite, std::shared_ptr<InputCommand>& command, std::shared_ptr<InputCommand>& dispatcher, float deltaTime)
+{
+	if (sprite->tileChanged)
+	{
+		dispatcher = command;
+	}
+	dispatcher->execute(*sprite, deltaTime);
 }
