@@ -36,7 +36,6 @@ public:
 	~TileMap();
 private:
 	void readFile(const char * fileName);
-
 	enum TILE {
 		NILL = '0',
 		FRUIT = 'f',

@@ -5,8 +5,14 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
 {
 	m_boardMap = std::make_shared<TileMap>("maze.txt", m_tileLength);
 	m_originalMap = m_boardMap;
+
+
+	//AI and pacman
 	pacman = std::make_shared<PacManSprite>(m_tileLength, "pacleft.png", glm::vec2(14, 26), *m_boardMap);
 	blinky = std::make_shared<Sprite>(m_tileLength, "blinky.png", glm::vec2(14, 14), *m_boardMap);
+	blinky->tileChanged = true;
+	aStar = std::make_shared<AIPatterns>(m_boardMap);
+
 	shader.use();
 	glUniform1i(glGetUniformLocation(shader.ID, "mtexture"), 0);
 	genTilePVMs();
@@ -44,7 +50,7 @@ void PacWorld::drawEnemies()
 
 void PacWorld::processAI(float deltaTime)
 {
-	blinkyDispatcher = blinkyHandler.handleEnemyInput()->chase(*pacman, *blinky, *m_boardMap);
+	blinkyDispatcher = blinkyHandler.handleEnemyInput()->chase(pacman, blinky, aStar);
 	dispatcher.blinkyDispatch(blinky, blinkyDispatcher, deltaTime);
 }
 
@@ -82,11 +88,11 @@ void PacWorld::eatFood()
 {
 	if (pacman->checkCurrent() == '-')
 	{
-		m_boardMap->clearTile(pacman->getTileIndices().y,pacman->getTileIndices().x);
+		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y),static_cast<int>(pacman->getTileIndices().x));
 	}
 	else if (pacman->checkCurrent() == 'b')
 	{
-		m_boardMap->clearTile(pacman->getTileIndices().y, pacman->getTileIndices().x);
+		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
 	}
 }
 

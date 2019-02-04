@@ -4,62 +4,119 @@ Chase::Chase()
 {
 }
 
+//void Chase::AStar(Node start, Node goal, TileMap& map)
+//{
+//	std::list<Node> openList;
+//	std::list<Node> closedList;
+//	openList.push_back(start);
+//	start.g = 0;
+//	start.f = start.g + calculateHeuristic(start, goal);
+//
+//	Node current;
+//	current = start;
+//	int counter = 0;
+//	while (counter < 50)
+//	{
+//		counter++;
+//		for (auto node : openList)
+//		{
+//			if (current.f > node.f)
+//			{
+//				current = node;
+//			}
+//		}
+//		if (current.x == goal.x && current.y == goal.y)
+//		{
+//			break;
+//		}
+//		openList.remove(current);
+//		closedList.push_back(current);
+//		for (auto neighbor : findNeighbors(current, map))
+//		{
+//			bool inClosedList = false;
+//			for (auto node : closedList)
+//			{
+//				if (node == neighbor)
+//				{
+//					inClosedList = true;
+//					break;
+//				}
+//			}
+//			if (!inClosedList)
+//			{
+//				bool inOpenList = false;
+//				Node openNeighbor;
+//				neighbor.f = neighbor.g + calculateHeuristic(neighbor, goal);
+//				for (auto node : openList)
+//				{
+//					if (neighbor == node)
+//					{
+//						inOpenList = true;
+//						openNeighbor = node;
+//						break;
+//					}
+//				}
+//				if (!inOpenList)
+//				{
+//					openList.push_back(neighbor);
+//				}
+//				else {
+//
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//std::list<Node> Chase::findNeighbors(Node current, std::shared_ptr<AIPatterns> pattern)
+//{
+//	std::list<Node> direction;
+//	direction.push_back(current);
+//	return direction;
+//}
+//
+//
+//int Chase::calculateHeuristic(Node& start, Node& goal)
+//{
+//	return abs(start.x - goal.x) + abs(start.y - goal.y);
+//}
+
 Chase::~Chase()
 {
 }
 
-
-std::shared_ptr<InputCommand> AggresiveChase::chase(Sprite & pacman, Sprite & enemyAI, TileMap & map)
+std::shared_ptr<InputCommand> AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
 {
 
-	float pacX = pacman.getTileIndices().x;
-	float pacY = pacman.getTileIndices().y;
+	if (startedChase)
+	{
+		pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices());
+		startedChase = false;
+	}
 
-	float eneX = enemyAI.getTileIndices().x;
-	float eneY = enemyAI.getTileIndices().y;
 
 
-	float resultX = pacX - eneX;
-	float resultY = pacY - eneY;
-	//if enemy wants to go left
-	if (resultX < 0 && enemyAI.checkLeft() != '|')
+	if (currentCommand != NULL)
 	{
-		return std::make_shared<LeftCommand>();
+		return currentCommand;
 	}
-	//if enemy wants to go right
-	else if (resultX > 0 && enemyAI.checkRight() != '|')
+	else
 	{
-		return std::make_shared<RightCommand>();
-	}
-	//enemy goes down
-	else if (resultY > 0 && enemyAI.checkDown() != '|')
-	{
-		return std::make_shared<DownCommand>();
-	}
-	//enemy goes up
-	else if (resultY < 0 && enemyAI.checkUp() != '|')
-	{
-		return std::make_shared<UpCommand>();
-	}
-	//else if (resultY == 0 && enemyAI.checkLeft() != '|'){
-	//	return std::make_shared<LeftCommand>();
-	//}
-	else {
 		return std::make_shared<StillCommand>();
 	}
 }
 
-std::shared_ptr<InputCommand> RandomChase::chase(Sprite & pacman, Sprite & enemyAI, TileMap & map)
+std::shared_ptr<InputCommand> RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
 {
 	return std::shared_ptr<LeftCommand>();
 }
 
-std::shared_ptr<InputCommand> PatrolChase::chase(Sprite & pacman, Sprite & enemyAI, TileMap & map)
+std::shared_ptr<InputCommand> PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
 {
 	return std::shared_ptr<LeftCommand>();
 }
 
-std::shared_ptr<InputCommand> AmbushChase::chase(Sprite & pacman, Sprite & enemyAI, TileMap & map)
+std::shared_ptr<InputCommand> AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
 {
 	return std::shared_ptr<LeftCommand>();
 }

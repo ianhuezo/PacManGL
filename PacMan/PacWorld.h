@@ -10,6 +10,7 @@
 #include "PacManSprite.h"
 #include "WorldDispatcher.h"
 #include "Chase.h"
+#include "AIPatterns.h"
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
 class PacWorld
@@ -30,9 +31,11 @@ private:
 
 
 	WorldDispatcher dispatcher;
-	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<LeftCommand>();
+	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
 	std::shared_ptr<InputCommand> blinkyDispatcher = std::make_shared<StillCommand>();
 	EnemyHandler blinkyHandler;
+
+	std::shared_ptr<AIPatterns> aStar = nullptr;
 	
 
 	void genTilePVMs();

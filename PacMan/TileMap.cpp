@@ -62,8 +62,6 @@ TileMap::~TileMap()
 }
 
 
-
-
 BindedTile TileMap::tileType(char tileChar, glm::vec2 position)
 {
 	switch (tileChar)

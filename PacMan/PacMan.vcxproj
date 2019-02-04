@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AIPatterns.h" />
     <ClInclude Include="Chase.h" />
     <ClInclude Include="InputCommand.h" />
     <ClInclude Include="PacManSprite.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="WorldDispatcher.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AIPatterns.cpp" />
     <ClCompile Include="Chase.cpp" />
     <ClCompile Include="glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

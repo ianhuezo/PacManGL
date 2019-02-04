@@ -1,2 +1,6 @@
-﻿  Chase.cpp
+﻿  AIPatterns.cpp
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(11): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(12): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(12): warning C4056: overflow in floating-point constant arithmetic
   PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe
