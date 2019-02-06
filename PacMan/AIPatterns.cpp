@@ -44,16 +44,14 @@ void AIPatterns::initAStar(Node start, Node goal)
 	std::list<Node> closedList;
 	std::list<Node> openList;
 
-	start.g = 0;
-	start.f = 0;
+	starArr[start.y][start.x].g = 0;
+	starArr[start.y][start.x].f = calculateHeuristic(start,goal);
 	openList.push_back(start);
 	
 	Node current = start;
 
-	int counter = 0;
 	while (!openList.empty())
 	{
-		counter++;
 		for (auto node : openList)
 		{
 			if (node.f <= current.f)
@@ -63,8 +61,13 @@ void AIPatterns::initAStar(Node start, Node goal)
 			}
 		}
 		//std::cout << "Appending neighbor " << current.x << "," << current.y << " " << current.f << " " << current.g << std::endl;
-		if (current.x == goal.x && current.y == goal.y)
+		if (current == goal)
 		{
+			//std::shared_ptr<Node> parent = starArr[current.y][current.x].parent;
+			//std::shared_ptr<Node> next = starArr[parent->y][parent->x].parent;
+			//std::shared_ptr<Node> n = starArr[next->y][next->x].parent;
+			//std::cout << parent->x << "," << parent->y << std::endl;
+			constructPath(current);
 			break;
 		}
 		openList.remove(current);
@@ -83,7 +86,7 @@ void AIPatterns::initAStar(Node start, Node goal)
 				//std::cout << "Appending neighbor " << neighbor.x << "," << neighbor.y << " " << neighbor.f << " "<< neighbor.g <<std::endl;
 				openList.push_back(neighbor);
 			}
-			else if (tentativeG >= neighbor.g)
+			else if (tentativeG > neighbor.g)
 			{
 				continue;
 			}
@@ -92,6 +95,29 @@ void AIPatterns::initAStar(Node start, Node goal)
 			starArr[neighbor.y][neighbor.x].f = starArr[neighbor.y][neighbor.x].g + calculateHeuristic(neighbor, goal);
 		}
 	}
+}
+
+void AIPatterns::constructPath(Node current)
+{
+	std::shared_ptr<Node> parent = starArr[current.y][current.x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+	parent = starArr[parent->y][parent->x].parent;
+	std::cout << parent->x << "," << parent->y << std::endl;
+
 
 }
 
