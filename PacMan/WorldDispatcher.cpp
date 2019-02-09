@@ -57,9 +57,5 @@ void WorldDispatcher::playerConstrain(const std::shared_ptr<Sprite>& sprite, std
 
 void WorldDispatcher::enemyConstrain(const std::shared_ptr<Sprite>& sprite, std::shared_ptr<InputCommand>& command, std::shared_ptr<InputCommand>& dispatcher, float deltaTime)
 {
-	if (sprite->tileChanged)
-	{
-		dispatcher = command;
-	}
 	dispatcher->execute(*sprite, deltaTime);
 }

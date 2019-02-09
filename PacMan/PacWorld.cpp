@@ -12,6 +12,7 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
 	blinky = std::make_shared<Sprite>(m_tileLength, "blinky.png", glm::vec2(14, 14), *m_boardMap);
 	blinky->tileChanged = true;
 	aStar = std::make_shared<AIPatterns>(m_boardMap);
+	originalAI = aStar;
 
 	shader.use();
 	glUniform1i(glGetUniformLocation(shader.ID, "mtexture"), 0);
@@ -50,8 +51,6 @@ void PacWorld::drawEnemies()
 
 void PacWorld::processAI(float deltaTime)
 {
-	blinkyDispatcher = blinkyHandler.handleEnemyInput()->chase(pacman, blinky, aStar);
-	dispatcher.blinkyDispatch(blinky, blinkyDispatcher, deltaTime);
 }
 
 void PacWorld::genTilePVMs()
@@ -80,6 +79,9 @@ void PacWorld::processCommands(const std::shared_ptr<InputCommand>& command, flo
 		eatFood();
 	}
 	//enemy commands
+	aStar = std::make_shared<AIPatterns>(*originalAI);
+	aStar->AStar(blinky->getTileIndices(), pacman->getTileIndices());
+	aStar->nextMovement->execute(*blinky, deltaTime);
 }
 
 

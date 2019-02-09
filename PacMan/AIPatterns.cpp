@@ -21,17 +21,19 @@ AIPatterns::AIPatterns(std::shared_ptr<TileMap>& map)
 
 void AIPatterns::AStar(glm::vec2 start, glm::vec2 goal)
 {
-	int xStart = static_cast<int>(start.x);
-	int yStart = static_cast<int>(start.y);
+	if (!started)
+	{
+		int xStart = static_cast<int>(start.x);
+		int yStart = static_cast<int>(start.y);
 
-	int xGoal = static_cast<int>(goal.x);
-	int yGoal = static_cast<int>(goal.y);
+		int xGoal = static_cast<int>(goal.x);
+		int yGoal = static_cast<int>(goal.y);
 
-	Node startNode = starArr[yStart][xStart];
-	Node goalNode = starArr[yGoal][xGoal];
-	initAStar(starArr[yStart][xStart], starArr[yGoal][xGoal]);
-
-
+		Node startNode = starArr[yStart][xStart];
+		Node goalNode = starArr[yGoal][xGoal];
+		initAStar(starArr[yStart][xStart], starArr[yGoal][xGoal]);
+		started = true;
+	}
 }
 
 
@@ -46,51 +48,44 @@ void AIPatterns::initAStar(Node start, Node goal)
 
 	starArr[start.y][start.x].g = 0;
 	starArr[start.y][start.x].f = calculateHeuristic(start,goal);
-	openList.push_back(start);
-	
-	Node current = start;
-
+	openList.push_back(starArr[start.y][start.x]);
 	while (!openList.empty())
 	{
+		std::shared_ptr<Node> current = nullptr;
 		for (auto node : openList)
 		{
-			if (node.f <= current.f)
+			if (current == nullptr || node.f < current->f)
 			{
-				//std::cout << node.x << "," << node.y << std::endl;
-				current = node;
+				current = std::make_shared<Node>(node);
 			}
 		}
-		//std::cout << "Appending neighbor " << current.x << "," << current.y << " " << current.f << " " << current.g << std::endl;
-		if (current == goal)
+		if (*current == goal)
 		{
-			//std::shared_ptr<Node> parent = starArr[current.y][current.x].parent;
-			//std::shared_ptr<Node> next = starArr[parent->y][parent->x].parent;
-			//std::shared_ptr<Node> n = starArr[next->y][next->x].parent;
-			//std::cout << parent->x << "," << parent->y << std::endl;
-			constructPath(current);
+			constructPath(*current);
 			break;
 		}
-		openList.remove(current);
-		closedList.push_back(current);
-		for (auto neighbor : findNeighbors(current))
+		closedList.push_back(*current);
+		openList.remove(*current);
+		//std::cout << current->x << "," << current->y << std::endl;
+		for (auto neighbor : findNeighbors(*current))
 		{
 			bool neighborInClosed = (std::find(closedList.begin(), closedList.end(), neighbor) != closedList.end());
 			if (neighborInClosed)
 			{
 				continue;
 			}
-			int tentativeG = current.g + calculateHeuristic(current, neighbor);
+			int tentativeG = current->g + calculateHeuristic(*current, neighbor);
 			bool neighborInOpen = (std::find(openList.begin(), openList.end(), neighbor) != openList.end());
 			if (!neighborInOpen)
 			{
 				//std::cout << "Appending neighbor " << neighbor.x << "," << neighbor.y << " " << neighbor.f << " "<< neighbor.g <<std::endl;
 				openList.push_back(neighbor);
 			}
-			else if (tentativeG > neighbor.g)
+			else if (tentativeG >= neighbor.g)
 			{
 				continue;
 			}
-			starArr[neighbor.y][neighbor.x].parent = std::make_shared<Node>(current);
+			starArr[neighbor.y][neighbor.x].parent = current;
 			starArr[neighbor.y][neighbor.x].g = tentativeG;
 			starArr[neighbor.y][neighbor.x].f = starArr[neighbor.y][neighbor.x].g + calculateHeuristic(neighbor, goal);
 		}
@@ -100,25 +95,30 @@ void AIPatterns::initAStar(Node start, Node goal)
 void AIPatterns::constructPath(Node current)
 {
 	std::shared_ptr<Node> parent = starArr[current.y][current.x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-	parent = starArr[parent->y][parent->x].parent;
-	std::cout << parent->x << "," << parent->y << std::endl;
-
-
+	std::shared_ptr<Node> nextMove = nullptr;
+	while (starArr[parent->y][parent->x].parent != nullptr)
+	{
+		nextMove = std::make_shared<Node>(starArr[parent->y][parent->x]);
+		parent = starArr[parent->y][parent->x].parent;
+	}
+	int horizontal = nextMove->x - parent->x;
+	int vertical = nextMove->y - parent->y;
+	if (horizontal > 0)
+	{
+		nextMovement = std::make_shared<RightCommand>();
+	}
+	if (horizontal < 0)
+	{
+		nextMovement = std::make_shared<LeftCommand>();
+	}
+	if (vertical > 0)
+	{
+		nextMovement = std::make_shared<DownCommand>();
+	}
+	if (vertical < 0)
+	{
+		nextMovement = std::make_shared<UpCommand>();
+	}
 }
 
 int AIPatterns::calculateHeuristic(Node start, Node goal)

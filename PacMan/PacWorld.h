@@ -11,6 +11,7 @@
 #include "WorldDispatcher.h"
 #include "Chase.h"
 #include "AIPatterns.h"
+#include <utility>
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
 class PacWorld
@@ -36,6 +37,8 @@ private:
 	EnemyHandler blinkyHandler;
 
 	std::shared_ptr<AIPatterns> aStar = nullptr;
+	std::shared_ptr<AIPatterns> originalAI = nullptr;
+	bool blinkyAIOn = false;
 	
 
 	void genTilePVMs();
