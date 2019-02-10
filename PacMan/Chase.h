@@ -6,7 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <memory>
 #include <iostream>
-#include <map>
+#include "TileMap.h"
 #include "AIPatterns.h"
 
 //chase classes inspired by https://dev.to/code2bits/pac-man-patterns--ghost-movement-strategy-pattern-1k1a/ this blogpost
@@ -15,49 +15,38 @@ class Chase
 {
 public:
 	Chase();
-	bool startedChase = true;
-	bool isFinished = false;
-	//void AStar(Node start, Node goal, std::shared_ptr<AIPatterns> pattern);
-	//std::list<Node> findNeighbors(Node current, TileMap & map);
-	//int calculateHeuristic(Node& start, Node& goal);
-	std::shared_ptr<InputCommand> currentCommand;
-	virtual std::shared_ptr<InputCommand> chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern) = 0;
+	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime) = 0;
 	virtual ~Chase();
 };
 
 class AggresiveChase : public Chase
 {
 public:
-	virtual std::shared_ptr<InputCommand> chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern);
+	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime);
 };
 
 class RandomChase : public Chase
 {
 public:
-	virtual std::shared_ptr<InputCommand> chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern);
+	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime);
 };
 
 class PatrolChase : public Chase
 {
 public:
-	virtual std::shared_ptr<InputCommand> chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern);
+	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime);
 };
 
 class AmbushChase : public Chase
 {
 public:
-	virtual std::shared_ptr<InputCommand> chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern);
+	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime);
 };
 
 
 class EnemyHandler
 {
 public:
-	EnemyHandler();
-	std::shared_ptr<Chase> handleEnemyInput()
-	{
-		return enemyChase;
-	}
+
 private:
-	std::shared_ptr<Chase> enemyChase;
 };

@@ -10,27 +10,20 @@ Chase::~Chase()
 {
 }
 
-std::shared_ptr<InputCommand> AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
+void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
-	return std::shared_ptr<StillCommand>();
+	pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices());
+	pattern->nextMovement->execute(*enemyAI, deltaTime);
 }
 
-std::shared_ptr<InputCommand> RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
+void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
-	return std::shared_ptr<LeftCommand>();
 }
 
-std::shared_ptr<InputCommand> PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
+void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
-	return std::shared_ptr<LeftCommand>();
 }
 
-std::shared_ptr<InputCommand> AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern)
+void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
-	return std::shared_ptr<LeftCommand>();
-}
-
-EnemyHandler::EnemyHandler()
-{
-	enemyChase = std::make_shared<AggresiveChase>();
 }

@@ -10,10 +10,12 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
 	//AI and pacman
 	pacman = std::make_shared<PacManSprite>(m_tileLength, "pacleft.png", glm::vec2(14, 26), *m_boardMap);
 	blinky = std::make_shared<Sprite>(m_tileLength, "blinky.png", glm::vec2(14, 14), *m_boardMap);
-	blinky->tileChanged = true;
-	aStar = std::make_shared<AIPatterns>(m_boardMap);
-	originalAI = aStar;
 
+	m_blinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
+	m_originalAI = m_blinkyAIPatterns;
+
+
+	//visuals initalization
 	shader.use();
 	glUniform1i(glGetUniformLocation(shader.ID, "mtexture"), 0);
 	genTilePVMs();
@@ -51,6 +53,11 @@ void PacWorld::drawEnemies()
 
 void PacWorld::processAI(float deltaTime)
 {
+	//enemy commands
+	//
+	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
+	m_blinkyChase = std::make_shared<AggresiveChase>();
+	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, deltaTime);
 }
 
 void PacWorld::genTilePVMs()
@@ -78,10 +85,6 @@ void PacWorld::processCommands(const std::shared_ptr<InputCommand>& command, flo
 		dispatcher.playerDispatch(pacman, command, deltaTime);
 		eatFood();
 	}
-	//enemy commands
-	aStar = std::make_shared<AIPatterns>(*originalAI);
-	aStar->AStar(blinky->getTileIndices(), pacman->getTileIndices());
-	aStar->nextMovement->execute(*blinky, deltaTime);
 }
 
 
