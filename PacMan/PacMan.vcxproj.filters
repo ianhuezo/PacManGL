@@ -37,14 +37,26 @@
     <Filter Include="Source Files\commands">
       <UniqueIdentifier>{3d3e7ee7-01db-43eb-bf85-1dbe9ae2b83f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\sprites">
+      <UniqueIdentifier>{1337a614-9283-447f-9177-8ad5da9a7c24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sprites">
+      <UniqueIdentifier>{8b13a59e-c65b-4a0f-9121-5e18546c81e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\board">
+      <UniqueIdentifier>{327e28d9-2389-4825-a7ff-2a893045b6e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\board">
+      <UniqueIdentifier>{b46c950f-493c-4161-b808-5dea0c3b758d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EnemyAI">
+      <UniqueIdentifier>{12d4e006-d9ae-4283-9a1e-e4fe9b98c9de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EnemyAI">
+      <UniqueIdentifier>{10eae491-ae9c-494e-bfc9-fb4d788b02c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tiles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TileMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shader.h">
       <Filter>Header Files\rendering</Filter>
     </ClInclude>
@@ -63,35 +75,41 @@
     <ClInclude Include="InputCommand.h">
       <Filter>Header Files\commands</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacWorld.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacManSprite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WorldDispatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\sprites</Filter>
     </ClInclude>
-    <ClInclude Include="Chase.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files\sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="PacManSprite.h">
+      <Filter>Header Files\sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="PacWorld.h">
+      <Filter>Header Files\board</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Header Files\board</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiles.h">
+      <Filter>Header Files\board</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteDirection.h">
+      <Filter>Header Files\sprites</Filter>
     </ClInclude>
     <ClInclude Include="AIPatterns.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\EnemyAI</Filter>
+    </ClInclude>
+    <ClInclude Include="Scatter.h">
+      <Filter>Header Files\EnemyAI</Filter>
+    </ClInclude>
+    <ClInclude Include="Chase.h">
+      <Filter>Header Files\EnemyAI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Tiles.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TileMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>Source Files\rendering</Filter>
     </ClCompile>
@@ -110,26 +128,35 @@
     <ClCompile Include="InputCommand.cpp">
       <Filter>Source Files\commands</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PacWorld.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PacManSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WorldDispatcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Chase.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files\sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="PacManSprite.cpp">
+      <Filter>Source Files\sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="PacWorld.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="Tiles.cpp">
+      <Filter>Source Files\board</Filter>
+    </ClCompile>
+    <ClCompile Include="Scatter.cpp">
+      <Filter>Source Files\EnemyAI</Filter>
     </ClCompile>
     <ClCompile Include="AIPatterns.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\EnemyAI</Filter>
+    </ClCompile>
+    <ClCompile Include="Chase.cpp">
+      <Filter>Source Files\EnemyAI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 #include "InputCommand.h"
 #include <iostream>
 #include <memory>
+#include "SpriteDirection.h"
 class WorldDispatcher
 {
 public:

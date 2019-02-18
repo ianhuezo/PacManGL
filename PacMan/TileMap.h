@@ -42,7 +42,10 @@ private:
 		PELLET = 'b',
 		DOT = '-',
 		GATE = 'g',
-		BORDER = '|'
+		BORDER = '|',
+		AIBOUND1 = 'a',
+		AIBOUND2 = '=',
+		AIDIR = '+'
 	};
 	NullTile nullTile;
 	FruitTile fruitTile;

@@ -37,6 +37,7 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 //UP
 void Sprite::moveUp(float deltaTime)
 {
+	spriteDirection = MOVE::UP;
 	float velocity = -spriteSpeed * deltaTime;
 	mm_model = glm::translate(mm_model, glm::vec3(0, velocity, 0.0f));
 	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, velocity, -1.0f);
@@ -44,6 +45,7 @@ void Sprite::moveUp(float deltaTime)
 //DOWN
 void Sprite::moveDown(float deltaTime)
 {
+	spriteDirection = MOVE::DOWN;
 	float velocity = spriteSpeed * deltaTime;
 	mm_model = glm::translate(mm_model, glm::vec3(0, velocity, 0.0f));
 	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, velocity, 1);
@@ -51,6 +53,7 @@ void Sprite::moveDown(float deltaTime)
 //RIGHT
 void Sprite::moveRight(float deltaTime)
 {
+	spriteDirection = MOVE::RIGHT;
 	float velocity = spriteSpeed * deltaTime;
 	mm_model = glm::translate(mm_model, glm::vec3(velocity, 0, 0.0f));
 	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, velocity, 1);
@@ -58,6 +61,7 @@ void Sprite::moveRight(float deltaTime)
 //LEFT
 void Sprite::moveLeft(float deltaTime)
 {
+	spriteDirection = MOVE::LEFT;
 	float velocity = -spriteSpeed * deltaTime;
 	mm_model = glm::translate(mm_model, glm::vec3(velocity, 0, 0.0f));
 	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, velocity, -1);
@@ -65,7 +69,7 @@ void Sprite::moveLeft(float deltaTime)
 
 void Sprite::moveStill(float deltaTime)
 {
-
+	spriteDirection = MOVE::STILL;
 }
 
 char Sprite::checkLeft()

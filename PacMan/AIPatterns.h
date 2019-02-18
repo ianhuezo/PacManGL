@@ -7,6 +7,7 @@
 #include <list>
 #include <algorithm>
 #include "InputCommand.h"
+#include "Sprite.h"
 
 
 struct Node
@@ -26,14 +27,13 @@ public:
 	AIPatterns(std::shared_ptr<TileMap>& map);
 	void AStar(glm::vec2 start, glm::vec2 goal);
 	std::shared_ptr<InputCommand> nextMovement;
+	bool m_stopAI = false;
 	~AIPatterns();
 private:
-	bool started = false;
 	Node starArr[36][28];
 	void initAStar(Node start, Node goal);
 	void constructPath(Node current);
 	int calculateHeuristic(Node start, Node goal);
-	bool minF(Node a, Node b);
 	std::list<Node> findNeighbors(Node current);
 	
 

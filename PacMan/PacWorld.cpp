@@ -1,6 +1,6 @@
 #include "PacWorld.h"
 
-PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
+PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength) :
 	m_screenWidth(screenWidth), m_screenHeight(screenHeight), m_tileLength(tileLength)
 {
 	m_boardMap = std::make_shared<TileMap>("maze.txt", m_tileLength);
@@ -23,7 +23,7 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength):
 
 void PacWorld::drawWorld()
 {
-	for (auto i = 0; i < m_boardMap->getRowSize(); i++) 
+	for (auto i = 0; i < m_boardMap->getRowSize(); i++)
 	{
 		for (auto j = 0; j < m_boardMap->getColSize(); j++)
 		{
@@ -56,8 +56,8 @@ void PacWorld::processAI(float deltaTime)
 	//enemy commands
 	//
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	m_blinkyChase = std::make_shared<AggresiveChase>();
-	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, deltaTime);
+	m_blinkyChase = std::make_shared<AmbushChase>();
+	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, m_boardMap,deltaTime);
 }
 
 void PacWorld::genTilePVMs()
@@ -91,9 +91,9 @@ void PacWorld::processCommands(const std::shared_ptr<InputCommand>& command, flo
 
 void PacWorld::eatFood()
 {
-	if (pacman->checkCurrent() == '-')
+	if (pacman->checkCurrent() == '-' || pacman->checkCurrent() == 'a')
 	{
-		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y),static_cast<int>(pacman->getTileIndices().x));
+		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
 	}
 	else if (pacman->checkCurrent() == 'b')
 	{

@@ -21,20 +21,41 @@ AIPatterns::AIPatterns(std::shared_ptr<TileMap>& map)
 
 void AIPatterns::AStar(glm::vec2 start, glm::vec2 goal)
 {
-	if (!started)
+	int xStart = static_cast<int>(start.x);
+	int yStart = static_cast<int>(start.y);
+
+	int xGoal = static_cast<int>(goal.x);
+	int yGoal = static_cast<int>(goal.y);
+	//the check for when the bot will collide or may collide with pacman
+	if ((abs(xStart - xGoal) + abs(yStart - yGoal)) <= 1)
 	{
-		int xStart = static_cast<int>(start.x);
-		int yStart = static_cast<int>(start.y);
-
-		int xGoal = static_cast<int>(goal.x);
-		int yGoal = static_cast<int>(goal.y);
-
-		Node startNode = starArr[yStart][xStart];
-		Node goalNode = starArr[yGoal][xGoal];
-		initAStar(starArr[yStart][xStart], starArr[yGoal][xGoal]);
-		started = true;
+		if (xStart - xGoal > 0)
+		{
+			nextMovement = std::make_shared<LeftCommand>();
+		}
+		else if (xStart - xGoal < 0)
+		{
+			nextMovement = std::make_shared<RightCommand>();
+		}
+		else if (yStart - yGoal < 0)
+		{
+			nextMovement = std::make_shared<DownCommand>();
+		}
+		else if (yStart - yGoal > 0)
+		{
+			nextMovement = std::make_shared<UpCommand>();
+		}
+		else
+		{
+			nextMovement = std::make_shared<StillCommand>();
+		}
+		return;
 	}
+	Node startNode = starArr[yStart][xStart];
+	Node goalNode = starArr[yGoal][xGoal];
+	initAStar(starArr[yStart][xStart], starArr[yGoal][xGoal]);
 }
+
 
 
 AIPatterns::~AIPatterns()
@@ -66,7 +87,6 @@ void AIPatterns::initAStar(Node start, Node goal)
 		}
 		closedList.push_back(*current);
 		openList.remove(*current);
-		//std::cout << current->x << "," << current->y << std::endl;
 		for (auto neighbor : findNeighbors(*current))
 		{
 			bool neighborInClosed = (std::find(closedList.begin(), closedList.end(), neighbor) != closedList.end());
@@ -107,17 +127,21 @@ void AIPatterns::constructPath(Node current)
 	{
 		nextMovement = std::make_shared<RightCommand>();
 	}
-	if (horizontal < 0)
+	else if (horizontal < 0)
 	{
 		nextMovement = std::make_shared<LeftCommand>();
 	}
-	if (vertical > 0)
+	else if (vertical > 0)
 	{
 		nextMovement = std::make_shared<DownCommand>();
 	}
-	if (vertical < 0)
+	else if (vertical < 0)
 	{
 		nextMovement = std::make_shared<UpCommand>();
+	}
+	else {
+		nextMovement = std::make_shared<StillCommand>();
+		m_stopAI = true;
 	}
 }
 
@@ -126,31 +150,28 @@ int AIPatterns::calculateHeuristic(Node start, Node goal)
 	return abs(start.x - goal.x) + abs(start.y - goal.y);
 }
 
-bool AIPatterns::minF(Node a, Node b)
-{
-	return (a.f < b.f);
-}
-
 std::list<Node> AIPatterns::findNeighbors(Node current)
 {
 	std::list<Node> directions;
+	//the 4 squares which ghosts cannot move through
 	//right
-	if (starArr[current.y][current.x + 1].t != '|' && starArr[current.y][current.x + 1].t != 'g')
+	if (starArr[current.y][current.x + 1].t != '|')
 	{
 		directions.push_back(starArr[current.y][current.x + 1]);
 	}
 	//left
-	if (starArr[current.y][current.x - 1].t != '|' && starArr[current.y][current.x - 1].t != 'g')
+	if (starArr[current.y][current.x - 1].t != '|')
 	{
 		directions.push_back(starArr[current.y][current.x - 1]);
 	}
 	//down
-	if (starArr[current.y + 1][current.x].t != '|' && starArr[current.y + 1][current.x].t != 'g')
+	if (starArr[current.y + 1][current.x].t != '|')
 	{
 		directions.push_back(starArr[current.y + 1][current.x]);
 	}
 	//up
-	if (starArr[current.y - 1][current.x].t != '|' && starArr[current.y - 1][current.x].t != 'g')
+	if (starArr[current.y - 1][current.x].t != '|' &&
+		starArr[current.y - 1][current.x].t != 'a' && starArr[current.y - 1][current.x].t != '=')
 	{
 		directions.push_back(starArr[current.y - 1][current.x]);
 	}

@@ -11,6 +11,7 @@
 #include "WorldDispatcher.h"
 #include "Chase.h"
 #include "AIPatterns.h"
+#include "Scatter.h"
 
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
@@ -29,17 +30,18 @@ public:
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
 	void eatFood();
+	//void initAI();
 
 
 	WorldDispatcher dispatcher;
 	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
 	std::shared_ptr<InputCommand> blinkyDispatcher = std::make_shared<StillCommand>();
-	std::shared_ptr<EnemyHandler> blinkyHandler = nullptr;
 
 	//AI Patterns for enemies
 	std::shared_ptr<AIPatterns> m_blinkyAIPatterns = nullptr;
 	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
 	std::shared_ptr<Chase> m_blinkyChase = nullptr;
+	std::shared_ptr<Scatter> m_blinkyScatter = nullptr;
 	
 
 	void genTilePVMs();

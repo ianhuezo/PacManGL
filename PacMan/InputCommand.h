@@ -6,15 +6,7 @@
 #include <glfw/glfw3.h>
 #include <iostream>
 #include <memory>
-
-
-enum MOVE {
-	LEFT,
-	RIGHT,
-	STILL,
-	UP,
-	DOWN
-};
+#include "SpriteDirection.h"
 
 class InputCommand
 {

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <math.h>
 #include "TileMap.h"
+#include "SpriteDirection.h"
 
 class Sprite
 {
@@ -24,7 +25,7 @@ public:
 	void drawSprite();
 	float spriteSpeed = 100;
 
-	//movements for pacman
+	//movements for sprite
 	void generalMove(float& pixelPosition, float& fixedPosition, float& index,const float& velocity, float indexNum);
 	virtual void moveUp(float deltaTime);
 	virtual void moveDown(float deltaTime);
@@ -41,6 +42,9 @@ public:
 	//the current state of the sprite
 	//tells sprite if tile has changed for movement
 	bool tileChanged = true;
+
+	//return the current direction the sprite is moving
+	int spriteDirection = MOVE::STILL;
 
 	TileMap charMap;
 
