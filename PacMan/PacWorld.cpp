@@ -12,6 +12,7 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength) :
 	blinky = std::make_shared<Sprite>(m_tileLength, "blinky.png", glm::vec2(14, 14), *m_boardMap);
 
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
+	m_blinkyChase = std::make_shared<AggresiveChase>();
 	m_originalAI = m_blinkyAIPatterns;
 
 
@@ -56,7 +57,6 @@ void PacWorld::processAI(float deltaTime)
 	//enemy commands
 	//
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	m_blinkyChase = std::make_shared<AmbushChase>();
 	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, m_boardMap,deltaTime);
 }
 

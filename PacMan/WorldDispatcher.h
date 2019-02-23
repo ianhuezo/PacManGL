@@ -13,7 +13,7 @@ public:
 private:
 	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
 	std::shared_ptr<InputCommand> blinkyDispatcher = std::make_shared<StillCommand>();
-	void playerConstrain(const std::shared_ptr<Sprite>& sprite, std::shared_ptr<InputCommand>& command, std::shared_ptr<InputCommand>& dispatcher,float deltaTime);
+	void constrain(const std::shared_ptr<Sprite>& sprite, std::shared_ptr<InputCommand>& command, std::shared_ptr<InputCommand>& dispatcher,float deltaTime);
 	void enemyConstrain(const std::shared_ptr<Sprite>& sprite, std::shared_ptr<InputCommand>& command, std::shared_ptr<InputCommand>& dispatcher, float deltaTime);
 };
 

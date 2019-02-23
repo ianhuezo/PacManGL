@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "InputCommand.h"
 #include "Sprite.h"
+#include <iostream>
 
 
 struct Node
@@ -27,6 +28,7 @@ public:
 	AIPatterns(std::shared_ptr<TileMap>& map);
 	void AStar(glm::vec2 start, glm::vec2 goal);
 	std::shared_ptr<InputCommand> nextMovement;
+	std::list<Node> miniGoal;
 	bool m_stopAI = false;
 	~AIPatterns();
 private:

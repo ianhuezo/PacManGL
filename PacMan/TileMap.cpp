@@ -86,7 +86,8 @@ BindedTile TileMap::tileType(char tileChar, glm::vec2 position)
 			return BindedTile(*dotTexture, dotTile, tileChar, position);
 		case TILE::AIBOUND2:
 			return BindedTile(*nullTexture, nullTile, tileChar, position);
-
+		case TILE::AIDIR:
+			return BindedTile(*dotTexture, dotTile, tileChar, position);
 		default:
 			return BindedTile(*nullTexture, nullTile, tileChar, position);
 	}

@@ -119,6 +119,7 @@ void AIPatterns::constructPath(Node current)
 	while (starArr[parent->y][parent->x].parent != nullptr)
 	{
 		nextMove = std::make_shared<Node>(starArr[parent->y][parent->x]);
+		//if a minigoal is found save it and execute that instead of going for pacman directly
 		parent = starArr[parent->y][parent->x].parent;
 	}
 	int horizontal = nextMove->x - parent->x;
