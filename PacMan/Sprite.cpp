@@ -23,13 +23,13 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 	pixelPosition = pixelPosition + velocity;
 	if (abs(pixelPosition - fixedPosition) > (mm_tileLength))
 	{
-		tileChanged = true;
 		index = index + indexNum;
 		int row = mm_indices.y;
 		int col = mm_indices.x;
 		mm_fixedPosition = charMap.getBindedTile(row,col).position;
+		tileChanged = true;
 	}
-	else {
+	else{
 		tileChanged = false;
 	}
 }

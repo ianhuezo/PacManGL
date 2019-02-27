@@ -52,7 +52,6 @@ protected:
 	//the calculated/acquired tile lengths
 	float mm_tileLength;
 	float mm_halfTileLength;
-	
 
 	//model 
 	glm::mat4 mm_model;

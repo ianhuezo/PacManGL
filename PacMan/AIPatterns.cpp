@@ -10,7 +10,6 @@ AIPatterns::AIPatterns(std::shared_ptr<TileMap>& map)
 		{
 			starArr[i][j].f = FLT_MAX;
 			starArr[i][j].g = FLT_MAX;
-			starArr[i][j].h = 0;
 			starArr[i][j].x = j;
 			starArr[i][j].y = i;
 			starArr[i][j].t = map->getChars()[i][j];
@@ -21,40 +20,32 @@ AIPatterns::AIPatterns(std::shared_ptr<TileMap>& map)
 
 void AIPatterns::AStar(glm::vec2 start, glm::vec2 goal)
 {
+	if (start == goal)
+	{
+		m_atGoal = true;
+		return;
+	}
 	int xStart = static_cast<int>(start.x);
 	int yStart = static_cast<int>(start.y);
 
 	int xGoal = static_cast<int>(goal.x);
 	int yGoal = static_cast<int>(goal.y);
-	//the check for when the bot will collide or may collide with pacman
-	if ((abs(xStart - xGoal) + abs(yStart - yGoal)) <= 1)
-	{
-		if (xStart - xGoal > 0)
-		{
-			nextMovement = std::make_shared<LeftCommand>();
-		}
-		else if (xStart - xGoal < 0)
-		{
-			nextMovement = std::make_shared<RightCommand>();
-		}
-		else if (yStart - yGoal < 0)
-		{
-			nextMovement = std::make_shared<DownCommand>();
-		}
-		else if (yStart - yGoal > 0)
-		{
-			nextMovement = std::make_shared<UpCommand>();
-		}
-		else
-		{
-			nextMovement = std::make_shared<StillCommand>();
-		}
-		return;
-	}
 	Node startNode = starArr[yStart][xStart];
 	Node goalNode = starArr[yGoal][xGoal];
 	initAStar(starArr[yStart][xStart], starArr[yGoal][xGoal]);
 }
+
+
+std::vector<std::shared_ptr<InputCommand>> AIPatterns::getMovementList()
+{
+	return m_movementList;
+}
+
+bool AIPatterns::atGoal()
+{
+	return m_atGoal;
+}
+
 
 
 
@@ -68,7 +59,7 @@ void AIPatterns::initAStar(Node start, Node goal)
 	std::list<Node> openList;
 
 	starArr[start.y][start.x].g = 0;
-	starArr[start.y][start.x].f = calculateHeuristic(start,goal);
+	starArr[start.y][start.x].f = calculateHeuristic(start, goal);
 	openList.push_back(starArr[start.y][start.x]);
 	while (!openList.empty())
 	{
@@ -115,34 +106,40 @@ void AIPatterns::initAStar(Node start, Node goal)
 void AIPatterns::constructPath(Node current)
 {
 	std::shared_ptr<Node> parent = starArr[current.y][current.x].parent;
+	createMovementList(starArr[current.y][current.x], *parent);
 	std::shared_ptr<Node> nextMove = nullptr;
 	while (starArr[parent->y][parent->x].parent != nullptr)
 	{
 		nextMove = std::make_shared<Node>(starArr[parent->y][parent->x]);
-		//if a minigoal is found save it and execute that instead of going for pacman directly
+		createMovementList(starArr[parent->y][parent->x], starArr[nextMove->y][nextMove->x]);
 		parent = starArr[parent->y][parent->x].parent;
 	}
-	int horizontal = nextMove->x - parent->x;
-	int vertical = nextMove->y - parent->y;
-	if (horizontal > 0)
+	nextMovement = m_movementList.front();
+}
+
+void AIPatterns::createMovementList(Node& first, Node& second)
+{
+	//where current would represent the current enemy tile and next the next tile
+	int horizontal = first.x - second.x;
+	int vertical = first.y - second.y;
+	if (horizontal < 0)
 	{
-		nextMovement = std::make_shared<RightCommand>();
+		m_movementList.push_back(std::make_shared<RightCommand>());
 	}
-	else if (horizontal < 0)
+	else if (horizontal > 0)
 	{
-		nextMovement = std::make_shared<LeftCommand>();
+		m_movementList.push_back(std::make_shared<LeftCommand>());
 	}
 	else if (vertical > 0)
 	{
-		nextMovement = std::make_shared<DownCommand>();
+		m_movementList.push_back(std::make_shared<UpCommand>());
 	}
 	else if (vertical < 0)
 	{
-		nextMovement = std::make_shared<UpCommand>();
+		m_movementList.push_back(std::make_shared<DownCommand>());
 	}
 	else {
-		nextMovement = std::make_shared<StillCommand>();
-		m_stopAI = true;
+		m_movementList.push_back(std::make_shared<StillCommand>());
 	}
 }
 
@@ -166,13 +163,14 @@ std::list<Node> AIPatterns::findNeighbors(Node current)
 		directions.push_back(starArr[current.y][current.x - 1]);
 	}
 	//down
-	if (starArr[current.y + 1][current.x].t != '|')
+	if (starArr[current.y + 1][current.x].t != '|' &&
+		starArr[current.y + 1][current.x].t != 'a' &&
+		starArr[current.y + 1][current.x].t != '=')
 	{
 		directions.push_back(starArr[current.y + 1][current.x]);
 	}
 	//up
-	if (starArr[current.y - 1][current.x].t != '|' &&
-		starArr[current.y - 1][current.x].t != 'a' && starArr[current.y - 1][current.x].t != '=')
+	if (starArr[current.y - 1][current.x].t != '|')
 	{
 		directions.push_back(starArr[current.y - 1][current.x]);
 	}

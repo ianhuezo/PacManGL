@@ -13,23 +13,23 @@ Chase::~Chase()
 void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
 	//this astar searches for a minigoal to pacman, so, they dont immediately go to pacman but rather the minigoal if there is one
-	
+
 	////////////////////////Part where AI acts like a player, making decisions and inputting a command
-	m_original = std::make_shared<AIPatterns>(*pattern);
-	pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices());
-	currentCommand = pattern->nextMovement;
-
-	if (enemyAI->tileChanged)
+	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices());
+	if (pattern->atGoal())
 	{
-		dispatcher = currentCommand;
+		return;
 	}
-	dispatcher->execute(*enemyAI, deltaTime);
-
+	if (enemyAI->tileChanged && currentCommand != m_command->spriteState)
+	{
+		m_command = pattern->nextMovement;
+	}
+	m_command->execute(*enemyAI, deltaTime);
 }
 
 void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	
+
 }
 
 void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)

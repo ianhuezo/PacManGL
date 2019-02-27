@@ -13,6 +13,8 @@
 #include <iostream>
 #include "WorldDispatcher.h"
 #include <list>
+#include <utility>
+#include "SpriteDirection.h"
 
 //chase classes inspired by https://dev.to/code2bits/pac-man-patterns--ghost-movement-strategy-pattern-1k1a/ this blogpost
 
@@ -20,7 +22,7 @@ class Chase
 {
 public:
 	Chase();
-	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map , float deltaTime) = 0;
+	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime) = 0;
 	virtual ~Chase();
 };
 
@@ -29,11 +31,14 @@ class AggresiveChase : public Chase
 public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime);
 private:
-	std::shared_ptr<Node> miniGoal = nullptr;
-	std::shared_ptr<AIPatterns> m_original = nullptr;
-	std::shared_ptr<InputCommand> currentCommand = std::make_shared<StillCommand>();
-	std::shared_ptr<InputCommand> dispatcher;
-	bool hasMini = true;
+	std::shared_ptr<AIPatterns> AIDispatcher;
+	std::vector<std::shared_ptr<InputCommand>> dispatcher;
+	std::vector<std::shared_ptr<InputCommand>>::iterator dispatchIter;
+	std::shared_ptr<InputCommand> m_command = std::make_shared<StillCommand>();
+	bool chaseStarted = false;
+	bool tileChangingLast = false;
+	bool tileChanged = false;
+	int currentCommand = -1;
 };
 
 class RandomChase : public Chase

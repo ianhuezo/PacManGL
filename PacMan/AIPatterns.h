@@ -9,14 +9,15 @@
 #include "InputCommand.h"
 #include "Sprite.h"
 #include <iostream>
+#include <vector>
 
 
 struct Node
 {
-	int f, g, h, x, y;
+	int f, g, x, y;
 	std::shared_ptr<Node> parent;
 	char t;
-	bool operator == (const Node& n) const {return x == n.x && y == n.y ; };
+	bool operator == (const Node& n) const { return x == n.x && y == n.y; };
 	bool operator != (const Node& n) const { return !operator==(n); };
 };
 
@@ -27,17 +28,21 @@ class AIPatterns
 public:
 	AIPatterns(std::shared_ptr<TileMap>& map);
 	void AStar(glm::vec2 start, glm::vec2 goal);
+	std::vector<std::shared_ptr<InputCommand>> getMovementList();
+	bool atGoal();
 	std::shared_ptr<InputCommand> nextMovement;
-	std::list<Node> miniGoal;
-	bool m_stopAI = false;
 	~AIPatterns();
 private:
 	Node starArr[36][28];
 	void initAStar(Node start, Node goal);
 	void constructPath(Node current);
+	void createMovementList(Node& first, Node& second);
+
+	bool m_atGoal = false;
+	std::vector<std::shared_ptr<InputCommand>> m_movementList;
 	int calculateHeuristic(Node start, Node goal);
 	std::list<Node> findNeighbors(Node current);
-	
+
 
 
 };
