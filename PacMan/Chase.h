@@ -32,13 +32,12 @@ public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime);
 private:
 	std::shared_ptr<AIPatterns> AIDispatcher;
-	std::vector<std::shared_ptr<InputCommand>> dispatcher;
-	std::vector<std::shared_ptr<InputCommand>>::iterator dispatchIter;
-	std::shared_ptr<InputCommand> m_command = std::make_shared<StillCommand>();
+	std::list<std::shared_ptr<InputCommand>> dispatcher;
+	std::list<std::shared_ptr<InputCommand>>::iterator dispatchIter;
+	std::shared_ptr<InputCommand> m_currentCommand = nullptr;
+	std::shared_ptr<InputCommand> m_command = nullptr;
 	bool chaseStarted = false;
-	bool tileChangingLast = false;
-	bool tileChanged = false;
-	int currentCommand = -1;
+	bool indexChanged = false;
 };
 
 class RandomChase : public Chase

@@ -28,7 +28,7 @@ class AIPatterns
 public:
 	AIPatterns(std::shared_ptr<TileMap>& map);
 	void AStar(glm::vec2 start, glm::vec2 goal);
-	std::vector<std::shared_ptr<InputCommand>> getMovementList();
+	std::list<std::shared_ptr<InputCommand>> getMovementList();
 	bool atGoal();
 	std::shared_ptr<InputCommand> nextMovement;
 	~AIPatterns();
@@ -36,14 +36,11 @@ private:
 	Node starArr[36][28];
 	void initAStar(Node start, Node goal);
 	void constructPath(Node current);
-	void createMovementList(Node& first, Node& second);
+	std::shared_ptr<InputCommand> createMovementList(Node& first, Node& second);
 
 	bool m_atGoal = false;
-	std::vector<std::shared_ptr<InputCommand>> m_movementList;
+	std::list<std::shared_ptr<InputCommand>> m_movementList;
 	int calculateHeuristic(Node start, Node goal);
 	std::list<Node> findNeighbors(Node current);
-
-
-
 };
 

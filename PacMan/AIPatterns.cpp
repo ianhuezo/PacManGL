@@ -36,7 +36,7 @@ void AIPatterns::AStar(glm::vec2 start, glm::vec2 goal)
 }
 
 
-std::vector<std::shared_ptr<InputCommand>> AIPatterns::getMovementList()
+std::list<std::shared_ptr<InputCommand>> AIPatterns::getMovementList()
 {
 	return m_movementList;
 }
@@ -106,40 +106,41 @@ void AIPatterns::initAStar(Node start, Node goal)
 void AIPatterns::constructPath(Node current)
 {
 	std::shared_ptr<Node> parent = starArr[current.y][current.x].parent;
-	createMovementList(starArr[current.y][current.x], *parent);
-	std::shared_ptr<Node> nextMove = nullptr;
+	m_movementList.push_back(std::move(createMovementList(starArr[current.y][current.x], *parent)));
+	std::shared_ptr<Node> currentMove = nullptr;
 	while (starArr[parent->y][parent->x].parent != nullptr)
 	{
-		nextMove = std::make_shared<Node>(starArr[parent->y][parent->x]);
-		createMovementList(starArr[parent->y][parent->x], starArr[nextMove->y][nextMove->x]);
+		currentMove = std::make_shared<Node>(starArr[parent->y][parent->x]);
 		parent = starArr[parent->y][parent->x].parent;
+		m_movementList.push_back(createMovementList(*currentMove, *parent));
 	}
 	nextMovement = m_movementList.front();
 }
 
-void AIPatterns::createMovementList(Node& first, Node& second)
+std::shared_ptr<InputCommand> AIPatterns::createMovementList(Node& first, Node& second)
 {
 	//where current would represent the current enemy tile and next the next tile
 	int horizontal = first.x - second.x;
 	int vertical = first.y - second.y;
+
 	if (horizontal < 0)
 	{
-		m_movementList.push_back(std::make_shared<RightCommand>());
+		return std::make_shared<RightCommand>();
 	}
 	else if (horizontal > 0)
 	{
-		m_movementList.push_back(std::make_shared<LeftCommand>());
+		return std::make_shared<LeftCommand>();
 	}
 	else if (vertical > 0)
 	{
-		m_movementList.push_back(std::make_shared<UpCommand>());
+		return std::make_shared<UpCommand>();
 	}
 	else if (vertical < 0)
 	{
-		m_movementList.push_back(std::make_shared<DownCommand>());
+		return std::make_shared<DownCommand>();
 	}
 	else {
-		m_movementList.push_back(std::make_shared<StillCommand>());
+		return std::make_shared<StillCommand>();;
 	}
 }
 

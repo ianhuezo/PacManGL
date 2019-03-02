@@ -20,11 +20,16 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	{
 		return;
 	}
-	if (enemyAI->tileChanged && currentCommand != m_command->spriteState)
+	if (enemyAI->tileChanged)
 	{
-		m_command = pattern->nextMovement;
+		if (enemyAI->checkCurrent() == '+' || dispatcher.empty())
+		{
+			dispatcher = pattern->getMovementList();
+		}
+		m_command = dispatcher.front();
+		dispatcher.pop_front();
 	}
-	m_command->execute(*enemyAI, deltaTime);
+	m_command->execute(*enemyAI, 0.9*deltaTime);
 }
 
 void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)

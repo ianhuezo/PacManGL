@@ -14,8 +14,11 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength) :
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
 	m_blinkyChase = std::make_shared<AggresiveChase>();
 	m_originalAI = m_blinkyAIPatterns;
-
-
+	//clear tiles to null so nothing is seen visually
+	m_boardMap->clearTile(20,9);
+	m_boardMap->clearTile(17, 9);
+	m_boardMap->clearTile(20, 18);
+	m_boardMap->clearTile(17, 18);
 	//visuals initalization
 	shader.use();
 	glUniform1i(glGetUniformLocation(shader.ID, "mtexture"), 0);
@@ -55,7 +58,6 @@ void PacWorld::drawEnemies()
 void PacWorld::processAI(float deltaTime)
 {
 	//enemy commands
-	//
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
 	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, m_boardMap,deltaTime);
 }
@@ -91,7 +93,7 @@ void PacWorld::processCommands(const std::shared_ptr<InputCommand>& command, flo
 
 void PacWorld::eatFood()
 {
-	if (pacman->checkCurrent() == '-' || pacman->checkCurrent() == 'a')
+	if (pacman->checkCurrent() == '-' || pacman->checkCurrent() == 'a' || pacman->checkCurrent() == '+')
 	{
 		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
 	}
