@@ -10,10 +10,32 @@ Chase::~Chase()
 {
 }
 
+bool Chase::isReversed(int spriteState1, int spriteState2)
+{
+	if (spriteState1 == MOVE::UP && spriteState2 == MOVE::DOWN)
+	{
+		return true;
+	}
+	else if (spriteState1 == MOVE::DOWN && spriteState2 == MOVE::UP)
+	{
+		return true;
+	}
+	else if (spriteState1 == MOVE::LEFT && spriteState2 == MOVE::RIGHT)
+	{
+		return true;
+	}
+	else if (spriteState1 == MOVE::RIGHT && spriteState2 == MOVE::LEFT)
+	{
+		return true;
+	}
+	return false;
+}
+
 void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
 	//this astar searches for a minigoal to pacman, so, they dont immediately go to pacman but rather the minigoal if there is one
 
+	////////////////////////Part where AI acts like a player, making decisions and inputting a command
 	////////////////////////Part where AI acts like a player, making decisions and inputting a command
 	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices());
 	if (pattern->atGoal())
@@ -22,14 +44,18 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	}
 	if (enemyAI->tileChanged)
 	{
-		if (enemyAI->checkCurrent() == '+' || dispatcher.empty())
+		if (mm_dispatcher.empty())
 		{
-			dispatcher = pattern->getMovementList();
+			mm_dispatcher = pattern->getMovementList();
 		}
-		m_command = dispatcher.front();
-		dispatcher.pop_front();
+		else if (enemyAI->checkCurrent() == '+' && isReversed(enemyAI->spriteDirection, mm_dispatcher.front()->spriteState))
+		{
+			mm_dispatcher = pattern->getMovementList();
+		}
+		mm_command = mm_dispatcher.front();
+		mm_dispatcher.pop_front();
 	}
-	m_command->execute(*enemyAI, 0.9*deltaTime);
+	mm_command->execute(*enemyAI, deltaTime);
 }
 
 void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
@@ -43,56 +69,69 @@ void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 
 void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	int y = static_cast<int>(pacman->getTileIndices().y);
-	int x = static_cast<int>(pacman->getTileIndices().x);
-	if (enemyAI->tileChanged == true || started == false)
+	pattern->AStar(ambushPosition(pacman,map), enemyAI->getTileIndices());
+	if (pattern->atGoal())
 	{
-		started = true;
-		if (abs(static_cast<int>(enemyAI->getTileIndices().x) - x) + abs(static_cast<int>(enemyAI->getTileIndices().y) - y) <= 3)
+		return;
+	}
+	if (enemyAI->tileChanged)
+	{
+		if (mm_dispatcher.empty())
 		{
-			pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices());
-			m_blinkyMove = pattern->nextMovement;
-			m_blinkyMove->execute(*enemyAI, deltaTime);
+			mm_dispatcher = pattern->getMovementList();
 		}
-		else
+		else if (enemyAI->checkCurrent() == '+' && isReversed(enemyAI->spriteDirection, mm_dispatcher.front()->spriteState))
 		{
-			switch (pacman->spriteDirection)
-			{
-			case MOVE::LEFT:
-				if (x < 28 && map->getChars()[y][x + 2] != '|' && map->getChars()[y + 2][x] != '0')
-				{
-					x += 2;
-				}
-				break;
-			case MOVE::RIGHT:
-				if (x >= 0 && map->getChars()[y][x - 2] != '|' && map->getChars()[y + 2][x] != '0')
-				{
-					x -= 2;
-				}
-				break;
-			case MOVE::DOWN:
-				if (y < 36 && map->getChars()[y + 2][x] != '|' && map->getChars()[y + 2][x] != '0')
-				{
-					y += 2;
-				}
-				break;
-			case MOVE::UP:
-				if (y >= 0 && map->getChars()[y - 2][x] != '|' && map->getChars()[y + 2][x] != '0')
-				{
-					y -= 2;
-				}
-				break;
-			default:
-				break;
-			}
-			pattern->AStar(enemyAI->getTileIndices(), glm::vec2(x, y));
-			m_blinkyMove = pattern->nextMovement;
-			m_blinkyMove->execute(*enemyAI, deltaTime);
+			mm_dispatcher = pattern->getMovementList();
+		}
+		mm_command = mm_dispatcher.front();
+		mm_dispatcher.pop_front();
+	}
+	mm_command->execute(*enemyAI, 0.9*deltaTime);
+}
+
+glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<TileMap> map)
+{
+	int posx = static_cast<int>(pacman->getTileIndices().x);
+	int posy = static_cast<int>(pacman->getTileIndices().y);
+	int nextX = posx;
+	int nextY = posy;
+
+	if (pacman->spriteDirection == MOVE::UP)
+	{
+		nextY -= 4;
+		while (nextY <= 4 &&( map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == '0'))
+		{
+			nextY++;
 		}
 	}
-	else {
-		m_blinkyMove->execute(*enemyAI, deltaTime);
+	else if (pacman->spriteDirection == MOVE::DOWN)
+	{
+		nextY += 4;
+		while (nextY >= 34 || map->getChars()[nextY][nextX] == '|')
+		{
+			nextY--;
+		}
 	}
+	else if (pacman->spriteDirection == MOVE::LEFT)
+	{
+		nextX -= 4;
+		while (nextX < 0 || map->getChars()[nextY][nextX] == '|')
+		{
+			nextX++;
+		}
+	}
+	else if (pacman->spriteDirection == MOVE::RIGHT)
+	{
+		nextX += 4;
+		while (nextX > 24 || map->getChars()[nextY][nextX] == '|')
+		{
+			nextX--;
+		}
+	}
+
+	
+	return glm::vec2(nextX, nextY);
 }
 
 void StopChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)

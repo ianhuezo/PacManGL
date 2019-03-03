@@ -24,6 +24,10 @@ public:
 	Chase();
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime) = 0;
 	virtual ~Chase();
+protected:
+	bool isReversed(int spriteState1, int spriteState2);
+	std::list<std::shared_ptr<InputCommand>> mm_dispatcher;
+	std::shared_ptr<InputCommand> mm_command;
 };
 
 class AggresiveChase : public Chase
@@ -31,13 +35,6 @@ class AggresiveChase : public Chase
 public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime);
 private:
-	std::shared_ptr<AIPatterns> AIDispatcher;
-	std::list<std::shared_ptr<InputCommand>> dispatcher;
-	std::list<std::shared_ptr<InputCommand>>::iterator dispatchIter;
-	std::shared_ptr<InputCommand> m_currentCommand = nullptr;
-	std::shared_ptr<InputCommand> m_command = nullptr;
-	bool chaseStarted = false;
-	bool indexChanged = false;
 };
 
 class RandomChase : public Chase
@@ -57,8 +54,8 @@ class AmbushChase : public Chase
 public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime);
 private:
-	std::shared_ptr<InputCommand> m_blinkyMove;
-	bool started = false;
+	glm::vec2 ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<TileMap> map);
+	int prevHeuristic = 999999;
 };
 
 class StopChase : public Chase

@@ -215,5 +215,11 @@
     <Image Include="pacup.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="blinky.png">
+      <Filter>Resource Files\Game Tiles</Filter>
+    </Image>
+    <Image Include="pinky.png">
+      <Filter>Resource Files\Game Tiles</Filter>
+    </Image>
   </ItemGroup>
 </Project>

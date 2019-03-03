@@ -10,9 +10,14 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength) :
 	//AI and pacman
 	pacman = std::make_shared<PacManSprite>(m_tileLength, "pacleft.png", glm::vec2(14, 26), *m_boardMap);
 	blinky = std::make_shared<Sprite>(m_tileLength, "blinky.png", glm::vec2(14, 14), *m_boardMap);
-
+	pinky = std::make_shared<Sprite>(m_tileLength, "pinky.png", glm::vec2(12, 14), *m_boardMap);
+	//blinky patterns
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
 	m_blinkyChase = std::make_shared<AggresiveChase>();
+	//Pinky patterns
+	m_pinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
+	m_pinkyChase = std::make_shared<AmbushChase>();
+
 	m_originalAI = m_blinkyAIPatterns;
 	//clear tiles to null so nothing is seen visually
 	m_boardMap->clearTile(20,9);
@@ -53,6 +58,11 @@ void PacWorld::drawEnemies()
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "pvm"), 1, GL_FALSE, &pvm[0][0]);
 	blinky->drawSprite();
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+	pvm = m_projection * m_view * pinky->getModel();
+	glUniformMatrix4fv(glGetUniformLocation(shader.ID, "pvm"), 1, GL_FALSE, &pvm[0][0]);
+	pinky->drawSprite();
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 void PacWorld::processAI(float deltaTime)
@@ -60,6 +70,9 @@ void PacWorld::processAI(float deltaTime)
 	//enemy commands
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
 	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, m_boardMap,deltaTime);
+
+	m_pinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
+	m_pinkyChase->chase(pacman, pinky, m_pinkyAIPatterns, m_boardMap, deltaTime);
 }
 
 void PacWorld::genTilePVMs()

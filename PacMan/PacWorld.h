@@ -27,6 +27,7 @@ public:
 	void processCommands(const std::shared_ptr<InputCommand>& command, float deltaTime);
 	std::shared_ptr<PacManSprite> pacman;
 	std::shared_ptr<Sprite> blinky;
+	std::shared_ptr<Sprite> pinky;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
 	void eatFood();
@@ -37,11 +38,14 @@ private:
 	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
 	std::shared_ptr<InputCommand> blinkyDispatcher = std::make_shared<StillCommand>();
 
+	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
 	//AI Patterns for enemies
 	std::shared_ptr<AIPatterns> m_blinkyAIPatterns = nullptr;
-	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
 	std::shared_ptr<Chase> m_blinkyChase = nullptr;
-	std::shared_ptr<Scatter> m_blinkyScatter = nullptr;
+
+	//AI Patterns for enemies
+	std::shared_ptr<AIPatterns> m_pinkyAIPatterns = nullptr;
+	std::shared_ptr<Chase> m_pinkyChase = nullptr;
 	
 
 	void genTilePVMs();

@@ -204,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="black.jpg" />
+    <Image Include="blinky.png" />
     <Image Include="border.jpg" />
     <Image Include="dot.jpg" />
     <Image Include="fruit.jpg" />
@@ -215,6 +216,7 @@
     <Image Include="pacright.png" />
     <Image Include="pacup.png" />
     <Image Include="pellet.jpg" />
+    <Image Include="pinky.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
