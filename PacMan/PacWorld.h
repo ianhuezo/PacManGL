@@ -28,6 +28,7 @@ public:
 	std::shared_ptr<PacManSprite> pacman;
 	std::shared_ptr<Sprite> blinky;
 	std::shared_ptr<Sprite> pinky;
+	std::shared_ptr<Sprite> clyde;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
 	void eatFood();
@@ -36,7 +37,7 @@ private:
 
 	WorldDispatcher dispatcher;
 	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
-	std::shared_ptr<InputCommand> blinkyDispatcher = std::make_shared<StillCommand>();
+	
 
 	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
 	//AI Patterns for enemies
@@ -46,6 +47,10 @@ private:
 	//AI Patterns for enemies
 	std::shared_ptr<AIPatterns> m_pinkyAIPatterns = nullptr;
 	std::shared_ptr<Chase> m_pinkyChase = nullptr;
+
+	//AI Patterns for enemies
+	std::shared_ptr<AIPatterns> m_clydeAIPatterns = nullptr;
+	std::shared_ptr<Chase> m_clydeChase = nullptr;
 	
 
 	void genTilePVMs();

@@ -15,8 +15,10 @@
 ### __Uncompleted/Upcoming game mechanics/visual__:
 * More efficient VAO/VBO generation
 * Enemy and AI creation
-	* change InputCommand base class for boolean operations(including checking if opposite direction i.e. pacman cannot go left then right immediately)
 	* ghost Mode implementation
+	* patrol chase implementation
+	* random chase implementation
+	* disallow ai movement with custom boolean
 * Scoring
 * Levels
 * Animations for sprites

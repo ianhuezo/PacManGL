@@ -206,6 +206,7 @@
     <Image Include="black.jpg" />
     <Image Include="blinky.png" />
     <Image Include="border.jpg" />
+    <Image Include="clyde.png" />
     <Image Include="dot.jpg" />
     <Image Include="fruit.jpg" />
     <Image Include="gate.jpg" />

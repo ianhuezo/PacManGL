@@ -36,7 +36,6 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	//this astar searches for a minigoal to pacman, so, they dont immediately go to pacman but rather the minigoal if there is one
 
 	////////////////////////Part where AI acts like a player, making decisions and inputting a command
-	////////////////////////Part where AI acts like a player, making decisions and inputting a command
 	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices());
 	if (pattern->atGoal())
 	{
@@ -65,6 +64,7 @@ void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 
 void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
+
 }
 
 void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
@@ -87,7 +87,7 @@ void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		mm_command = mm_dispatcher.front();
 		mm_dispatcher.pop_front();
 	}
-	mm_command->execute(*enemyAI, 0.9*deltaTime);
+	mm_command->execute(*enemyAI, deltaTime);
 }
 
 glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<TileMap> map)
@@ -100,7 +100,7 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 	if (pacman->spriteDirection == MOVE::UP)
 	{
 		nextY -= 4;
-		while (nextY <= 4 &&( map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == '0'))
+		while (nextY <= 4 || (map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == '0'))
 		{
 			nextY++;
 		}
@@ -108,7 +108,7 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 	else if (pacman->spriteDirection == MOVE::DOWN)
 	{
 		nextY += 4;
-		while (nextY >= 34 || map->getChars()[nextY][nextX] == '|')
+		while (nextY >= 34 || map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == 'p')
 		{
 			nextY--;
 		}
@@ -116,7 +116,7 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 	else if (pacman->spriteDirection == MOVE::LEFT)
 	{
 		nextX -= 4;
-		while (nextX < 0 || map->getChars()[nextY][nextX] == '|')
+		while (nextX < 0 || map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == 'p')
 		{
 			nextX++;
 		}
@@ -124,7 +124,7 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 	else if (pacman->spriteDirection == MOVE::RIGHT)
 	{
 		nextX += 4;
-		while (nextX > 24 || map->getChars()[nextY][nextX] == '|')
+		while (nextX > 24 || map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == 'p')
 		{
 			nextX--;
 		}
