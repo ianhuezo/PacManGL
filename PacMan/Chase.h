@@ -54,7 +54,7 @@ class AmbushChase : public Chase
 public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime);
 private:
-	glm::vec2 ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<TileMap> map);
+	glm::vec2 ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemy, std::shared_ptr<TileMap> map);
 	int prevHeuristic = 999999;
 };
 
