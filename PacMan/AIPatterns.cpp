@@ -14,6 +14,7 @@ AIPatterns::AIPatterns(std::shared_ptr<TileMap>& map)
 			starArr[i][j].y = i;
 			starArr[i][j].t = map->getChars()[i][j];
 			starArr[i][j].parent = nullptr;
+			starArr[i][j].closedNode = false;
 		}
 	}
 }
@@ -60,8 +61,7 @@ AIPatterns::~AIPatterns()
 
 void AIPatterns::initAStar(Node& start, Node& goal)
 {
-	std::list<Node> closedList;
-	std::list<Node> openList;
+	std::vector<Node> openList;
 
 	starArr[start.y][start.x].g = 0;
 	starArr[start.y][start.x].f = calculateHeuristic(start, goal);
@@ -69,23 +69,30 @@ void AIPatterns::initAStar(Node& start, Node& goal)
 	while (!openList.empty())
 	{
 		std::shared_ptr<Node> current = nullptr;
-		for (auto node : openList)
-		{
-			if (current == nullptr || node.f < current->f)
-			{
-				current = std::make_shared<Node>(node);
-			}
-		}
+		//for (auto node : openList)
+		//{
+		//	if (current == nullptr || node.f < current->f)
+		//	{
+		//		current = std::make_shared<Node>(node);
+		//	}
+		//}
+
+		current = std::make_shared<Node>(openList[0]);
 		if (*current == goal)
 		{
 			constructPath(*current);
 			break;
 		}
-		closedList.push_back(*current);
-		openList.remove(*current);
-		for (auto neighbor : findNeighbors(*current))
+		starArr[current->y][current->x].closedNode = true;
+		sortOpenList(openList);
+		openList.erase(std::remove(openList.begin(), openList.end(), *current), openList.end());
+		for (auto& neighbor : findNeighbors(*current))
 		{
-			bool neighborInClosed = (std::find(closedList.begin(), closedList.end(), neighbor) != closedList.end());
+			if (neighbor == *current)
+			{
+				continue;
+			}
+			bool neighborInClosed = starArr[neighbor.y][neighbor.x].closedNode;
 			if (neighborInClosed)
 			{
 				continue;
@@ -94,7 +101,6 @@ void AIPatterns::initAStar(Node& start, Node& goal)
 			bool neighborInOpen = (std::find(openList.begin(), openList.end(), neighbor) != openList.end());
 			if (!neighborInOpen)
 			{
-				//std::cout << "Appending neighbor " << neighbor.x << "," << neighbor.y << " " << neighbor.f << " "<< neighbor.g <<std::endl;
 				openList.push_back(neighbor);
 			}
 			else if (tentativeG >= neighbor.g)
@@ -120,6 +126,47 @@ void AIPatterns::constructPath(Node& current)
 		m_movementList.push_back(createMovementList(*currentMove, *parent));
 	}
 	nextMovement = m_movementList.front();
+}
+
+void AIPatterns::sortOpenList(std::vector<Node>& openlist)
+{
+	Node temp;
+	int n = openlist.size();
+
+	for (int i = n / 2 - 1; i >= 0; i--)
+	{
+		heapify(openlist, n, i);
+	}
+	for (int i = n - 1; i >= 0; i--)
+	{
+		temp = openlist[0];
+		openlist[0] = openlist[i];
+		openlist[i] = temp;
+		heapify(openlist, i, 0);
+	}
+}
+
+void AIPatterns::heapify(std::vector<Node>& nodes, int size, int index)
+{
+	Node temp;
+	int largest = index;
+	int l = 2 * index + 1;
+	int r = 2 * index + 2;
+	if (l < size && nodes[l].f > nodes[largest].f)
+	{
+		largest = l;
+	}
+	if (r < size && nodes[r].f > nodes[largest].f)
+	{
+		largest = r;
+	}
+	if (largest != index)
+	{
+		temp = nodes[0];
+		nodes[0] = nodes[index];
+		nodes[largest] = temp;
+		heapify(nodes, size, largest);
+	}
 }
 
 std::shared_ptr<InputCommand> AIPatterns::createMovementList(Node& first, Node& second)
