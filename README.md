@@ -8,7 +8,6 @@
 * Sprite Loader with movements
 * Tile Interactions
 * User Input
-* AStar Algorithm for AI complete
 * Scatter Mode Complete
 
 
@@ -18,7 +17,8 @@
 	* ghost Mode implementation
 	* patrol chase implementation
 	* random chase implementation
-	* disallow ai movement with custom boolean
+	* change scatter mode to not reverse direction like chase mode
+	* the a star algorithm is laggy for more than one AI, fix to speed up AI
 * Scoring
 * Levels
 * Animations for sprites

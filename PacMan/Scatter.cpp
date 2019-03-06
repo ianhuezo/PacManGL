@@ -16,7 +16,7 @@ void StartingBlinkyScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_
 	case STAGE::INITIAL:
 		if (enemyAI->getTileIndices() != initial)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), initial);
+			pattern->AStar(enemyAI->getTileIndices(), initial, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -26,7 +26,7 @@ void StartingBlinkyScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_
 	case STAGE::UP:
 		if (enemyAI->getTileIndices() != up)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), up);
+			pattern->AStar(enemyAI->getTileIndices(), up, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -36,7 +36,7 @@ void StartingBlinkyScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_
 	case STAGE::TOLOOP:
 		if (enemyAI->getTileIndices() != toLoop)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop);
+			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -46,7 +46,7 @@ void StartingBlinkyScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_
 	case STAGE::LOOP1:
 		if (enemyAI->getTileIndices() != loop1)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1);
+			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -56,7 +56,7 @@ void StartingBlinkyScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_
 	case STAGE::LOOP2:
 		if (enemyAI->getTileIndices() != loop2)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2);
+			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -77,7 +77,7 @@ void TopRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	case STAGE::TOLOOP:
 		if (enemyAI->getTileIndices() != toLoop)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop);
+			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -87,7 +87,7 @@ void TopRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	case STAGE::LOOP1:
 		if (enemyAI->getTileIndices() != loop1)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1);
+			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -97,7 +97,7 @@ void TopRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	case STAGE::LOOP2:
 		if (enemyAI->getTileIndices() != loop2)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2);
+			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -116,7 +116,7 @@ void TopLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	case STAGE::TOLOOP:
 		if (enemyAI->getTileIndices() != toLoop)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop);
+			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -126,7 +126,7 @@ void TopLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	case STAGE::LOOP1:
 		if (enemyAI->getTileIndices() != loop1)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1);
+			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -136,7 +136,7 @@ void TopLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	case STAGE::LOOP2:
 		if (enemyAI->getTileIndices() != loop2)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2);
+			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -155,7 +155,7 @@ void BotLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	case STAGE::TOLOOP:
 		if (enemyAI->getTileIndices() != toLoop)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop);
+			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -165,7 +165,7 @@ void BotLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	case STAGE::LOOP1:
 		if (enemyAI->getTileIndices() != loop1)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1);
+			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -175,7 +175,7 @@ void BotLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	case STAGE::LOOP2:
 		if (enemyAI->getTileIndices() != loop2)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2);
+			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -194,7 +194,7 @@ void BotRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	case STAGE::TOLOOP:
 		if (enemyAI->getTileIndices() != toLoop)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop);
+			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -204,7 +204,7 @@ void BotRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	case STAGE::LOOP1:
 		if (enemyAI->getTileIndices() != loop1)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1);
+			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {
@@ -214,7 +214,7 @@ void BotRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	case STAGE::LOOP2:
 		if (enemyAI->getTileIndices() != loop2)
 		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2);
+			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
 			pattern->nextMovement->execute(*enemyAI, deltaTime);
 		}
 		else {

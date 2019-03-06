@@ -10,44 +10,25 @@ Chase::~Chase()
 {
 }
 
-bool Chase::isReversed(int spriteState1, int spriteState2)
-{
-	if (spriteState1 == MOVE::UP && spriteState2 == MOVE::DOWN)
-	{
-		return true;
-	}
-	else if (spriteState1 == MOVE::DOWN && spriteState2 == MOVE::UP)
-	{
-		return true;
-	}
-	else if (spriteState1 == MOVE::LEFT && spriteState2 == MOVE::RIGHT)
-	{
-		return true;
-	}
-	else if (spriteState1 == MOVE::RIGHT && spriteState2 == MOVE::LEFT)
-	{
-		return true;
-	}
-	return false;
-}
 
 void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
 	//this astar searches for a minigoal to pacman, so, they dont immediately go to pacman but rather the minigoal if there is one
 
 	////////////////////////Part where AI acts like a player, making decisions and inputting a command
-	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices());
+	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices(),mm_previousPosition);
 	if (pattern->atGoal())
 	{
 		return;
 	}
 	if (enemyAI->tileChanged)
 	{
+		mm_previousPosition = enemyAI->getTileIndices();
 		if (mm_dispatcher.empty())
 		{
 			mm_dispatcher = pattern->getMovementList();
 		}
-		else if (enemyAI->checkCurrent() == '+' && isReversed(enemyAI->spriteDirection, mm_dispatcher.front()->spriteState))
+		else if (enemyAI->checkCurrent() == '+')
 		{
 			mm_dispatcher = pattern->getMovementList();
 		}
@@ -69,18 +50,19 @@ void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 
 void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	pattern->AStar(ambushPosition(pacman,map), enemyAI->getTileIndices());
+	pattern->AStar(ambushPosition(pacman,map), enemyAI->getTileIndices(), mm_previousPosition);
 	if (pattern->atGoal())
 	{
 		return;
 	}
 	if (enemyAI->tileChanged)
 	{
+		mm_previousPosition = enemyAI->getTileIndices();
 		if (mm_dispatcher.empty())
 		{
 			mm_dispatcher = pattern->getMovementList();
 		}
-		else if (enemyAI->checkCurrent() == '+' && isReversed(enemyAI->spriteDirection, mm_dispatcher.front()->spriteState))
+		else if (enemyAI->checkCurrent() == '+')
 		{
 			mm_dispatcher = pattern->getMovementList();
 		}

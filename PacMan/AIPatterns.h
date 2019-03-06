@@ -27,20 +27,20 @@ class AIPatterns
 {
 public:
 	AIPatterns(std::shared_ptr<TileMap>& map);
-	void AStar(glm::vec2 start, glm::vec2 goal);
+	void AStar(glm::vec2 start, glm::vec2 goal, glm::vec2 previous);
 	std::list<std::shared_ptr<InputCommand>> getMovementList();
 	bool atGoal();
 	std::shared_ptr<InputCommand> nextMovement;
 	~AIPatterns();
 private:
 	Node starArr[36][28];
-	void initAStar(Node start, Node goal);
-	void constructPath(Node current);
+	void initAStar(Node& start, Node& goal);
+	void constructPath(Node& current);
 	std::shared_ptr<InputCommand> createMovementList(Node& first, Node& second);
 
 	bool m_atGoal = false;
 	std::list<std::shared_ptr<InputCommand>> m_movementList;
-	int calculateHeuristic(Node start, Node goal);
-	std::list<Node> findNeighbors(Node current);
+	int calculateHeuristic(Node& start, Node& goal);
+	std::list<Node> findNeighbors(Node& current);
 };
 
