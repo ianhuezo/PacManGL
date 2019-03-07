@@ -43,7 +43,8 @@ private:
 
 	bool m_atGoal = false;
 	std::list<std::shared_ptr<InputCommand>> m_movementList;
+
 	int calculateHeuristic(Node& start, Node& goal);
-	std::list<Node> findNeighbors(Node& current);
+	std::vector<Node> findNeighbors(Node& current);
 };
 

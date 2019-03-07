@@ -81,15 +81,6 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 	int nextX = posx;
 	int nextY = posy;
 
-	if (posx + 4 == enex && posy == eney ||
-		posx - 4 == enex && posy == eney ||
-		posx == enex && posy + 4 == eney ||
-		posx == enex && posy - 4 == eney ||
-		pacman->checkCurrent() == '+')
-	{
-		return glm::vec2(nextX, nextY);
-	}
-
 	if (pacman->spriteDirection == MOVE::UP)
 	{
 		nextY -= 4;

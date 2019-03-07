@@ -36,8 +36,6 @@ void AIPatterns::AStar(glm::vec2 start, glm::vec2 goal, glm::vec2 previous)
 
 	int xGoal = static_cast<int>(goal.x);
 	int yGoal = static_cast<int>(goal.y);
-	Node startNode = starArr[yStart][xStart];
-	Node goalNode = starArr[yGoal][xGoal];
 	initAStar(starArr[yStart][xStart], starArr[yGoal][xGoal]);
 }
 
@@ -69,14 +67,6 @@ void AIPatterns::initAStar(Node& start, Node& goal)
 	while (!openList.empty())
 	{
 		std::shared_ptr<Node> current = nullptr;
-		//for (auto node : openList)
-		//{
-		//	if (current == nullptr || node.f < current->f)
-		//	{
-		//		current = std::make_shared<Node>(node);
-		//	}
-		//}
-
 		current = std::make_shared<Node>(openList[0]);
 		if (*current == goal)
 		{
@@ -201,9 +191,9 @@ int AIPatterns::calculateHeuristic(Node& start, Node& goal)
 	return abs(start.x - goal.x) + abs(start.y - goal.y);
 }
 
-std::list<Node> AIPatterns::findNeighbors(Node& current)
+std::vector<Node> AIPatterns::findNeighbors(Node& current)
 {
-	std::list<Node> directions;
+	std::vector<Node> directions(4,current);
 	//the 4 squares which ghosts cannot move through
 	//right
 	if (starArr[current.y][current.x + 1].t != '|')
