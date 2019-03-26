@@ -81,8 +81,8 @@ void PacWorld::processAI(float deltaTime)
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
 	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, m_originalMap,deltaTime);
 
-	m_pinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	m_pinkyChase->chase(pacman, pinky, m_pinkyAIPatterns, m_originalMap, deltaTime);
+	//m_pinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
+	//m_pinkyChase->chase(pacman, pinky, m_pinkyAIPatterns, m_originalMap, deltaTime);
 
 	//m_clydeAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
 	//m_clydeChase->chase(pacman, clyde, m_clydeAIPatterns, m_originalMap, deltaTime);
@@ -114,8 +114,6 @@ void PacWorld::processCommands(const std::shared_ptr<InputCommand>& command, flo
 		eatFood();
 	}
 }
-
-
 
 void PacWorld::eatFood()
 {

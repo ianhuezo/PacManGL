@@ -16,7 +16,7 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	//this astar searches for a minigoal to pacman, so, they dont immediately go to pacman but rather the minigoal if there is one
 
 	////////////////////////Part where AI acts like a player, making decisions and inputting a command
-	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices(),mm_previousPosition);
+	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices(), mm_previousPosition);
 	if (pattern->atGoal())
 	{
 		return;
@@ -50,7 +50,7 @@ void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 
 void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	pattern->AStar(ambushPosition(pacman,enemyAI, map), enemyAI->getTileIndices(), mm_previousPosition);
+	pattern->AStar(ambushPosition(pacman, enemyAI, map), enemyAI->getTileIndices(), mm_previousPosition);
 	if (pattern->atGoal())
 	{
 		return;
@@ -114,7 +114,7 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 		}
 	}
 
-	
+
 	return glm::vec2(nextX, nextY);
 }
 

@@ -193,7 +193,7 @@ int AIPatterns::calculateHeuristic(Node& start, Node& goal)
 
 std::vector<Node> AIPatterns::findNeighbors(Node& current)
 {
-	std::vector<Node> directions(4,current);
+	std::vector<Node> directions(4, current);
 	//the 4 squares which ghosts cannot move through
 	//right
 	if (starArr[current.y][current.x + 1].t != '|')

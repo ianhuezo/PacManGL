@@ -1,0 +1,29 @@
+﻿  stdafx.cpp
+  AIPatterns.cpp
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(223): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Chase.cpp
+c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(125): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  InputCommand.cpp
+c:\users\ianhu\source\repos\pacman\pacman\inputcommand.cpp(26): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Main.cpp
+c:\users\ianhu\source\repos\pacman\pacman\main.cpp(187): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  PacManSprite.cpp
+c:\users\ianhu\source\repos\pacman\pacman\pacmansprite.cpp(31): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  PacWorld.cpp
+c:\users\ianhu\source\repos\pacman\pacman\pacworld.cpp(130): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Scatter.cpp
+c:\users\ianhu\source\repos\pacman\pacman\scatter.cpp(228): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Shader.cpp
+c:\users\ianhu\source\repos\pacman\pacman\shader.cpp(74): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Sprite.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(99): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  stb_image.cpp
+c:\users\ianhu\source\repos\pacman\pacman\stb_image.cpp(3): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
+  Texture2D.cpp
+c:\users\ianhu\source\repos\pacman\pacman\texture2d.h(3): fatal error C1083: Cannot open include file: 'glad/glad.h': No such file or directory
+  TileMap.cpp
+c:\users\ianhu\source\repos\pacman\pacman\tiles.h(2): fatal error C1083: Cannot open include file: 'glm/glm.hpp': No such file or directory
+  Tiles.cpp
+c:\users\ianhu\source\repos\pacman\pacman\tiles.h(2): fatal error C1083: Cannot open include file: 'glm/glm.hpp': No such file or directory
+  WorldDispatcher.cpp
+c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.cpp(62): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "stdafx.h"' to your source?
