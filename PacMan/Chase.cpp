@@ -55,7 +55,7 @@ void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 	{
 		return;
 	}
-	if (enemyAI->tileChanged)
+	if (enemyAI->tileChanged | enemyAI->spriteDirection == MOVE::STILL)
 	{
 		mm_previousPosition = enemyAI->getTileIndices();
 		if (mm_dispatcher.empty())
@@ -74,12 +74,8 @@ void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 
 glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemy, std::shared_ptr<TileMap> map)
 {
-	int posx = static_cast<int>(pacman->getTileIndices().x);
-	int posy = static_cast<int>(pacman->getTileIndices().y);
-	int enex = static_cast<int>(enemy->getTileIndices().x);
-	int eney = static_cast<int>(enemy->getTileIndices().y);
-	int nextX = posx;
-	int nextY = posy;
+	int nextX = pacman->getTileIndices().x;
+	int nextY = pacman->getTileIndices().y;
 
 	if (pacman->spriteDirection == MOVE::UP)
 	{
@@ -114,8 +110,14 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 		}
 	}
 
-
-	return glm::vec2(nextX, nextY);
+	if (!(enemy->getTileIndices().x == nextX && enemy->getTileIndices().y == nextY))
+	{
+		return glm::vec2(nextX, nextY);
+	}
+	else
+	{
+		return pacman->getTileIndices();
+	}
 }
 
 void StopChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
