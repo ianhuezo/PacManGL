@@ -54,6 +54,10 @@ class AmbushChase : public Chase
 public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime);
 private:
+	//2 variables used to sense if pinky reached the 4 squares after pacman and if so, then follow pacman until the counter and revert
+	//back to previous state for pinky
+	int m_ambushCounter = 0;
+	bool m_ambushFlag = 0;
 	glm::vec2 ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemy, std::shared_ptr<TileMap> map);
 	int prevHeuristic = 999999;
 };

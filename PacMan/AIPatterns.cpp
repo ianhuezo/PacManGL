@@ -23,6 +23,7 @@ void AIPatterns::AStar(glm::vec2 start, glm::vec2 goal, glm::vec2 previous)
 {
 	if (start == goal)
 	{
+		std::cout << "reached" << std::endl;
 		m_atGoal = true;
 		return;
 	}
@@ -107,15 +108,13 @@ void AIPatterns::initAStar(Node& start, Node& goal)
 void AIPatterns::constructPath(Node& current)
 {
 	std::shared_ptr<Node> parent = starArr[current.y][current.x].parent;
-	m_movementList.push_back(std::move(createMovementList(starArr[current.y][current.x], *parent)));
-	std::shared_ptr<Node> currentMove = nullptr;
+	std::shared_ptr<Node> currentMove = std::make_shared<Node>(starArr[current.y][current.x]);
 	while (starArr[parent->y][parent->x].parent != nullptr)
 	{
 		currentMove = std::make_shared<Node>(starArr[parent->y][parent->x]);
 		parent = starArr[parent->y][parent->x].parent;
-		m_movementList.push_back(createMovementList(*currentMove, *parent));
 	}
-	nextMovement = m_movementList.front();
+	nextMovement = createMovementList(*currentMove,*parent);
 }
 
 void AIPatterns::sortOpenList(std::vector<Node>& openlist)
@@ -167,19 +166,19 @@ std::shared_ptr<InputCommand> AIPatterns::createMovementList(Node& first, Node& 
 
 	if (horizontal < 0)
 	{
-		return std::make_shared<RightCommand>();
+		return std::make_shared<LeftCommand>();
 	}
 	else if (horizontal > 0)
 	{
-		return std::make_shared<LeftCommand>();
+		return std::make_shared<RightCommand>();
 	}
 	else if (vertical > 0)
 	{
-		return std::make_shared<UpCommand>();
+		return std::make_shared<DownCommand>();
 	}
 	else if (vertical < 0)
 	{
-		return std::make_shared<DownCommand>();
+		return std::make_shared<UpCommand>();
 	}
 	else {
 		return std::make_shared<StillCommand>();;
@@ -206,14 +205,14 @@ std::vector<Node> AIPatterns::findNeighbors(Node& current)
 		directions.push_back(starArr[current.y][current.x - 1]);
 	}
 	//down
-	if (starArr[current.y + 1][current.x].t != '|' &&
-		starArr[current.y + 1][current.x].t != 'a' &&
-		starArr[current.y + 1][current.x].t != '=')
+	if (starArr[current.y + 1][current.x].t != '|')
 	{
 		directions.push_back(starArr[current.y + 1][current.x]);
 	}
 	//up
-	if (starArr[current.y - 1][current.x].t != '|')
+	if (starArr[current.y - 1][current.x].t != '|' &&
+		starArr[current.y + 1][current.x].t != 'a' &&
+		starArr[current.y + 1][current.x].t != '=')
 	{
 		directions.push_back(starArr[current.y - 1][current.x]);
 	}

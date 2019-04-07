@@ -8,6 +8,7 @@
 * Sprite Loader with movements
 * Tile Interactions
 * User Input
+* Fixed slow framerates for sprites by redoing AIPatterns class
 
 
 ### __Uncompleted/Upcoming game mechanics/visual__:

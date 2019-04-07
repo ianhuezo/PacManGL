@@ -16,7 +16,8 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	//this astar searches for a minigoal to pacman, so, they dont immediately go to pacman but rather the minigoal if there is one
 
 	////////////////////////Part where AI acts like a player, making decisions and inputting a command
-	pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices(), mm_previousPosition);
+	//pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices(), mm_previousPosition);
+	pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), mm_previousPosition);
 	if (pattern->atGoal())
 	{
 		return;
@@ -24,16 +25,7 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	if (enemyAI->tileChanged)
 	{
 		mm_previousPosition = enemyAI->getTileIndices();
-		if (mm_dispatcher.empty())
-		{
-			mm_dispatcher = pattern->getMovementList();
-		}
-		else if (enemyAI->checkCurrent() == '+')
-		{
-			mm_dispatcher = pattern->getMovementList();
-		}
-		mm_command = mm_dispatcher.front();
-		mm_dispatcher.pop_front();
+		mm_command = pattern->nextMovement;
 	}
 	mm_command->execute(*enemyAI, deltaTime);
 }
@@ -50,24 +42,15 @@ void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 
 void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	pattern->AStar(ambushPosition(pacman, enemyAI, map), enemyAI->getTileIndices(), mm_previousPosition);
+	pattern->AStar(enemyAI->getTileIndices(), ambushPosition(pacman, enemyAI, map) ,mm_previousPosition);
 	if (pattern->atGoal())
 	{
 		return;
 	}
-	if (enemyAI->tileChanged | enemyAI->spriteDirection == MOVE::STILL)
+	if (enemyAI->tileChanged)
 	{
 		mm_previousPosition = enemyAI->getTileIndices();
-		if (mm_dispatcher.empty())
-		{
-			mm_dispatcher = pattern->getMovementList();
-		}
-		else if (enemyAI->checkCurrent() == '+')
-		{
-			mm_dispatcher = pattern->getMovementList();
-		}
-		mm_command = mm_dispatcher.front();
-		mm_dispatcher.pop_front();
+		mm_command = pattern->nextMovement;
 	}
 	mm_command->execute(*enemyAI, deltaTime);
 }
@@ -110,12 +93,20 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 		}
 	}
 
-	if (!(enemy->getTileIndices().x == nextX && enemy->getTileIndices().y == nextY))
+	if (!(enemy->getTileIndices().x == nextX && enemy->getTileIndices().y == nextY) && m_ambushFlag == 0)
 	{
 		return glm::vec2(nextX, nextY);
 	}
 	else
 	{
+		//set ambush flag to one and put a counter in to wait until ambush is set back
+		m_ambushFlag = 1;
+		m_ambushCounter++;
+		if (m_ambushCounter > 4)
+		{
+			m_ambushFlag = 0;
+			m_ambushCounter = 0;
+		}
 		return pacman->getTileIndices();
 	}
 }
