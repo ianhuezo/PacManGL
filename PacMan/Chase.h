@@ -15,6 +15,7 @@
 #include <list>
 #include <utility>
 #include "SpriteDirection.h"
+#include "Scatter.h"
 
 //chase classes inspired by https://dev.to/code2bits/pac-man-patterns--ghost-movement-strategy-pattern-1k1a/ this blogpost
 
@@ -25,8 +26,6 @@ public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime) = 0;
 	virtual ~Chase();
 protected:
-	glm::vec2 mm_previousPosition = glm::vec2(0, 0);
-	std::list<std::shared_ptr<InputCommand>> mm_dispatcher;
 	std::shared_ptr<InputCommand> mm_command;
 };
 
@@ -47,6 +46,26 @@ class PatrolChase : public Chase
 {
 public:
 	virtual void chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime);
+private:
+	std::shared_ptr<Scatter> m_clydeScatter = std::make_shared<BotLeftScatter>();
+	void changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, glm::vec2 destination, float deltaTime, int& stage, int nextStage);
+
+	enum MODE {
+		AGGRESSIVE,
+		PATROL
+	};
+	int currentMode = MODE::AGGRESSIVE;
+
+	enum STAGE {
+		TOLOOP,
+		LOOP1,
+		LOOP2
+	};
+	int stageNum = STAGE::TOLOOP;
+	glm::vec2 toLoop = glm::vec2(6, 26);
+	glm::vec2 loop1 = glm::vec2(6, 32);
+	glm::vec2 loop2 = glm::vec2(7, 32);
+
 };
 
 class AmbushChase : public Chase
@@ -57,9 +76,9 @@ private:
 	//2 variables used to sense if pinky reached the 4 squares after pacman and if so, then follow pacman until the counter and revert
 	//back to previous state for pinky
 	int m_ambushCounter = 0;
+	glm::vec2 ambushTile = glm::vec2(14, 26);
 	bool m_ambushFlag = 0;
 	glm::vec2 ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemy, std::shared_ptr<TileMap> map);
-	int prevHeuristic = 999999;
 };
 
 class StopChase : public Chase

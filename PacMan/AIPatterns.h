@@ -32,6 +32,7 @@ public:
 	std::list<std::shared_ptr<InputCommand>> getMovementList();
 	bool atGoal();
 	std::shared_ptr<InputCommand> nextMovement;
+	int getDistanceFromPacman();
 	~AIPatterns();
 private:
 	Node starArr[36][28];
@@ -40,6 +41,8 @@ private:
 	void sortOpenList(std::vector<Node>& openlist);
 	void heapify(std::vector<Node>& nodes, int size, int index);
 	std::shared_ptr<InputCommand> createMovementList(Node& first, Node& second);
+	
+	int m_distanceFromPacman = 0;
 
 	bool m_atGoal = false;
 	std::list<std::shared_ptr<InputCommand>> m_movementList;

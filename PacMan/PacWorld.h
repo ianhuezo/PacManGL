@@ -32,26 +32,31 @@ public:
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
 	void eatFood();
-	//void initAI();
-
 
 	WorldDispatcher dispatcher;
 	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
 	
+	//initializations for each AI patterns in processAI()
+	void resetAIPatterns();
+	void useScatter(float deltaTime);
+	void useChase(float deltaTime);
 
+	//Pattern that all sprites default to for AI
 	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
-	//AI Patterns for enemies
+
+	//AI Patterns for blinky
 	std::shared_ptr<AIPatterns> m_blinkyAIPatterns = nullptr;
 	std::shared_ptr<Chase> m_blinkyChase = nullptr;
+	std::shared_ptr<Scatter> m_blinkyScatter = nullptr;
 
-	//AI Patterns for enemies
+	//AI Patterns for pinky
 	std::shared_ptr<AIPatterns> m_pinkyAIPatterns = nullptr;
 	std::shared_ptr<Chase> m_pinkyChase = nullptr;
 
-	//AI Patterns for enemies
+	//AI Patterns for clyde
 	std::shared_ptr<AIPatterns> m_clydeAIPatterns = nullptr;
 	std::shared_ptr<Chase> m_clydeChase = nullptr;
-	
+	std::shared_ptr<Scatter> m_clydeScatter = nullptr;
 
 	void genTilePVMs();
 	//the current tile map
@@ -63,8 +68,7 @@ private:
 	int m_screenHeight;
 
 	float m_tileLength;
-	bool m_moveExecuted = false;
-	int currentState = 1;
+
 	glm::vec2 m_mapPixel[ROW_SIZE][COL_SIZE];
 	glm::mat4 m_projection;
 	glm::mat4 m_view;

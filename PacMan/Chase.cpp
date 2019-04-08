@@ -1,5 +1,7 @@
 #include "Chase.h"
 
+
+////////////////////////Part where AI acts like a player, making decisions and inputting a command
 Chase::Chase()
 {
 
@@ -13,18 +15,16 @@ Chase::~Chase()
 
 void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	//this astar searches for a minigoal to pacman, so, they dont immediately go to pacman but rather the minigoal if there is one
-
-	////////////////////////Part where AI acts like a player, making decisions and inputting a command
-	//pattern->AStar(pacman->getTileIndices(), enemyAI->getTileIndices(), mm_previousPosition);
-	pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), mm_previousPosition);
+	//A* algorithm that will "chase" pacman
+	pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
 	if (pattern->atGoal())
 	{
 		return;
 	}
+	//prevents enemies from going out of bounds onto the blue tiles
 	if (enemyAI->tileChanged)
 	{
-		mm_previousPosition = enemyAI->getTileIndices();
+		enemyAI->setPreviousPosition(enemyAI->getTileIndices());
 		mm_command = pattern->nextMovement;
 	}
 	mm_command->execute(*enemyAI, deltaTime);
@@ -37,19 +37,84 @@ void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 
 void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
+	//A* algorithm that will "chase" pacman
+	switch (currentMode)
+	{
+	case MODE::AGGRESSIVE:
+		pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
+		if (pattern->atGoal())
+		{
+			return;
+		}
+		//prevents enemies from going out of bounds onto the blue tiles
+		if (enemyAI->tileChanged)
+		{
+			enemyAI->setPreviousPosition(enemyAI->getTileIndices());
+			enemyAI->setDistanceToPacman(pattern->getDistanceFromPacman());
+			if (enemyAI->getDistanceToPacman() < 8)
+			{
+				currentMode = MODE::PATROL;
+			}
+			mm_command = pattern->nextMovement;
+		}
+		mm_command->execute(*enemyAI, deltaTime);
+		break;
+	case MODE::PATROL:
 
+		switch (stageNum)
+		{
+		case STAGE::TOLOOP:
+			changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
+			break;
+		case STAGE::LOOP1:
+			changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
+			break;
+		case STAGE::LOOP2:
+			changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
+			break;
+		default:
+			break;
+		}
+		break;
+	}
+}
+
+void PatrolChase::changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, glm::vec2 destination, float deltaTime, int & stage, int nextStage)
+{
+	if (enemyAI->getTileIndices() != destination)
+	{
+		pattern->AStar(enemyAI->getTileIndices(), destination, enemyAI->getPreviousPosition());
+		if (enemyAI->tileChanged)
+		{
+			enemyAI->setPreviousPosition(enemyAI->getTileIndices());
+			enemyAI->setDistanceToPacman(pattern->getDistanceFromPacman());
+			if (enemyAI->getDistanceToPacman() < 8)
+			{
+				currentMode = MODE::AGGRESSIVE;
+			}
+			mm_command = pattern->nextMovement;
+		}
+		mm_command->execute(*enemyAI, deltaTime);
+	}
+	else {
+		stage = nextStage;
+	}
 }
 
 void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	pattern->AStar(enemyAI->getTileIndices(), ambushPosition(pacman, enemyAI, map) ,mm_previousPosition);
+	//An always running A* algo that the sprite uses to move
+	//prevention of moving backwards by feeding in the previous position for the sprite
+	pattern->AStar(enemyAI->getTileIndices(), ambushPosition(pacman, enemyAI, map) , enemyAI->getPreviousPosition());
 	if (pattern->atGoal())
 	{
 		return;
 	}
+	//prevents enemies from going out of bounds onto the blue tiles
+	//and keeps track of the previous positions of the enemy
 	if (enemyAI->tileChanged)
 	{
-		mm_previousPosition = enemyAI->getTileIndices();
+		enemyAI->setPreviousPosition(enemyAI->getTileIndices());
 		mm_command = pattern->nextMovement;
 	}
 	mm_command->execute(*enemyAI, deltaTime);
@@ -60,6 +125,8 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 	int nextX = pacman->getTileIndices().x;
 	int nextY = pacman->getTileIndices().y;
 
+	//if statements go to 4 spaces from pacmans movement i.e. if up go 4 up from pacman
+	//uses while loop to check for barriers and the pen to not interfere with A* algo
 	if (pacman->spriteDirection == MOVE::UP)
 	{
 		nextY -= 4;

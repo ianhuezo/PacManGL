@@ -23,7 +23,6 @@ void AIPatterns::AStar(glm::vec2 start, glm::vec2 goal, glm::vec2 previous)
 {
 	if (start == goal)
 	{
-		std::cout << "reached" << std::endl;
 		m_atGoal = true;
 		return;
 	}
@@ -53,6 +52,11 @@ bool AIPatterns::atGoal()
 
 
 
+
+int AIPatterns::getDistanceFromPacman()
+{
+	return m_distanceFromPacman;
+}
 
 AIPatterns::~AIPatterns()
 {
@@ -111,6 +115,7 @@ void AIPatterns::constructPath(Node& current)
 	std::shared_ptr<Node> currentMove = std::make_shared<Node>(starArr[current.y][current.x]);
 	while (starArr[parent->y][parent->x].parent != nullptr)
 	{
+		m_distanceFromPacman++;
 		currentMove = std::make_shared<Node>(starArr[parent->y][parent->x]);
 		parent = starArr[parent->y][parent->x].parent;
 	}

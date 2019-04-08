@@ -1,4 +1,4 @@
-﻿  Chase.cpp
-c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(60): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(61): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+﻿  PacWorld.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(76): warning C4056: overflow in floating-point constant arithmetic
   PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe

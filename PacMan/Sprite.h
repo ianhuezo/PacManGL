@@ -38,6 +38,12 @@ public:
 	char checkUp();
 	char checkDown();
 	char checkCurrent();
+	//members that keep track of the sprites previous position
+	void setPreviousPosition(glm::vec2 position) { mm_previousPosition = position; };
+	glm::vec2 getPreviousPosition() { return mm_previousPosition; };
+	//members that keep track of the distance to pacman
+	void setDistanceToPacman(int distance) { mm_distanceToPacman = distance; };
+	int getDistanceToPacman() { return mm_distanceToPacman; };
 
 	//the current state of the sprite
 	//tells sprite if tile has changed for movement
@@ -64,5 +70,9 @@ protected:
 	glm::vec2 mm_pixelPosition;
 	//current position on the tile(variable)
 	glm::vec2 mm_fixedPosition;
+	//previous position on the tile(variable)
+	glm::vec2 mm_previousPosition = glm::vec2(0, 0);
+	//distance to pacman
+	int mm_distanceToPacman = FLT_MAX;
 };
 

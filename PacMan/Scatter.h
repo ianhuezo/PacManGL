@@ -11,7 +11,8 @@ public:
 	virtual void scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime) = 0;
 	virtual ~Scatter();
 protected:
-	glm::vec2 previousPosition = glm::vec2(0, 0);
+	void changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, glm::vec2 nextPosition, float deltaTime, int& stage, int nextStage);
+	std::shared_ptr<InputCommand> mm_command = nullptr;
 };
 
 class TopRightScatter : public Scatter

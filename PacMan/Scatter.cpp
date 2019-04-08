@@ -9,59 +9,45 @@ Scatter::~Scatter()
 {
 }
 
+
+//changeStage checks the stage each time and will either continue on it's path
+//or go to the next stage
+void Scatter::changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, glm::vec2 destination, float deltaTime,int& stage, int nextStage)
+{
+	if (enemyAI->getTileIndices() != destination)
+	{
+		pattern->AStar(enemyAI->getTileIndices(), destination, enemyAI->getPreviousPosition());
+		if (enemyAI->tileChanged)
+		{
+			enemyAI->setPreviousPosition(enemyAI->getTileIndices());
+			enemyAI->setDistanceToPacman(pattern->getDistanceFromPacman());
+			mm_command = pattern->nextMovement;
+		}
+		mm_command->execute(*enemyAI, deltaTime);
+	}
+	else {
+		stage = nextStage;
+	}
+}
+
 void StartingBlinkyScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
 	switch (stageNum)
 	{
 	case STAGE::INITIAL:
-		if (enemyAI->getTileIndices() != initial)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), initial, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::UP;
-		}
+		changeStage(enemyAI, pattern, initial, deltaTime, stageNum, STAGE::UP);
 		break;
 	case STAGE::UP:
-		if (enemyAI->getTileIndices() != up)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), up, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::TOLOOP;
-		}
+		changeStage(enemyAI, pattern, up, deltaTime, stageNum, STAGE::TOLOOP);
 		break;
 	case STAGE::TOLOOP:
-		if (enemyAI->getTileIndices() != toLoop)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP1;
-		}
+		changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
 		break;
 	case STAGE::LOOP1:
-		if (enemyAI->getTileIndices() != loop1)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP2;
-		}
+		changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
 		break;
 	case STAGE::LOOP2:
-		if (enemyAI->getTileIndices() != loop2)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::TOLOOP;
-		}
+		changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
 		break;
 	default:
 		break;
@@ -75,34 +61,13 @@ void TopRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	switch (stageNum)
 	{
 	case STAGE::TOLOOP:
-		if (enemyAI->getTileIndices() != toLoop)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP1;
-		}
+		changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
 		break;
 	case STAGE::LOOP1:
-		if (enemyAI->getTileIndices() != loop1)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP2;
-		}
+		changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
 		break;
 	case STAGE::LOOP2:
-		if (enemyAI->getTileIndices() != loop2)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::TOLOOP;
-		}
+		changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
 		break;
 	default:
 		break;
@@ -114,34 +79,13 @@ void TopLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	switch (stageNum)
 	{
 	case STAGE::TOLOOP:
-		if (enemyAI->getTileIndices() != toLoop)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP1;
-		}
+		changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
 		break;
 	case STAGE::LOOP1:
-		if (enemyAI->getTileIndices() != loop1)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP2;
-		}
+		changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
 		break;
 	case STAGE::LOOP2:
-		if (enemyAI->getTileIndices() != loop2)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::TOLOOP;
-		}
+		changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
 		break;
 	default:
 		break;
@@ -153,34 +97,13 @@ void BotLeftScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Spr
 	switch (stageNum)
 	{
 	case STAGE::TOLOOP:
-		if (enemyAI->getTileIndices() != toLoop)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP1;
-		}
+		changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
 		break;
 	case STAGE::LOOP1:
-		if (enemyAI->getTileIndices() != loop1)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP2;
-		}
+		changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
 		break;
 	case STAGE::LOOP2:
-		if (enemyAI->getTileIndices() != loop2)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::TOLOOP;
-		}
+		changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
 		break;
 	default:
 		break;
@@ -192,34 +115,13 @@ void BotRightScatter::scatter(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sp
 	switch (stageNum)
 	{
 	case STAGE::TOLOOP:
-		if (enemyAI->getTileIndices() != toLoop)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), toLoop, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP1;
-		}
+		changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
 		break;
 	case STAGE::LOOP1:
-		if (enemyAI->getTileIndices() != loop1)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop1, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::LOOP2;
-		}
+		changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
 		break;
 	case STAGE::LOOP2:
-		if (enemyAI->getTileIndices() != loop2)
-		{
-			pattern->AStar(enemyAI->getTileIndices(), loop2, previousPosition);
-			pattern->nextMovement->execute(*enemyAI, deltaTime);
-		}
-		else {
-			stageNum = STAGE::TOLOOP;
-		}
+		changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
 		break;
 	default:
 		break;

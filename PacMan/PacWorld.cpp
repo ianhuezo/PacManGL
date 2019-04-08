@@ -15,12 +15,14 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength) :
 	//blinky patterns
 	m_blinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
 	m_blinkyChase = std::make_shared<AggresiveChase>();
+	m_blinkyScatter = std::make_shared<TopLeftScatter>();
 	//Pinky patterns
 	m_pinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
 	m_pinkyChase = std::make_shared<AmbushChase>();
 	//clyde patterns
 	m_clydeAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
 	m_clydeChase = std::make_shared<PatrolChase>();
+	m_clydeScatter = std::make_shared<BotLeftScatter>();
 
 
 	m_originalAI = m_blinkyAIPatterns;
@@ -77,15 +79,8 @@ void PacWorld::drawEnemies()
 
 void PacWorld::processAI(float deltaTime)
 {
-	//enemy commands
-	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, m_originalMap,deltaTime);
-
-	m_pinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	m_pinkyChase->chase(pacman, pinky, m_pinkyAIPatterns, m_originalMap, deltaTime);
-
-	//m_clydeAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	//m_clydeChase->chase(pacman, clyde, m_clydeAIPatterns, m_originalMap, deltaTime);
+	resetAIPatterns();
+	useChase(deltaTime);
 }
 
 void PacWorld::genTilePVMs()
@@ -125,5 +120,32 @@ void PacWorld::eatFood()
 	{
 		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
 	}
+}
+
+void PacWorld::resetAIPatterns()
+{
+	//enemy patterns being reset for each  sprite
+
+	//blinky
+	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
+	//pinky
+	m_pinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
+	//clyde
+	m_clydeAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
+}
+
+void PacWorld::useScatter(float deltaTime)
+{
+	m_blinkyScatter->scatter(pacman, blinky, m_blinkyAIPatterns, deltaTime);
+}
+
+void PacWorld::useChase(float deltaTime)
+{
+
+	m_blinkyChase->chase(pacman, blinky, m_blinkyAIPatterns, m_originalMap, deltaTime);
+
+	m_pinkyChase->chase(pacman, pinky, m_pinkyAIPatterns, m_originalMap, deltaTime);
+
+	m_clydeChase->chase(pacman, clyde, m_clydeAIPatterns, m_originalMap, deltaTime);
 }
 
