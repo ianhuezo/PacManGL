@@ -29,6 +29,7 @@ public:
 	std::shared_ptr<Sprite> blinky;
 	std::shared_ptr<Sprite> pinky;
 	std::shared_ptr<Sprite> clyde;
+	std::shared_ptr<Sprite> inky;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
 	void eatFood();
@@ -57,6 +58,11 @@ private:
 	std::shared_ptr<AIPatterns> m_clydeAIPatterns = nullptr;
 	std::shared_ptr<Chase> m_clydeChase = nullptr;
 	std::shared_ptr<Scatter> m_clydeScatter = nullptr;
+
+	//AI Patterns for inky
+	std::shared_ptr<AIPatterns> m_inkyAIPatterns = nullptr;
+	std::shared_ptr<Chase> m_inkyChase = nullptr;
+	std::shared_ptr<Scatter> m_inkyScatter = nullptr;
 
 	void genTilePVMs();
 	//the current tile map
