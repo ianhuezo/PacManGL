@@ -24,7 +24,6 @@ public:
 	virtual ~Sprite() {};
 	void drawSprite();
 	float spriteSpeed = 100;
-
 	//movements for sprite
 	void generalMove(float& pixelPosition, float& fixedPosition, float& index,const float& velocity, float indexNum);
 	virtual void moveUp(float deltaTime);
@@ -58,10 +57,15 @@ protected:
 	//the calculated/acquired tile lengths
 	float mm_tileLength;
 	float mm_halfTileLength;
-
 	//model 
 	glm::mat4 mm_model;
 	std::shared_ptr<Texture2D> mm_texture;
+
+	glm::vec2 rightTunnel;
+	glm::vec2 leftTunnel;
+
+	glm::mat4 tunnelPositionLeft;
+	glm::mat4 tunnelPositionRight;
 
 	//array for each tile position in mm_pixelPosition
 	//row col compared to the tiles

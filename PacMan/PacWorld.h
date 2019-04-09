@@ -53,6 +53,7 @@ private:
 	//AI Patterns for pinky
 	std::shared_ptr<AIPatterns> m_pinkyAIPatterns = nullptr;
 	std::shared_ptr<Chase> m_pinkyChase = nullptr;
+	std::shared_ptr<Scatter> m_pinkyScatter = nullptr;
 
 	//AI Patterns for clyde
 	std::shared_ptr<AIPatterns> m_clydeAIPatterns = nullptr;

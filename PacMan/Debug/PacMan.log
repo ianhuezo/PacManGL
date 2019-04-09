@@ -1,9 +1,13 @@
-﻿  Main.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(76): warning C4056: overflow in floating-point constant arithmetic
-c:\users\ianhu\source\repos\pacman\pacman\main.cpp(121): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  PacWorld.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(76): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(76): warning C4056: overflow in floating-point constant arithmetic
-  Generating Code...
+﻿  Sprite.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(80): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(6): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(7): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(44): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(45): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(104): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(109): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(114): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(119): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(124): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
   PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe

@@ -13,7 +13,7 @@ Chase::~Chase()
 }
 
 
-void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
+void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
 	//A* algorithm that will "chase" pacman
 	pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
@@ -30,12 +30,132 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	mm_command->execute(*enemyAI, deltaTime);
 }
 
-void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
+void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
+	std::cout << randomPosition(pacman, enemyAI, blinkysAI, map).x << std::endl;
+	std::cout << randomPosition(pacman, enemyAI, blinkysAI, map).y << std::endl << std::endl;
+}
+
+glm::vec2 RandomChase::randomPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<TileMap> map)
+{
+	int dx = 0;
+	int dy = 0;
+	if (pacman->spriteDirection == MOVE::UP)
+	{
+		dy = pacman->getTileIndices().y - 2;
+		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
+		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
+		//set bounds for inky
+		if (dx < 1)
+		{
+			dx = 1;
+		}
+		if (dx > 24)
+		{
+			dx = 24;
+		}
+		if (dy < 4)
+		{
+			dy = 4;
+		}
+		if (dy > 32)
+		{
+			dy = 32;
+		}
+		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
+		{
+			dy -= 1;
+		}
+		return glm::vec2(dx, dy);
+	}
+	else if (pacman->spriteDirection == MOVE::DOWN)
+	{
+		dy = pacman->getTileIndices().y + 2;
+		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
+		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
+		//set bounds for inky
+		if (dx < 1)
+		{
+			dx = 1;
+		}
+		if (dx > 24)
+		{
+			dx = 24;
+		}
+		if (dy < 4)
+		{
+			dy = 4;
+		}
+		if (dy > 32)
+		{
+			dy = 32;
+		}
+		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
+		{
+			dy -= 1;
+		}
+		return glm::vec2(dx, dy);
+	}
+	else if (pacman->spriteDirection == MOVE::LEFT)
+	{
+		dx = pacman->getTileIndices().x - 2;
+		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
+		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
+		//set bounds for inky
+		if (dx < 1)
+		{
+			dx = 1;
+		}
+		if (dx > 24)
+		{
+			dx = 24;
+		}
+		if (dy < 4)
+		{
+			dy = 4;
+		}
+		if (dy > 32)
+		{
+			dy = 32;
+		}
+		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
+		{
+			dx -= 1;
+		}
+		return glm::vec2(dx, dy);
+	}
+	else if (pacman->spriteDirection == MOVE::RIGHT)
+	{
+		dx = pacman->getTileIndices().x + 2;
+		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
+		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
+		//set bounds for inky
+		if (dx < 1)
+		{
+			dx = 1;
+		}
+		if (dx > 24)
+		{
+			dx = 24;
+		}
+		if (dy < 4)
+		{
+			dy = 4;
+		}
+		if (dy > 32)
+		{
+			dy = 32;
+		}
+		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
+		{
+			dx += 1;
+		}
+		return glm::vec2(dx, dy);
+	}
 
 }
 
-void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
+void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
 	//A* algorithm that will "chase" pacman
 	switch (currentMode)
@@ -101,7 +221,7 @@ void PatrolChase::changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<A
 	}
 }
 
-void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
+void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
 	//An always running A* algo that the sprite uses to move
 	//prevention of moving backwards by feeding in the previous position for the sprite
@@ -178,7 +298,7 @@ glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::share
 	}
 }
 
-void StopChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
+void StopChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
 	std::make_shared<StillCommand>()->execute(*enemyAI, deltaTime);
 }

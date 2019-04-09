@@ -7,6 +7,14 @@ Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices), Tile
 	int col = mm_indices.x;
 	mm_pixelPosition = charMap.getBindedTile(row,col).position;
 	mm_fixedPosition = mm_pixelPosition;
+	int tunnelRow = 17;
+	int tunnelLeft = 0;
+	int tunnelRight = 27;
+	rightTunnel = charMap.getBindedTile(tunnelRow, tunnelRight).position;
+	leftTunnel = charMap.getBindedTile(tunnelRow, tunnelLeft).position;
+
+	tunnelPositionLeft = glm::translate(tunnelPositionLeft, glm::vec3(leftTunnel.x, leftTunnel.y, 0.0f));
+	tunnelPositionRight = glm::translate(tunnelPositionRight, glm::vec3(rightTunnel.x, rightTunnel.y, 0.0f));
 	mm_halfTileLength = mm_tileLength / 2;
 	mm_model = glm::translate(mm_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
 }
@@ -24,6 +32,15 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 	if (abs(pixelPosition - fixedPosition) > (mm_tileLength))
 	{
 		index = index + indexNum;
+		std::cout << pixelPosition << std::endl;
+		if (mm_indices.x == 0 && this->spriteDirection == MOVE::LEFT)
+		{
+			mm_indices.x = 26;
+		}
+		if (mm_indices.x == 27 && this->spriteDirection == MOVE::RIGHT)
+		{
+			mm_indices.x = 1;
+		}
 		int row = mm_indices.y;
 		int col = mm_indices.x;
 		mm_fixedPosition = charMap.getBindedTile(row,col).position;
@@ -55,6 +72,11 @@ void Sprite::moveRight(float deltaTime)
 {
 	spriteDirection = MOVE::RIGHT;
 	float velocity = spriteSpeed * deltaTime;
+	if (mm_pixelPosition.x >= rightTunnel.x && this->spriteDirection == MOVE::RIGHT)
+	{
+		mm_pixelPosition.x = leftTunnel.x;
+		mm_model = glm::translate(tunnelPositionLeft, glm::vec3(velocity, 0, 0.0f));
+	}
 	mm_model = glm::translate(mm_model, glm::vec3(velocity, 0, 0.0f));
 	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, velocity, 1);
 }
@@ -63,6 +85,11 @@ void Sprite::moveLeft(float deltaTime)
 {
 	spriteDirection = MOVE::LEFT;
 	float velocity = -spriteSpeed * deltaTime;
+	if (mm_pixelPosition.x <= 0 && this->spriteDirection == MOVE::LEFT)
+	{
+		mm_pixelPosition.x = rightTunnel.x;
+		mm_model = glm::translate(tunnelPositionRight, glm::vec3(velocity, 0, 0.0f));
+	}
 	mm_model = glm::translate(mm_model, glm::vec3(velocity, 0, 0.0f));
 	generalMove(mm_pixelPosition.x, mm_fixedPosition.x, mm_indices.x, velocity, -1);
 }
