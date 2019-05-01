@@ -163,12 +163,12 @@ void PacWorld::useScatter(float deltaTime)
 void PacWorld::useChase(float deltaTime)
 {
 	//important to keep blinky for inky for code to execute correctly in order
-	//m_blinkyChase->chase(pacman, blinky, nullptr,m_blinkyAIPatterns, m_originalMap, deltaTime);
+	m_blinkyChase->chase(pacman, blinky, nullptr,m_blinkyAIPatterns, m_originalMap, deltaTime);
 
-	//m_inkyChase->chase(pacman, inky, blinky,m_inkyAIPatterns, m_originalMap, deltaTime);
+	m_inkyChase->chase(pacman, inky, blinky,m_inkyAIPatterns, m_originalMap, deltaTime);
 
-	//m_pinkyChase->chase(pacman, pinky, nullptr,m_pinkyAIPatterns, m_originalMap, deltaTime);
+	m_pinkyChase->chase(pacman, pinky, nullptr,m_pinkyAIPatterns, m_originalMap, deltaTime);
 
-	//m_clydeChase->chase(pacman, clyde, nullptr,m_clydeAIPatterns, m_originalMap, deltaTime);
+	m_clydeChase->chase(pacman, clyde, nullptr,m_clydeAIPatterns, m_originalMap, deltaTime);
 }
 

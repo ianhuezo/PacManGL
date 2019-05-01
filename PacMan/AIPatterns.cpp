@@ -216,8 +216,8 @@ std::vector<Node> AIPatterns::findNeighbors(Node& current)
 	}
 	//up
 	if (starArr[current.y - 1][current.x].t != '|' &&
-		starArr[current.y + 1][current.x].t != 'a' &&
-		starArr[current.y + 1][current.x].t != '=')
+		starArr[current.y][current.x].t != 'a' &&
+		starArr[current.y][current.x].t != '=')
 	{
 		directions.push_back(starArr[current.y - 1][current.x]);
 	}

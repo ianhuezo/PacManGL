@@ -32,7 +32,6 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 	if (abs(pixelPosition - fixedPosition) > (mm_tileLength))
 	{
 		index = index + indexNum;
-		std::cout << pixelPosition << std::endl;
 		if (mm_indices.x == 0 && this->spriteDirection == MOVE::LEFT)
 		{
 			mm_indices.x = 26;

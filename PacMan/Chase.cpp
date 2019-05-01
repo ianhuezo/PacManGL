@@ -32,126 +32,101 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 
 void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
 {
-	std::cout << randomPosition(pacman, enemyAI, blinkysAI, map).x << std::endl;
-	std::cout << randomPosition(pacman, enemyAI, blinkysAI, map).y << std::endl << std::endl;
+	//A* algorithm that will "chase" pacman
+	pattern->AStar(enemyAI->getTileIndices(), randomPosition(pacman, enemyAI, blinkysAI, map), enemyAI->getPreviousPosition());
+	if (pattern->atGoal())
+	{
+		return;
+	}
+	//prevents enemies from going out of bounds onto the blue tiles
+	if (enemyAI->tileChanged)
+	{
+		enemyAI->setPreviousPosition(enemyAI->getTileIndices());
+		mm_command = pattern->nextMovement;
+	}
+	mm_command->execute(*enemyAI, deltaTime);
 }
 
 glm::vec2 RandomChase::randomPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<TileMap> map)
 {
-	int dx = 0;
-	int dy = 0;
+	glm::vec2 result = glm::vec2(pacman->getTileIndices().x, pacman->getTileIndices().y);
 	if (pacman->spriteDirection == MOVE::UP)
 	{
-		dy = pacman->getTileIndices().y - 2;
-		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
-		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
-		//set bounds for inky
-		if (dx < 1)
-		{
-			dx = 1;
-		}
-		if (dx > 24)
-		{
-			dx = 24;
-		}
-		if (dy < 4)
-		{
-			dy = 4;
-		}
-		if (dy > 32)
-		{
-			dy = 32;
-		}
-		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
-		{
-			dy -= 1;
-		}
-		return glm::vec2(dx, dy);
+		result.y -= 2;
+		result += 2.0f * (result - blinkysAI->getTileIndices());
 	}
 	else if (pacman->spriteDirection == MOVE::DOWN)
 	{
-		dy = pacman->getTileIndices().y + 2;
-		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
-		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
-		//set bounds for inky
-		if (dx < 1)
-		{
-			dx = 1;
-		}
-		if (dx > 24)
-		{
-			dx = 24;
-		}
-		if (dy < 4)
-		{
-			dy = 4;
-		}
-		if (dy > 32)
-		{
-			dy = 32;
-		}
-		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
-		{
-			dy -= 1;
-		}
-		return glm::vec2(dx, dy);
+		result.y += 2;
+		result += 2.0f * (result - blinkysAI->getTileIndices());
 	}
 	else if (pacman->spriteDirection == MOVE::LEFT)
 	{
-		dx = pacman->getTileIndices().x - 2;
-		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
-		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
-		//set bounds for inky
-		if (dx < 1)
-		{
-			dx = 1;
-		}
-		if (dx > 24)
-		{
-			dx = 24;
-		}
-		if (dy < 4)
-		{
-			dy = 4;
-		}
-		if (dy > 32)
-		{
-			dy = 32;
-		}
-		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
-		{
-			dx -= 1;
-		}
-		return glm::vec2(dx, dy);
+		result.x += 2;
+		result += 2.0f * (result - blinkysAI->getTileIndices());
 	}
 	else if (pacman->spriteDirection == MOVE::RIGHT)
 	{
-		dx = pacman->getTileIndices().x + 2;
-		dx = enemyAI->getTileIndices().x + 2 * (dx - enemyAI->getTileIndices().x);
-		dy = enemyAI->getTileIndices().y + 2 * (dy - enemyAI->getTileIndices().y);
-		//set bounds for inky
-		if (dx < 1)
-		{
-			dx = 1;
-		}
-		if (dx > 24)
-		{
-			dx = 24;
-		}
-		if (dy < 4)
-		{
-			dy = 4;
-		}
-		if (dy > 32)
-		{
-			dy = 32;
-		}
-		while (!(map->getChars()[dy][dx] == '|' || map->getChars()[dy][dx] == '0'))
-		{
-			dx += 1;
-		}
-		return glm::vec2(dx, dy);
+		result.x += 2;
+		result += 2.0f * (result - blinkysAI->getTileIndices());
 	}
+	if (result.y > 32)
+	{
+		result.y = 32;
+	}
+	else if (result.y < 4)
+	{
+		result.y = 4;
+	}
+	bool highX = false;
+	bool lowX = false;
+	if (result.x < 2)
+	{
+		result.x = 2;
+		lowX = true;
+	}
+	else if (result.x > 24)
+	{
+		result.x = 24;
+		highX = true;
+	}
+	while (
+		result.x < 2 ||
+		result.x > 24 ||
+		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == '|' ||
+		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == 'p' ||
+		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == 'g')
+	{
+		if (highX)
+		{
+			result.x -= 1;
+		}
+		else if (lowX)
+		{
+			result.x += 1;
+		}
+		else if (result.x > 24)
+		{
+			highX = true;
+			lowX = false;
+		}
+		else if (result.x < 2)
+		{
+			lowX = true;
+			highX = false;
+		}
+		else {
+			result.x += 1;
+		}
+	}
+	if (enemyAI->getTileIndices() == result)
+	{
+		result = pacman->getTileIndices();
+	}
+	
+	return result;
+
+	
 
 }
 
