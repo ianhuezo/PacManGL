@@ -1,6 +1,45 @@
-﻿  Chase.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(80): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(80): warning C4056: overflow in floating-point constant arithmetic
-c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(205): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(206): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+﻿  AIPatterns.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(11): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(12): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\aipatterns.cpp(12): warning C4056: overflow in floating-point constant arithmetic
+  Chase.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(242): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(243): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  InputCommand.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+  Main.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\main.cpp(121): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  PacManSprite.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+  PacWorld.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+  Scatter.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+  Sprite.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(6): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(7): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(50): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(51): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(110): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(115): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(120): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(125): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.cpp(130): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  WorldDispatcher.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(83): warning C4056: overflow in floating-point constant arithmetic
+  Generating Code...
   PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe

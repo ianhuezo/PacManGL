@@ -47,6 +47,7 @@ public:
 	//the current state of the sprite
 	//tells sprite if tile has changed for movement
 	bool tileChanged = true;
+	bool inTunnel() { return m_inTunnel; }
 
 	//return the current direction the sprite is moving
 	int spriteDirection = MOVE::STILL;
@@ -66,6 +67,8 @@ protected:
 
 	glm::mat4 tunnelPositionLeft;
 	glm::mat4 tunnelPositionRight;
+
+	bool m_inTunnel = false;
 
 	//array for each tile position in mm_pixelPosition
 	//row col compared to the tiles

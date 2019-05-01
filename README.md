@@ -13,13 +13,13 @@
 * refactored scatter and put function in for reusable code purposes
 * changed scatter mode to not reverse direction like chase mode
 * patrol chase implementation done
+* random chase implementation
 
 
 ### __Uncompleted/Upcoming game mechanics/visual__:
 * More efficient VAO/VBO generation
 * Enemy and AI creation
 	* ghost Mode implementation
-	* random chase implementation
 * Scoring
 * Levels
 * Animations for sprites
