@@ -32,6 +32,8 @@ public:
 	std::shared_ptr<Sprite> inky;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
+
+	//eating the pellets on the board
 	void eatFood();
 
 	WorldDispatcher dispatcher;

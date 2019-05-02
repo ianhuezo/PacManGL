@@ -49,12 +49,21 @@ public:
 	bool tileChanged = true;
 	bool inTunnel() { return m_inTunnel; }
 
+	void resetSprite();
+
 	//return the current direction the sprite is moving
 	int spriteDirection = MOVE::STILL;
 
 	TileMap charMap;
 
+	//whether pacman touches a sprite
+	bool pacmanIsHit(const Sprite& enemy);
+
 protected:
+	//
+	const char * mm_filepath;
+	std::shared_ptr<TileMap> mm_charMap;
+	glm::vec2 mm_initialPosition;
 	//the calculated/acquired tile lengths
 	float mm_tileLength;
 	float mm_halfTileLength;
@@ -81,5 +90,9 @@ protected:
 	glm::vec2 mm_previousPosition = glm::vec2(0, 0);
 	//distance to pacman
 	int mm_distanceToPacman = FLT_MAX;
+
+	bool killedPacman = false;
+
+	std::shared_ptr<Sprite> mm_originalSprite = nullptr;
 };
 

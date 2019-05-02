@@ -17,6 +17,9 @@ Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices), Tile
 	tunnelPositionRight = glm::translate(tunnelPositionRight, glm::vec3(rightTunnel.x, rightTunnel.y, 0.0f));
 	mm_halfTileLength = mm_tileLength / 2;
 	mm_model = glm::translate(mm_model, glm::vec3(mm_pixelPosition.x, mm_pixelPosition.y, 0.0f));
+	mm_filepath = filePath;
+	mm_charMap = std::make_shared <TileMap>(charMap);
+	mm_initialPosition = indices;
 }
 
 void Sprite::drawSprite()
@@ -129,3 +132,26 @@ char Sprite::checkCurrent()
 {
 	return charMap.getBindedTile(mm_indices.y, mm_indices.x).c_tile;
 }
+
+void Sprite::resetSprite()
+{
+	*this = Sprite(mm_tileLength,mm_filepath, mm_initialPosition, *mm_charMap);
+}
+
+bool Sprite::pacmanIsHit(const Sprite & enemy)
+{
+	if (glm::abs(enemy.mm_pixelPosition - this->mm_pixelPosition).x < mm_halfTileLength &&
+		glm::abs(enemy.mm_pixelPosition - this->mm_pixelPosition).y < mm_halfTileLength)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+
+
+
+
+

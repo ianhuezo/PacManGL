@@ -52,7 +52,6 @@ void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 	{
 		pattern->AStar(enemyAI->getTileIndices(), randomPosition(pacman, enemyAI, blinkysAI, map), enemyAI->getPreviousPosition());
 	}
-	std::cout << randomPosition(pacman, enemyAI, blinkysAI, map).x << std::endl << randomPosition(pacman, enemyAI, blinkysAI, map).y << std::endl << std::endl;
 	if (pattern->atGoal())
 	{
 		return;

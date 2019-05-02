@@ -96,6 +96,11 @@ void PacWorld::drawEnemies()
 void PacWorld::processAI(float deltaTime)
 {
 	resetAIPatterns();
+	if (pacman->pacmanIsHit(*blinky))
+	{
+		blinky->resetSprite();
+		return;
+	}
 	useChase(deltaTime);
 }
 
