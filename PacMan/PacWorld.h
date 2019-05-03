@@ -8,10 +8,9 @@
 #include <memory>
 #include "InputCommand.h"
 #include "PacManSprite.h"
+#include "EnemyMode.h"
 #include "WorldDispatcher.h"
-#include "Chase.h"
-#include "AIPatterns.h"
-#include "Scatter.h"
+#include "EnemyDispatcher.h"
 
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
@@ -37,35 +36,8 @@ private:
 	void eatFood();
 
 	WorldDispatcher dispatcher;
+	std::shared_ptr<EnemyDispatcher> eDispatcher;
 	std::shared_ptr<InputCommand> playerDispatcher = std::make_shared<StillCommand>();
-	
-	//initializations for each AI patterns in processAI()
-	void resetAIPatterns();
-	void useScatter(float deltaTime);
-	void useChase(float deltaTime);
-
-	//Pattern that all sprites default to for AI
-	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
-
-	//AI Patterns for blinky
-	std::shared_ptr<AIPatterns> m_blinkyAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_blinkyChase = nullptr;
-	std::shared_ptr<Scatter> m_blinkyScatter = nullptr;
-
-	//AI Patterns for pinky
-	std::shared_ptr<AIPatterns> m_pinkyAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_pinkyChase = nullptr;
-	std::shared_ptr<Scatter> m_pinkyScatter = nullptr;
-
-	//AI Patterns for clyde
-	std::shared_ptr<AIPatterns> m_clydeAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_clydeChase = nullptr;
-	std::shared_ptr<Scatter> m_clydeScatter = nullptr;
-
-	//AI Patterns for inky
-	std::shared_ptr<AIPatterns> m_inkyAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_inkyChase = nullptr;
-	std::shared_ptr<Scatter> m_inkyScatter = nullptr;
 
 	void genTilePVMs();
 	//the current tile map

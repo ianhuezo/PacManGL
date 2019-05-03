@@ -55,6 +55,9 @@
     <Filter Include="Header Files\EnemyAI">
       <UniqueIdentifier>{10eae491-ae9c-494e-bfc9-fb4d788b02c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Dispatchers">
+      <UniqueIdentifier>{4a2d7a33-948c-47c3-ad48-6c62c24d551c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -74,9 +77,6 @@
     </ClInclude>
     <ClInclude Include="InputCommand.h">
       <Filter>Header Files\commands</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldDispatcher.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files\sprites</Filter>
@@ -107,6 +107,15 @@
     </ClInclude>
     <ClInclude Include="Chase.h">
       <Filter>Header Files\EnemyAI</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDispatcher.h">
+      <Filter>Header Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="WorldDispatcher.h">
+      <Filter>Header Files\Dispatchers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMode.h">
+      <Filter>Header Files\Dispatchers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="Chase.cpp">
       <Filter>Source Files\EnemyAI</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDispatcher.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

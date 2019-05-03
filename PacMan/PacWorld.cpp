@@ -15,28 +15,10 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength) :
 	clyde = std::make_shared<Sprite>(m_tileLength, "clyde.png", glm::vec2(13, 14), *m_boardMap);
 	inky = std::make_shared<Sprite>(m_tileLength, "inky.png", glm::vec2(15, 14), *m_boardMap);
 
-	//blinky patterns
-	m_blinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
-	m_blinkyChase = std::make_shared<AggresiveChase>();
-	m_blinkyScatter = std::make_shared<TopRightScatter>();
+	//original pattern for all AI
+	std::shared_ptr<AIPatterns> originalPattern = std::make_shared<AIPatterns>(m_boardMap);
+	eDispatcher = std::make_shared<EnemyDispatcher>(originalPattern, blinky, inky, clyde, pinky, m_originalMap);
 
-	//Pinky patterns
-	m_pinkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
-	m_pinkyChase = std::make_shared<AmbushChase>();
-	m_pinkyScatter = std::make_shared<TopLeftScatter>();
-
-	//clyde patterns
-	m_clydeAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
-	m_clydeChase = std::make_shared<PatrolChase>();
-	m_clydeScatter = std::make_shared<BotLeftScatter>();
-
-	//inky patterns
-	m_inkyAIPatterns = std::make_shared<AIPatterns>(m_boardMap);
-	m_inkyChase = std::make_shared<RandomChase>();
-	m_inkyScatter = std::make_shared<BotRightScatter>();
-
-	//assign an empty pattern so that all AI can reference it for A* algorithm
-	m_originalAI = m_blinkyAIPatterns;
 	//clear tiles to null so nothing is seen visually
 	m_boardMap->clearTile(20,9);
 	m_boardMap->clearTile(17, 9);
@@ -95,14 +77,14 @@ void PacWorld::drawEnemies()
 
 void PacWorld::processAI(float deltaTime)
 {
-	resetAIPatterns();
 	if (pacman->pacmanIsHit(*blinky))
 	{
 		blinky->resetSprite();
 		return;
 	}
-	useChase(deltaTime);
+	eDispatcher->targetHero(pacman, MODE::CHASE, deltaTime);
 }
+
 
 void PacWorld::genTilePVMs()
 {
@@ -142,38 +124,3 @@ void PacWorld::eatFood()
 		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
 	}
 }
-
-void PacWorld::resetAIPatterns()
-{
-	//enemy patterns being reset for each  sprite
-
-	//blinky
-	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	//pinky
-	m_pinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	//clyde
-	m_clydeAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	//inky
-	m_inkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-}
-
-void PacWorld::useScatter(float deltaTime)
-{
-	m_blinkyScatter->scatter(pacman, blinky, m_blinkyAIPatterns, deltaTime);
-	m_pinkyScatter->scatter(pacman, pinky, m_pinkyAIPatterns, deltaTime);
-	m_clydeScatter->scatter(pacman, clyde, m_clydeAIPatterns, deltaTime);
-	m_inkyScatter->scatter(pacman, inky, m_inkyAIPatterns, deltaTime);
-}
-
-void PacWorld::useChase(float deltaTime)
-{
-	//important to keep blinky for inky for code to execute correctly in order
-	m_blinkyChase->chase(pacman, blinky, nullptr,m_blinkyAIPatterns, m_originalMap, deltaTime);
-
-	m_inkyChase->chase(pacman, inky, blinky,m_inkyAIPatterns, m_originalMap, deltaTime);
-
-	m_pinkyChase->chase(pacman, pinky, nullptr,m_pinkyAIPatterns, m_originalMap, deltaTime);
-
-	m_clydeChase->chase(pacman, clyde, nullptr,m_clydeAIPatterns, m_originalMap, deltaTime);
-}
-
