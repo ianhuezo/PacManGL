@@ -52,11 +52,11 @@ public:
 	std::shared_ptr<Scatter> m_clydeScatter = std::make_shared<BotLeftScatter>();
 	void changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPatterns> pattern, glm::vec2 destination, float deltaTime, int& stage, int nextStage);
 
-	enum MODE {
+	enum PATROLMODE {
 		AGGRESSIVE,
 		PATROL
 	};
-	int currentMode = MODE::AGGRESSIVE;
+	int currentMode = PATROLMODE::AGGRESSIVE;
 
 	enum STAGE {
 		TOLOOP,

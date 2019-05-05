@@ -9,6 +9,7 @@
 #include <math.h>
 #include "TileMap.h"
 #include "SpriteDirection.h"
+#include "EnemyMode.h"
 
 class Sprite
 {
@@ -44,7 +45,12 @@ public:
 	void setDistanceToPacman(int distance) { mm_distanceToPacman = distance; };
 	int getDistanceToPacman() { return mm_distanceToPacman; };
 
-	//the current state of the sprite
+	//the current mode of the sprite
+	void setMoveMode(int mode) { m_spriteMode = mode; };
+	int getMoveMode() { return m_spriteMode; };
+	//requested mode of the sprite
+
+
 	//tells sprite if tile has changed for movement
 	bool tileChanged = true;
 	bool inTunnel() { return m_inTunnel; }
@@ -71,6 +77,7 @@ protected:
 	glm::mat4 mm_model;
 	std::shared_ptr<Texture2D> mm_texture;
 
+	//tunnel logic
 	glm::vec2 rightTunnel;
 	glm::vec2 leftTunnel;
 
@@ -78,6 +85,10 @@ protected:
 	glm::mat4 tunnelPositionRight;
 
 	bool m_inTunnel = false;
+
+	//the mode i.e. chase, scatter, frightened the ghost is in
+	int m_spriteMode = MODE::SCATTER;
+	//the requested mode for the sprite class
 
 	//array for each tile position in mm_pixelPosition
 	//row col compared to the tiles

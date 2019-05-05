@@ -7,14 +7,23 @@ EnemyDispatcher::EnemyDispatcher(std::shared_ptr<AIPatterns> initialAI, std::sha
 {
 	m_originalAI = initialAI;
 	m_originalMap = map;
-	m_blinky = blinky;
-	m_inky = inky;
-	m_clyde = clyde;
-	m_pinky = pinky;
+	
 
-	initAI(initialAI);
+
+	m_blinky.sprite = blinky;
+	m_inky.sprite = inky;
+	m_inky.spriteDependency = blinky;
+	m_clyde.sprite = clyde;
+	m_pinky.sprite = pinky;
+	//init the modes first
 	initChase();
 	initScatter();
+	//mapping of the enemies using map
+	m_enemies["blinky"] = m_blinky;
+	m_enemies["inky"] = m_inky;
+	m_enemies["clyde"] = m_clyde;
+	m_enemies["pinky"] = m_pinky;
+	initAI(initialAI);
 }
 
 
@@ -24,85 +33,116 @@ EnemyDispatcher::~EnemyDispatcher()
 
 void EnemyDispatcher::initChase()
 {
+
 	//blinky patterns
-	m_blinkyChase = std::make_shared<AggresiveChase>();
+	m_blinky.chaseMode = std::make_shared<AggresiveChase>();
 
 	//inky patterns
-	m_inkyChase = std::make_shared<RandomChase>();
+	m_inky.chaseMode = std::make_shared<RandomChase>();
 
 	//Pinky patterns
-	m_pinkyChase = std::make_shared<AmbushChase>();
+	m_pinky.chaseMode = std::make_shared<AmbushChase>();
 
 	//clyde patterns
-	m_clydeChase = std::make_shared<PatrolChase>();
+	m_clyde.chaseMode = std::make_shared<PatrolChase>();
 }
 
 void EnemyDispatcher::initScatter()
 {
 	//blinky patterns
-	m_blinkyScatter = std::make_shared<TopRightScatter>();
+	m_blinky.scatterMode = std::make_shared<TopRightScatter>();
 
 	//Pinky patterns
-	m_pinkyScatter = std::make_shared<TopLeftScatter>();
+	m_pinky.scatterMode = std::make_shared<TopLeftScatter>();
 
 	//clyde patterns
-	m_clydeScatter = std::make_shared<BotLeftScatter>();
+	m_clyde.scatterMode = std::make_shared<BotLeftScatter>();
 
 	//inky patterns
-	m_inkyScatter = std::make_shared<BotRightScatter>();
+	m_inky.scatterMode = std::make_shared<BotRightScatter>();
 }
 
 void EnemyDispatcher::initAI(std::shared_ptr<AIPatterns> AIPattern)
 {
-	//blinky patterns
-	m_blinkyAIPatterns = AIPattern;
-
-	//Pinky patterns
-	m_pinkyAIPatterns = AIPattern;
-
-	//clyde patterns
-	m_clydeAIPatterns = AIPattern;
-
-	//inky patterns
-	m_inkyAIPatterns = AIPattern;
+	for (auto& x: m_enemies)
+	{
+		x.second.spriteAI = AIPattern;
+	}
 }
 
 void EnemyDispatcher::useScatter(float deltaTime)
 {
-	m_blinkyScatter->scatter(m_target, m_blinky, m_blinkyAIPatterns, deltaTime);
-	m_pinkyScatter->scatter(m_target, m_pinky, m_pinkyAIPatterns, deltaTime);
-	m_clydeScatter->scatter(m_target, m_clyde, m_clydeAIPatterns, deltaTime);
-	m_inkyScatter->scatter(m_target, m_inky, m_inkyAIPatterns, deltaTime);
+	for (auto& enemy : m_enemies)
+	{
+		enemy.second.scatterMode->scatter(m_target, enemy.second.sprite, enemy.second.spriteAI, deltaTime);
+	}
 }
 
 void EnemyDispatcher::useChase(float deltaTime)
 {
-	//important to keep blinky before inky for code to execute correctly in order
-	m_blinkyChase->chase(m_target, m_blinky, nullptr, m_blinkyAIPatterns, m_originalMap, deltaTime);
-
-	m_inkyChase->chase(m_target, m_inky, m_blinky, m_inkyAIPatterns, m_originalMap, deltaTime);
-
-	m_pinkyChase->chase(m_target, m_pinky, nullptr, m_pinkyAIPatterns, m_originalMap, deltaTime);
-
-	m_clydeChase->chase(m_target, m_clyde, nullptr, m_clydeAIPatterns, m_originalMap, deltaTime);
+	for (auto& enemy : m_enemies)
+	{
+		enemy.second.chaseMode->chase(m_target, enemy.second.sprite, enemy.second.spriteDependency, enemy.second.spriteAI, m_originalMap, deltaTime);
+	}
 }
 
 void EnemyDispatcher::resetAI()
 {
 	//has to be shared pointer so that the value is getting sent instead and not modified directly
-	//blinky
-	m_blinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	//pinky
-	m_pinkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	//clyde
-	m_clydeAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
-	//inky
-	m_inkyAIPatterns = std::make_shared<AIPatterns>(*m_originalAI);
+	for (auto& x : m_enemies)
+	{
+		x.second.spriteAI = std::make_shared<AIPatterns>(*m_originalAI);
+	}
+}
+
+void EnemyDispatcher::setAIModes(int globalAIMode)
+{
+	for (auto& enemy : m_enemies)
+	{
+		if (enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED && enemy.second.sprite->tileChanged)
+		{
+			enemy.second.sprite->setMoveMode(globalAIMode);
+		}
+	}
+}
+
+void EnemyDispatcher::decideMode(float deltaTime)
+{
+	for (auto& enemy : m_enemies)
+	{
+		switch (enemy.second.sprite->getMoveMode())
+		{
+		case MODE::CHASE:
+			enemy.second.chaseMode->chase(m_target, enemy.second.sprite, enemy.second.spriteDependency, enemy.second.spriteAI, m_originalMap, deltaTime);
+			break;
+		case MODE::SCATTER:
+			enemy.second.scatterMode->scatter(m_target, enemy.second.sprite, enemy.second.spriteAI, deltaTime);
+			break;
+		case MODE::FRIGHTENED:
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void EnemyDispatcher::targetHero(std::shared_ptr<Sprite> pacman, int enemyMode, float deltaTime)
 {
 	m_target = pacman;
+	m_globalAIMode = enemyMode;
+	setAIModes(m_globalAIMode);
 	resetAI();
-	useChase(deltaTime);
+	decideMode(deltaTime);
+}
+
+void EnemyDispatcher::collided(std::shared_ptr<Sprite> pacman)
+{
+	for (auto& enemy : m_enemies)
+	{
+		if (pacman->pacmanIsHit(*enemy.second.sprite))
+		{
+			enemy.second.sprite->resetSprite();
+			return;
+		}
+	}
 }

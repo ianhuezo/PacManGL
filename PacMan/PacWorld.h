@@ -11,6 +11,9 @@
 #include "EnemyMode.h"
 #include "WorldDispatcher.h"
 #include "EnemyDispatcher.h"
+#include <chrono>
+
+using namespace std::chrono;
 
 //#include PacAudio.h eventual class that may be implemented here
 //#include 
@@ -31,7 +34,6 @@ public:
 	std::shared_ptr<Sprite> inky;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
-
 	//eating the pellets on the board
 	void eatFood();
 
@@ -47,8 +49,11 @@ private:
 	//screen width/height for world
 	int m_screenWidth;
 	int m_screenHeight;
-
+	int m_modeAI = MODE::CHASE;
 	float m_tileLength;
+
+	high_resolution_clock::time_point t1 = high_resolution_clock::now();
+	high_resolution_clock::time_point t2 = high_resolution_clock::now();
 
 	glm::vec2 m_mapPixel[ROW_SIZE][COL_SIZE];
 	glm::mat4 m_projection;

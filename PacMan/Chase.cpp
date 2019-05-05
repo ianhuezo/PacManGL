@@ -21,7 +21,15 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 		mm_command->execute(*enemyAI, deltaTime);
 		return;
 	}
-	pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
+	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0))
+	{
+		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0,0));
+		enemyAI->setMoveMode(MODE::CHASE);
+	}
+	else
+	{
+		pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
+	}
 	if (pattern->atGoal())
 	{
 		return;
@@ -43,14 +51,22 @@ void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		mm_command->execute(*enemyAI, deltaTime);
 		return;
 	}
-	glm::vec2 randomPos = randomPosition(pacman, enemyAI, blinkysAI, map);
-	if (randomPos == enemyAI->getPreviousPosition())
+	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0))
 	{
-		pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
+		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0, 0));
+		enemyAI->setMoveMode(MODE::CHASE);
 	}
 	else
 	{
-		pattern->AStar(enemyAI->getTileIndices(), randomPosition(pacman, enemyAI, blinkysAI, map), enemyAI->getPreviousPosition());
+		glm::vec2 randomPos = randomPosition(pacman, enemyAI, blinkysAI, map);
+		if (randomPos == enemyAI->getPreviousPosition())
+		{
+			pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
+		}
+		else
+		{
+			pattern->AStar(enemyAI->getTileIndices(), randomPosition(pacman, enemyAI, blinkysAI, map), enemyAI->getPreviousPosition());
+		}
 	}
 	if (pattern->atGoal())
 	{
@@ -157,44 +173,52 @@ void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		mm_command->execute(*enemyAI, deltaTime);
 		return;
 	}
-	switch (currentMode)
+	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0))
 	{
-	case MODE::AGGRESSIVE:
-		pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
-		if (pattern->atGoal())
+		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0, 0));
+		enemyAI->setMoveMode(MODE::CHASE);
+	}
+	else
+	{
+		switch (currentMode)
 		{
-			return;
-		}
-		//prevents enemies from going out of bounds onto the blue tiles
-		if (enemyAI->tileChanged)
-		{
-			enemyAI->setPreviousPosition(enemyAI->getTileIndices());
-			enemyAI->setDistanceToPacman(pattern->getDistanceFromPacman());
-			if (enemyAI->getDistanceToPacman() < 8)
+		case PATROLMODE::AGGRESSIVE:
+			pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
+			if (pattern->atGoal())
 			{
-				currentMode = MODE::PATROL;
+				return;
 			}
-			mm_command = pattern->nextMovement;
-		}
-		mm_command->execute(*enemyAI, deltaTime);
-		break;
-	case MODE::PATROL:
+			//prevents enemies from going out of bounds onto the blue tiles
+			if (enemyAI->tileChanged)
+			{
+				enemyAI->setPreviousPosition(enemyAI->getTileIndices());
+				enemyAI->setDistanceToPacman(pattern->getDistanceFromPacman());
+				if (enemyAI->getDistanceToPacman() < 8)
+				{
+					currentMode = PATROLMODE::PATROL;
+				}
+				mm_command = pattern->nextMovement;
+			}
+			mm_command->execute(*enemyAI, deltaTime);
+			break;
+		case PATROLMODE::PATROL:
 
-		switch (stageNum)
-		{
-		case STAGE::TOLOOP:
-			changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
-			break;
-		case STAGE::LOOP1:
-			changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
-			break;
-		case STAGE::LOOP2:
-			changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
-			break;
-		default:
+			switch (stageNum)
+			{
+			case STAGE::TOLOOP:
+				changeStage(enemyAI, pattern, toLoop, deltaTime, stageNum, STAGE::LOOP1);
+				break;
+			case STAGE::LOOP1:
+				changeStage(enemyAI, pattern, loop1, deltaTime, stageNum, STAGE::LOOP2);
+				break;
+			case STAGE::LOOP2:
+				changeStage(enemyAI, pattern, loop2, deltaTime, stageNum, STAGE::TOLOOP);
+				break;
+			default:
+				break;
+			}
 			break;
 		}
-		break;
 	}
 }
 
@@ -209,7 +233,7 @@ void PatrolChase::changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<A
 			enemyAI->setDistanceToPacman(pattern->getDistanceFromPacman());
 			if (enemyAI->getDistanceToPacman() < 8)
 			{
-				currentMode = MODE::AGGRESSIVE;
+				currentMode = PATROLMODE::AGGRESSIVE;
 			}
 			mm_command = pattern->nextMovement;
 		}
@@ -229,7 +253,17 @@ void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		mm_command->execute(*enemyAI, deltaTime);
 		return;
 	}
-	pattern->AStar(enemyAI->getTileIndices(), ambushPosition(pacman, enemyAI, map) , enemyAI->getPreviousPosition());
+
+	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0))
+	{
+		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0, 0));
+		enemyAI->setMoveMode(MODE::CHASE);
+	}
+	else
+	{
+		pattern->AStar(enemyAI->getTileIndices(), ambushPosition(pacman, enemyAI, map), enemyAI->getPreviousPosition());
+	}
+
 	if (pattern->atGoal())
 	{
 		return;

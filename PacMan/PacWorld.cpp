@@ -77,12 +77,15 @@ void PacWorld::drawEnemies()
 
 void PacWorld::processAI(float deltaTime)
 {
-	if (pacman->pacmanIsHit(*blinky))
+	duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
+	if (time_span.count() > 7)
 	{
-		blinky->resetSprite();
-		return;
+		t1 = high_resolution_clock::now();
+		m_modeAI = MODE::SCATTER;
 	}
-	eDispatcher->targetHero(pacman, MODE::CHASE, deltaTime);
+	eDispatcher->collided(pacman);
+	eDispatcher->targetHero(pacman, m_modeAI, deltaTime);
+	t2 = high_resolution_clock::now();
 }
 
 

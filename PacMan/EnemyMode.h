@@ -3,5 +3,5 @@
 enum MODE {
 	CHASE,
 	SCATTER,
-	GHOST,
+	FRIGHTENED,
 };

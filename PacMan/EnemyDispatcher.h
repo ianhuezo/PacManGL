@@ -7,6 +7,16 @@
 #include "TileMap.h"
 #include "EnemyMode.h"
 #include <memory>
+#include <string>
+#include <map>
+struct EnemyAI {
+	std::shared_ptr<Sprite> sprite = nullptr;
+	std::shared_ptr<Sprite> spriteDependency = nullptr;
+	std::shared_ptr<AIPatterns> spriteAI = nullptr;
+	std::shared_ptr<Chase> chaseMode = nullptr;
+	std::shared_ptr<Scatter> scatterMode = nullptr;
+};
+
 
 class EnemyDispatcher
 {
@@ -15,6 +25,7 @@ public:
 		std::shared_ptr<TileMap> map);
 
 	void targetHero(std::shared_ptr<Sprite> pacman, int enemyMode, float deltaTime);
+	void collided(std::shared_ptr<Sprite> pacman);
 	~EnemyDispatcher();
 private:
 	void initChase();
@@ -23,41 +34,24 @@ private:
 	void useScatter(float deltaTime);
 	void useChase(float deltaTime);
 	void resetAI();
+	void setAIModes(int globalAIMode);
+	void decideMode(float deltaTime);
 
 
-
+	int m_globalAIMode = -1;
 	std::shared_ptr<TileMap> m_originalMap;
 	//Pacman Sprite
 	std::shared_ptr<Sprite> m_target;
 
-
-	//enemy sprites
-	std::shared_ptr<Sprite> m_blinky;
-	std::shared_ptr<Sprite> m_pinky;
-	std::shared_ptr<Sprite> m_clyde;
-	std::shared_ptr<Sprite> m_inky;
+	std::map<std::string, EnemyAI> m_enemies;
+	//enemy sprites and their associated modes
+	EnemyAI m_blinky;
+	EnemyAI m_pinky;
+	EnemyAI m_clyde;
+	EnemyAI m_inky;
 
 	//Pattern that all sprites default to for AI
 	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
 
-	//AI Patterns for blinky
-	std::shared_ptr<AIPatterns> m_blinkyAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_blinkyChase = nullptr;
-	std::shared_ptr<Scatter> m_blinkyScatter = nullptr;
-
-	//AI Patterns for pinky
-	std::shared_ptr<AIPatterns> m_pinkyAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_pinkyChase = nullptr;
-	std::shared_ptr<Scatter> m_pinkyScatter = nullptr;
-
-	//AI Patterns for clyde
-	std::shared_ptr<AIPatterns> m_clydeAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_clydeChase = nullptr;
-	std::shared_ptr<Scatter> m_clydeScatter = nullptr;
-
-	//AI Patterns for inky
-	std::shared_ptr<AIPatterns> m_inkyAIPatterns = nullptr;
-	std::shared_ptr<Chase> m_inkyChase = nullptr;
-	std::shared_ptr<Scatter> m_inkyScatter = nullptr;
 };
 
