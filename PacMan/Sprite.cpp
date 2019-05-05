@@ -43,7 +43,7 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 		{
 			mm_indices.x = 1;
 		}
-		if (mm_indices.x < 6 && mm_indices.y == 17 || mm_indices.x > 22 && mm_indices.y == 17)
+		if (mm_indices.x < 6 && mm_indices.y == 17 || mm_indices.x > 21 && mm_indices.y == 17)
 		{
 			m_inTunnel = true;
 		}

@@ -1,22 +1,11 @@
 ﻿  Chase.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4056: overflow in floating-point constant arithmetic
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(23): error C2065: 'Chase': undeclared identifier
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(23): error C2923: 'std::shared_ptr': 'Chase' is not a valid template type argument for parameter '_Ty'
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(28): error C2065: 'Chase': undeclared identifier
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(28): error C2923: 'std::shared_ptr': 'Chase' is not a valid template type argument for parameter '_Ty'
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(33): error C2065: 'Chase': undeclared identifier
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(33): error C2923: 'std::shared_ptr': 'Chase' is not a valid template type argument for parameter '_Ty'
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(38): error C2065: 'Chase': undeclared identifier
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(38): error C2923: 'std::shared_ptr': 'Chase' is not a valid template type argument for parameter '_Ty'
-c:\users\ianhu\source\repos\pacman\pacman\worlddispatcher.h(23): fatal error C1903: unable to recover from previous error(s); stopping compilation
-  Main.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4056: overflow in floating-point constant arithmetic
-c:\users\ianhu\source\repos\pacman\pacman\main.cpp(121): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  PacWorld.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4056: overflow in floating-point constant arithmetic
-  WorldDispatcher.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(92): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(103): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(103): warning C4056: overflow in floating-point constant arithmetic
+c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(283): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\chase.cpp(284): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Generating code
+  14 of 1875 functions ( 0.7%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    22 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Release\PacMan.exe

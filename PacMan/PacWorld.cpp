@@ -81,7 +81,7 @@ void PacWorld::processAI(float deltaTime)
 	if (time_span.count() > 7)
 	{
 		t1 = high_resolution_clock::now();
-		m_modeAI = MODE::SCATTER;
+		m_modeAI = (m_modeAI == MODE::SCATTER) ? MODE::CHASE : MODE::SCATTER;
 	}
 	eDispatcher->collided(pacman);
 	eDispatcher->targetHero(pacman, m_modeAI, deltaTime);
