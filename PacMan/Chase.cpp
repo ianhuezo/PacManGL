@@ -78,7 +78,10 @@ void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		enemyAI->setPreviousPosition(enemyAI->getTileIndices());
 		mm_command = pattern->nextMovement;
 	}
-	mm_command->execute(*enemyAI, deltaTime);
+	if (mm_command != nullptr)
+	{
+		mm_command->execute(*enemyAI, deltaTime);
+	}
 }
 
 glm::vec2 RandomChase::randomPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<TileMap> map)
@@ -106,9 +109,9 @@ glm::vec2 RandomChase::randomPosition(std::shared_ptr<Sprite> pacman, std::share
 		result.x += 2;
 		result += 2.0f * (result - blinkysAI->getTileIndices());
 	}
-	if (result.y > 28)
+	if (result.y > 27)
 	{
-		result.y = 28;
+		result.y = 27;
 	}
 	else if (result.y < 4)
 	{
@@ -254,14 +257,15 @@ void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		return;
 	}
 
-	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0))
+	glm::vec2 amPosition = ambushPosition(pacman, enemyAI, map);
+
+	if (amPosition == enemyAI->getPreviousPosition())
 	{
-		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0, 0));
-		enemyAI->setMoveMode(MODE::CHASE);
+		pattern->AStar(enemyAI->getTileIndices(), pacman->getTileIndices(), enemyAI->getPreviousPosition());
 	}
 	else
 	{
-		pattern->AStar(enemyAI->getTileIndices(), ambushPosition(pacman, enemyAI, map), enemyAI->getPreviousPosition());
+		pattern->AStar(enemyAI->getTileIndices(), amPosition, enemyAI->getPreviousPosition());
 	}
 
 	if (pattern->atGoal())
@@ -275,65 +279,90 @@ void AmbushChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		enemyAI->setPreviousPosition(enemyAI->getTileIndices());
 		mm_command = pattern->nextMovement;
 	}
-	mm_command->execute(*enemyAI, deltaTime);
+	if (mm_command != nullptr)
+	{
+		mm_command->execute(*enemyAI, deltaTime);
+	}
 }
 
 glm::vec2 AmbushChase::ambushPosition(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemy, std::shared_ptr<TileMap> map)
 {
 	int nextX = pacman->getTileIndices().x;
 	int nextY = pacman->getTileIndices().y;
+	bool highX = false;
+	bool lowX = false;
 
 	//if statements go to 4 spaces from pacmans movement i.e. if up go 4 up from pacman
 	//uses while loop to check for barriers and the pen to not interfere with A* algo
 	if (pacman->spriteDirection == MOVE::UP)
 	{
 		nextY -= 4;
-		while (nextY <= 4 || (map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == '0'))
-		{
-			nextY++;
-		}
 	}
 	else if (pacman->spriteDirection == MOVE::DOWN)
 	{
 		nextY += 4;
-		while (nextY >= 34 || map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == 'p')
-		{
-			nextY--;
-		}
 	}
 	else if (pacman->spriteDirection == MOVE::LEFT)
 	{
 		nextX -= 4;
-		while (nextX < 0 || map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == 'p')
-		{
-			nextX++;
-		}
 	}
 	else if (pacman->spriteDirection == MOVE::RIGHT)
 	{
 		nextX += 4;
-		while (nextX > 24 || map->getChars()[nextY][nextX] == '|' || map->getChars()[nextY][nextX] == 'p')
+	}
+	if (nextY < 4)
+	{
+		nextY = 4;
+	}
+	else if (nextY > 27)
+	{
+		nextY = 27;
+	}
+	if (nextX < 0)
+	{
+		nextX = 0;
+	}
+	else if (nextX > 24)
+	{
+		nextX = 24;
+	}
+	glm::vec2 result = glm::vec2(nextX, nextY);
+	while (
+		result.x < 0 ||
+		result.x > 24 ||
+		pacman->getPreviousPosition() == result ||
+		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == '|' ||
+		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == 'p' ||
+		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == 'g')
+	{
+		if (highX)
 		{
-			nextX--;
+			result.x -= 1;
 		}
+		else if (lowX)
+		{
+			result.x += 1;
+		}
+		else if (result.x > 24)
+		{
+			highX = true;
+			lowX = false;
+		}
+		else if (result.x < 0)
+		{
+			lowX = true;
+			highX = false;
+		}
+		else {
+			result.x -= 1;
+		}
+	}
+	if (enemy->getTileIndices() == result || pacman->getTileIndices() == enemy->getPreviousPosition())
+	{
+		result = pacman->getTileIndices();
 	}
 
-	if (!(enemy->getTileIndices().x == nextX && enemy->getTileIndices().y == nextY) && m_ambushFlag == 0)
-	{
-		return glm::vec2(nextX, nextY);
-	}
-	else
-	{
-		//set ambush flag to one and put a counter in to wait until ambush is set back
-		m_ambushFlag = 1;
-		m_ambushCounter++;
-		if (m_ambushCounter > 4)
-		{
-			m_ambushFlag = 0;
-			m_ambushCounter = 0;
-		}
-		return pacman->getTileIndices();
-	}
+	return result;
 }
 
 void StopChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)

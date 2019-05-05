@@ -99,7 +99,9 @@ void EnemyDispatcher::setAIModes(int globalAIMode)
 {
 	for (auto& enemy : m_enemies)
 	{
-		if (enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED && enemy.second.sprite->tileChanged && !enemy.second.sprite->inTunnel())
+		if (enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED &&
+			enemy.second.sprite->tileChanged &&
+			!enemy.second.sprite->inTunnel())
 		{
 			enemy.second.sprite->setMoveMode(globalAIMode);
 		}
