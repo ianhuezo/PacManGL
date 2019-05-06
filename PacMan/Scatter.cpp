@@ -31,7 +31,10 @@ void Scatter::changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPat
 			enemyAI->setDistanceToPacman(pattern->getDistanceFromPacman());
 			mm_command = pattern->nextMovement;
 		}
-		mm_command->execute(*enemyAI, deltaTime);
+		if (mm_command != nullptr)
+		{
+			mm_command->execute(*enemyAI, deltaTime);
+		}
 	}
 	else {
 		stage = nextStage;

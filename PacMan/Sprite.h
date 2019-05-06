@@ -32,6 +32,9 @@ public:
 	virtual void moveRight(float deltaTime);
 	virtual void moveLeft(float deltaTime);
 	virtual void moveStill(float deltaTime);
+	//sprite is in pen
+	bool inPen() { return m_inPen; };
+	void setPen(bool withinPen) { m_inPen = withinPen; };
 	//functions return the char at the current tile
 	char checkLeft();
 	char checkRight();
@@ -85,6 +88,9 @@ protected:
 	glm::mat4 tunnelPositionRight;
 
 	bool m_inTunnel = false;
+
+	//pen logic
+	bool m_inPen = true;
 
 	//the mode i.e. chase, scatter, frightened the ghost is in
 	int m_spriteMode = MODE::SCATTER;

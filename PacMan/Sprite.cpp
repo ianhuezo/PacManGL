@@ -6,6 +6,7 @@ Sprite::Sprite(float tileLength, const char * filePath, glm::vec2(indices), Tile
 	int row = mm_indices.y;
 	int col = mm_indices.x;
 	mm_pixelPosition = charMap.getBindedTile(row,col).position;
+	mm_pixelPosition.x -= mm_tileLength / 2;
 	mm_fixedPosition = mm_pixelPosition;
 	int tunnelRow = 17;
 	int tunnelLeft = 0;
