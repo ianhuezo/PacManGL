@@ -23,7 +23,7 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 	}
 	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0))
 	{
-		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0,0));
+		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0, 0));
 		enemyAI->setMoveMode(MODE::CHASE);
 	}
 	else
@@ -130,7 +130,7 @@ glm::vec2 RandomChase::randomPosition(std::shared_ptr<Sprite> pacman, std::share
 	while (
 		result.x < 0 ||
 		result.x > 24 ||
-		pacman->getPreviousPosition() == result || 
+		pacman->getPreviousPosition() == result ||
 		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == '|' ||
 		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == 'p' ||
 		map->getChars()[static_cast<int>(result.y)][static_cast<int>(result.x)] == 'g')
@@ -161,10 +161,10 @@ glm::vec2 RandomChase::randomPosition(std::shared_ptr<Sprite> pacman, std::share
 	{
 		result = pacman->getTileIndices();
 	}
-	
+
 	return result;
 
-	
+
 
 }
 

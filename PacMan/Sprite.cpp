@@ -36,6 +36,7 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 	if (abs(pixelPosition - fixedPosition) > (mm_tileLength))
 	{
 		index = index + indexNum;
+		//logic if sprites are in the tunnel
 		if (mm_indices.x == 0 && this->spriteDirection == MOVE::LEFT)
 		{
 			mm_indices.x = 26;
@@ -50,6 +51,16 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 		}
 		else {
 			m_inTunnel = false;
+		}
+		//bindings for sprites in pens
+		if (mm_indices.x > 10 && mm_indices.x < 17 && mm_indices.y > 14 && mm_indices.y < 19)
+		{
+			std::cout << "In Pen" << std::endl;
+			m_inPen = true;
+		}
+		else
+		{
+			m_inPen = false;
 		}
 		int row = mm_indices.y;
 		int col = mm_indices.x;

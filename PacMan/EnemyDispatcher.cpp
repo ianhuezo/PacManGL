@@ -18,12 +18,22 @@ EnemyDispatcher::EnemyDispatcher(std::shared_ptr<AIPatterns> initialAI, std::sha
 	//init the modes first
 	initChase();
 	initScatter();
+	initStarting();
 	//mapping of the enemies using map
 	m_enemies["blinky"] = m_blinky;
 	m_enemies["inky"] = m_inky;
 	m_enemies["clyde"] = m_clyde;
 	m_enemies["pinky"] = m_pinky;
 	initAI(initialAI);
+	initFrightened();
+}
+
+void EnemyDispatcher::releaseInky()
+{
+}
+
+void EnemyDispatcher::releaseClyde()
+{
 }
 
 
@@ -62,11 +72,27 @@ void EnemyDispatcher::initScatter()
 	m_inky.scatterMode = std::make_shared<BotRightScatter>();
 }
 
+void EnemyDispatcher::initStarting()
+{
+	m_blinky.startingMovement = nullptr;
+	m_pinky.startingMovement = std::make_shared<LeavePen>();
+	m_clyde.startingMovement = std::make_shared<RightPen>();
+	m_inky.startingMovement = std::make_shared<LeftPen>();
+}
+
 void EnemyDispatcher::initAI(std::shared_ptr<AIPatterns> AIPattern)
 {
 	for (auto& x: m_enemies)
 	{
 		x.second.spriteAI = AIPattern;
+	}
+}
+
+void EnemyDispatcher::initFrightened()
+{
+	for (auto& enemy : m_enemies)
+	{
+		enemy.second.frightMode = std::make_shared<SlowFrightened>();
 	}
 }
 
@@ -99,11 +125,23 @@ void EnemyDispatcher::setAIModes(int globalAIMode)
 {
 	for (auto& enemy : m_enemies)
 	{
+		//conditions for the enemy to change tiles
 		if (enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED &&
 			enemy.second.sprite->tileChanged &&
-			!enemy.second.sprite->inTunnel())
+			!enemy.second.sprite->inTunnel() &&
+			enemy.second.startingMovement == nullptr)
 		{
 			enemy.second.sprite->setMoveMode(globalAIMode);
+		}
+		else if (enemy.second.sprite->tileChanged && 
+			!enemy.second.sprite->inPen() &&
+			enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED)
+		{
+			enemy.second.sprite->setMoveMode(globalAIMode);
+		}
+		else if (enemy.second.startingMovement != nullptr && enemy.second.sprite->inPen())
+		{
+			enemy.second.sprite->setMoveMode(MODE::STARTING);
 		}
 	}
 }
@@ -121,6 +159,10 @@ void EnemyDispatcher::decideMode(float deltaTime)
 			enemy.second.scatterMode->scatter(m_target, enemy.second.sprite, enemy.second.spriteAI, deltaTime);
 			break;
 		case MODE::FRIGHTENED:
+			enemy.second.frightMode->fright(enemy.second.sprite, enemy.second.spriteAI, m_originalMap, deltaTime);
+			break;
+		case MODE::STARTING:
+			enemy.second.startingMovement->start(enemy.second.sprite, enemy.second.spriteAI, deltaTime);
 			break;
 		default:
 			break;

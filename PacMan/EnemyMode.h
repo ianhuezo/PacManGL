@@ -4,4 +4,5 @@ enum MODE {
 	CHASE,
 	SCATTER,
 	FRIGHTENED,
+	STARTING
 };

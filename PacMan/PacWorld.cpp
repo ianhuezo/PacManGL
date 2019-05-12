@@ -122,8 +122,9 @@ void PacWorld::eatFood()
 	{
 		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
 	}
-	else if (pacman->checkCurrent() == 'b')
+	else if (m_boardMap->getChars()[static_cast<int>(pacman->getTileIndices().y)][static_cast<int>(pacman->getTileIndices().x)] == 'b')
 	{
 		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
+		m_modeAI = MODE::FRIGHTENED;
 	}
 }

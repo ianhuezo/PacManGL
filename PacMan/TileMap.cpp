@@ -28,6 +28,10 @@ void TileMap::updateTileMap()
 		for (auto col : row)
 		{
 			glm::vec2 position = glm::vec2(m_tileLength*j, m_tileLength*i);
+			if (col == '-')
+			{
+				m_validPositions.push_back(glm::vec2(j, i));
+			}
 			vec.push_back(tileType(col,position));
 			j++;
 		}

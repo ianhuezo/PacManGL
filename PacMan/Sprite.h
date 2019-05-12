@@ -21,6 +21,7 @@ public:
 	auto getModel() { return mm_model; };
 	auto getTileIndices() { return mm_indices; };
 	auto getModelPosition() { return mm_pixelPosition; };
+	auto getHalfTileDistance() { return mm_halfTileLength; };
 
 	virtual ~Sprite() {};
 	void drawSprite();
@@ -69,7 +70,6 @@ public:
 	bool pacmanIsHit(const Sprite& enemy);
 
 protected:
-	//
 	const char * mm_filepath;
 	std::shared_ptr<TileMap> mm_charMap;
 	glm::vec2 mm_initialPosition;
@@ -93,7 +93,7 @@ protected:
 	bool m_inPen = true;
 
 	//the mode i.e. chase, scatter, frightened the ghost is in
-	int m_spriteMode = MODE::SCATTER;
+	int m_spriteMode = MODE::STARTING;
 	//the requested mode for the sprite class
 
 	//array for each tile position in mm_pixelPosition

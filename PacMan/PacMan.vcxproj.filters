@@ -117,6 +117,12 @@
     <ClInclude Include="EnemyMode.h">
       <Filter>Header Files\Dispatchers</Filter>
     </ClInclude>
+    <ClInclude Include="StartingMovement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frightened.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stb_image.cpp">
@@ -168,6 +174,12 @@
       <Filter>Source Files\EnemyAI</Filter>
     </ClCompile>
     <ClCompile Include="EnemyDispatcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartingMovement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Frightened.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

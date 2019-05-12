@@ -9,12 +9,16 @@
 #include <memory>
 #include <string>
 #include <map>
+#include "StartingMovement.h"
+#include "Frightened.h"
 struct EnemyAI {
 	std::shared_ptr<Sprite> sprite = nullptr;
 	std::shared_ptr<Sprite> spriteDependency = nullptr;
 	std::shared_ptr<AIPatterns> spriteAI = nullptr;
 	std::shared_ptr<Chase> chaseMode = nullptr;
 	std::shared_ptr<Scatter> scatterMode = nullptr;
+	std::shared_ptr<StartingMovement> startingMovement = nullptr;
+	std::shared_ptr<Frightened> frightMode = nullptr;
 };
 
 
@@ -23,14 +27,17 @@ class EnemyDispatcher
 public:
 	EnemyDispatcher(std::shared_ptr<AIPatterns> initialAI, std::shared_ptr<Sprite> blinky, std::shared_ptr<Sprite> inky, std::shared_ptr<Sprite> clyde, std::shared_ptr<Sprite> pinky,
 		std::shared_ptr<TileMap> map);
-
+	void releaseInky();
+	void releaseClyde();
 	void targetHero(std::shared_ptr<Sprite> pacman, int enemyMode, float deltaTime);
 	void collided(std::shared_ptr<Sprite> pacman);
 	~EnemyDispatcher();
 private:
 	void initChase();
 	void initScatter();
+	void initStarting();
 	void initAI(std::shared_ptr<AIPatterns> AIPattern);
+	void initFrightened();
 	void useScatter(float deltaTime);
 	void useChase(float deltaTime);
 	void resetAI();
@@ -52,6 +59,8 @@ private:
 
 	//Pattern that all sprites default to for AI
 	std::shared_ptr<AIPatterns> m_originalAI = nullptr;
+	std::shared_ptr<Frightened> slowMode = nullptr;
+	std::shared_ptr<Frightened> retreat = nullptr;
 
 };
 

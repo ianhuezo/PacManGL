@@ -28,6 +28,7 @@ public:
 	auto getRowSize() { return m_rows; };
 	auto getColSize() { return m_cols; };
 	auto getBindedTile(int i, int j) { return tileArr[i][j]; };
+	auto getValidPositions() { return m_validPositions; }
 
 	void updateTileMap();
 	void clearTile(int row, int col);
@@ -65,6 +66,8 @@ private:
 	tile2d tileArr;
 	tile2d originalArr;
 	float m_tileLength;
+
+	std::vector<glm::vec2> m_validPositions;
 
 	std::vector<char> splitStringToChars(std::string fullString, char delimiter);
 	char2d m_board;

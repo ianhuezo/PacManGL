@@ -16,15 +16,15 @@ void Scatter::changeStage(std::shared_ptr<Sprite> enemyAI, std::shared_ptr<AIPat
 {
 	if (enemyAI->getTileIndices() != destination)
 	{
-		if (enemyAI->getMoveMode() != MODE::SCATTER && enemyAI->getPreviousPosition() != glm::vec2(0,0))
-		{
-			pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0,0));
-			enemyAI->setMoveMode(MODE::SCATTER);
-		}
-		else
-		{
+		//if (enemyAI->getMoveMode() != MODE::SCATTER && enemyAI->getPreviousPosition() != glm::vec2(0,0))
+		//{
+		//	pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0,0));
+		//	enemyAI->setMoveMode(MODE::SCATTER);
+		//}
+		//else
+		//{
 			pattern->AStar(enemyAI->getTileIndices(), destination, enemyAI->getPreviousPosition());
-		}
+		//}
 		if (enemyAI->tileChanged)
 		{
 			enemyAI->setPreviousPosition(enemyAI->getTileIndices());
