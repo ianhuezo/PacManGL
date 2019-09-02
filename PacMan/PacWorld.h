@@ -8,6 +8,10 @@
 #include <memory>
 #include "InputCommand.h"
 #include "PacManSprite.h"
+#include "BlinkySprite.h"
+#include "PinkySprite.h"
+#include "ClydeSprite.h"
+#include "InkySprite.h"
 #include "EnemyMode.h"
 #include "WorldDispatcher.h"
 #include "EnemyDispatcher.h"
@@ -29,10 +33,10 @@ public:
 
 	void processCommands(const std::shared_ptr<InputCommand>& command, float deltaTime);
 	std::shared_ptr<PacManSprite> pacman;
-	std::shared_ptr<Sprite> blinky;
-	std::shared_ptr<Sprite> pinky;
-	std::shared_ptr<Sprite> clyde;
-	std::shared_ptr<Sprite> inky;
+	std::shared_ptr<BlinkySprite> blinky;
+	std::shared_ptr<PinkySprite> pinky;
+	std::shared_ptr<ClydeSprite> clyde;
+	std::shared_ptr<InkySprite> inky;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
 	//static variable for points

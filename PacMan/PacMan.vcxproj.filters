@@ -58,6 +58,21 @@
     <Filter Include="Header Files\Dispatchers">
       <UniqueIdentifier>{4a2d7a33-948c-47c3-ad48-6c62c24d551c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\blinky">
+      <UniqueIdentifier>{0bf1135e-201b-4886-9721-d7daaaee1ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\clyde">
+      <UniqueIdentifier>{e49a80eb-9bd4-47e4-b3de-e5274be73487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\inky">
+      <UniqueIdentifier>{4fc7a344-f8dc-4fc9-88d7-b5d5184e2307}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\pacman">
+      <UniqueIdentifier>{9c989e4a-c719-4524-babc-d8dd4b795c8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\pinky">
+      <UniqueIdentifier>{e5973dc9-15df-45ae-8854-5539704b5216}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -117,11 +132,23 @@
     <ClInclude Include="EnemyMode.h">
       <Filter>Header Files\Dispatchers</Filter>
     </ClInclude>
-    <ClInclude Include="StartingMovement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Frightened.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\EnemyAI</Filter>
+    </ClInclude>
+    <ClInclude Include="StartingMovement.h">
+      <Filter>Header Files\EnemyAI</Filter>
+    </ClInclude>
+    <ClInclude Include="BlinkySprite.h">
+      <Filter>Header Files\sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="PinkySprite.h">
+      <Filter>Header Files\sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="ClydeSprite.h">
+      <Filter>Header Files\sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="InkySprite.h">
+      <Filter>Header Files\sprites</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -177,10 +204,22 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StartingMovement.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\EnemyAI</Filter>
     </ClCompile>
     <ClCompile Include="Frightened.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\EnemyAI</Filter>
+    </ClCompile>
+    <ClCompile Include="BlinkySprite.cpp">
+      <Filter>Source Files\sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="PinkySprite.cpp">
+      <Filter>Source Files\sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="ClydeSprite.cpp">
+      <Filter>Source Files\sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="InkySprite.cpp">
+      <Filter>Source Files\sprites</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,26 +266,98 @@
     <Image Include="pacman.png">
       <Filter>Resource Files\Game Tiles</Filter>
     </Image>
-    <Image Include="pacdown.png">
-      <Filter>Resource Files</Filter>
+    <Image Include="blinkyright.png">
+      <Filter>Resource Files\blinky</Filter>
     </Image>
-    <Image Include="pacleft.png">
-      <Filter>Resource Files</Filter>
+    <Image Include="blinkydown.png">
+      <Filter>Resource Files\blinky</Filter>
     </Image>
-    <Image Include="pacright.png">
-      <Filter>Resource Files</Filter>
+    <Image Include="blinkyleft.png">
+      <Filter>Resource Files\blinky</Filter>
     </Image>
-    <Image Include="pacup.png">
-      <Filter>Resource Files</Filter>
+    <Image Include="blinkyup.png">
+      <Filter>Resource Files\blinky</Filter>
     </Image>
-    <Image Include="pinky.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="blinky.png">
-      <Filter>Resource Files</Filter>
+    <Image Include="clydeup.png">
+      <Filter>Resource Files\clyde</Filter>
     </Image>
     <Image Include="clyde.png">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\clyde</Filter>
+    </Image>
+    <Image Include="clydedown.png">
+      <Filter>Resource Files\clyde</Filter>
+    </Image>
+    <Image Include="clydeleft.png">
+      <Filter>Resource Files\clyde</Filter>
+    </Image>
+    <Image Include="clyderight.png">
+      <Filter>Resource Files\clyde</Filter>
+    </Image>
+    <Image Include="inkydown.png">
+      <Filter>Resource Files\inky</Filter>
+    </Image>
+    <Image Include="inkyleft.png">
+      <Filter>Resource Files\inky</Filter>
+    </Image>
+    <Image Include="inkyright.png">
+      <Filter>Resource Files\inky</Filter>
+    </Image>
+    <Image Include="inkyup.png">
+      <Filter>Resource Files\inky</Filter>
+    </Image>
+    <Image Include="pac.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacdown.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacdown1.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacdown2.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacleft.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacleft1.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacleft2.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacright.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacright2.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacright1.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacup.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacup1.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pacup2.png">
+      <Filter>Resource Files\pacman</Filter>
+    </Image>
+    <Image Include="pinkydown.png">
+      <Filter>Resource Files\pinky</Filter>
+    </Image>
+    <Image Include="pinkyright.png">
+      <Filter>Resource Files\pinky</Filter>
+    </Image>
+    <Image Include="pinkyleft.png">
+      <Filter>Resource Files\pinky</Filter>
+    </Image>
+    <Image Include="pinkyup.png">
+      <Filter>Resource Files\pinky</Filter>
+    </Image>
+    <Image Include="pinky.png">
+      <Filter>Resource Files\pinky</Filter>
     </Image>
   </ItemGroup>
 </Project>

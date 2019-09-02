@@ -154,13 +154,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AIPatterns.h" />
+    <ClInclude Include="BlinkySprite.h" />
     <ClInclude Include="Chase.h" />
+    <ClInclude Include="ClydeSprite.h" />
     <ClInclude Include="EnemyDispatcher.h" />
     <ClInclude Include="EnemyMode.h" />
     <ClInclude Include="Frightened.h" />
+    <ClInclude Include="InkySprite.h" />
     <ClInclude Include="InputCommand.h" />
     <ClInclude Include="PacManSprite.h" />
     <ClInclude Include="PacWorld.h" />
+    <ClInclude Include="PinkySprite.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scatter.h" />
     <ClInclude Include="Shader.h" />
@@ -179,7 +183,13 @@
     <ClCompile Include="AIPatterns.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="BlinkySprite.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Chase.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ClydeSprite.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="EnemyDispatcher.cpp">
@@ -192,6 +202,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="InkySprite.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="InputCommand.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -202,6 +215,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PacWorld.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PinkySprite.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Scatter.cpp">
@@ -249,20 +265,44 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="black.jpg" />
-    <Image Include="blinky.png" />
+    <Image Include="blinkydown.png" />
+    <Image Include="blinkyleft.png" />
+    <Image Include="blinkyright.png" />
+    <Image Include="blinkyup.png" />
     <Image Include="border.jpg" />
     <Image Include="clyde.png" />
+    <Image Include="clydedown.png" />
+    <Image Include="clydeleft.png" />
+    <Image Include="clyderight.png" />
+    <Image Include="clydeup.png" />
     <Image Include="dot.jpg" />
     <Image Include="fruit.jpg" />
     <Image Include="gate.jpg" />
     <Image Include="green.jpg" />
+    <Image Include="inkydown.png" />
+    <Image Include="inkyleft.png" />
+    <Image Include="inkyright.png" />
+    <Image Include="inkyup.png" />
+    <Image Include="pac.png" />
     <Image Include="pacdown.png" />
+    <Image Include="pacdown1.png" />
+    <Image Include="pacdown2.png" />
     <Image Include="pacleft.png" />
+    <Image Include="pacleft1.png" />
+    <Image Include="pacleft2.png" />
     <Image Include="pacman.png" />
     <Image Include="pacright.png" />
+    <Image Include="pacright1.png" />
+    <Image Include="pacright2.png" />
     <Image Include="pacup.png" />
+    <Image Include="pacup1.png" />
+    <Image Include="pacup2.png" />
     <Image Include="pellet.jpg" />
     <Image Include="pinky.png" />
+    <Image Include="pinkydown.png" />
+    <Image Include="pinkyleft.png" />
+    <Image Include="pinkyright.png" />
+    <Image Include="pinkyup.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

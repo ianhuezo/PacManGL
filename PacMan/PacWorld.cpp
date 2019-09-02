@@ -8,12 +8,12 @@ PacWorld::PacWorld(int screenWidth, int screenHeight, float tileLength) :
 
 
 	//pacman
-	pacman = std::make_shared<PacManSprite>(m_tileLength, "pacleft.png", glm::vec2(14, 26), *m_boardMap);
+	pacman = std::make_shared<PacManSprite>(m_tileLength, "pac.png", glm::vec2(14, 26), *m_boardMap);
 	//AI
-	blinky = std::make_shared<Sprite>(m_tileLength, "blinky.png", glm::vec2(14, 14), *m_boardMap);
-	pinky = std::make_shared<Sprite>(m_tileLength, "pinky.png", glm::vec2(14, 17), *m_boardMap);
-	clyde = std::make_shared<Sprite>(m_tileLength, "clyde.png", glm::vec2(16, 17), *m_boardMap);
-	inky = std::make_shared<Sprite>(m_tileLength, "inky.png", glm::vec2(12, 17), *m_boardMap);
+	blinky = std::make_shared<BlinkySprite>(m_tileLength, "blinkyright.png", glm::vec2(14, 14), *m_boardMap);
+	pinky = std::make_shared<PinkySprite>(m_tileLength, "pinkydown.png", glm::vec2(14, 17), *m_boardMap);
+	clyde = std::make_shared<ClydeSprite>(m_tileLength, "clydeup.png", glm::vec2(16, 17), *m_boardMap);
+	inky = std::make_shared<InkySprite>(m_tileLength, "inkyup.png", glm::vec2(12, 17), *m_boardMap);
 
 	//original pattern for all AI
 	std::shared_ptr<AIPatterns> originalPattern = std::make_shared<AIPatterns>(m_boardMap);
