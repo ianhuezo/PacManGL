@@ -22,6 +22,13 @@ public:
 	auto getTileIndices() { return mm_indices; };
 	auto getModelPosition() { return mm_pixelPosition; };
 	auto getHalfTileDistance() { return mm_halfTileLength; };
+	auto getInitialPosition() { return mm_initialPosition; };
+	auto getTileDistance() { return mm_tileLength; };
+	int getMoveMode() { return m_spriteMode; };
+	int getPreviousMoveMode() { return m_previousMode; };
+
+	//the current mode of the sprite
+	void setMoveMode(int mode);
 
 	virtual ~Sprite() {};
 	void drawSprite();
@@ -49,9 +56,7 @@ public:
 	void setDistanceToPacman(int distance) { mm_distanceToPacman = distance; };
 	int getDistanceToPacman() { return mm_distanceToPacman; };
 
-	//the current mode of the sprite
-	void setMoveMode(int mode) { m_spriteMode = mode; };
-	int getMoveMode() { return m_spriteMode; };
+
 	//requested mode of the sprite
 
 
@@ -94,6 +99,7 @@ protected:
 
 	//the mode i.e. chase, scatter, frightened the ghost is in
 	int m_spriteMode = MODE::STARTING;
+	int m_previousMode = MODE::STARTING;
 	//the requested mode for the sprite class
 
 	//array for each tile position in mm_pixelPosition

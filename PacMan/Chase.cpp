@@ -21,7 +21,7 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 		mm_command->execute(*enemyAI, deltaTime);
 		return;
 	}
-	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0))
+	if (enemyAI->getMoveMode() != MODE::CHASE && enemyAI->getPreviousPosition() != glm::vec2(0, 0) && enemyAI->getMoveMode() == MODE::SCATTER)
 	{
 		pattern->AStar(enemyAI->getTileIndices(), enemyAI->getPreviousPosition(), glm::vec2(0, 0));
 		enemyAI->setMoveMode(MODE::CHASE);
@@ -40,7 +40,9 @@ void AggresiveChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprit
 		enemyAI->setPreviousPosition(enemyAI->getTileIndices());
 		mm_command = pattern->nextMovement;
 	}
-	mm_command->execute(*enemyAI, deltaTime);
+	if (mm_command != nullptr) {
+		mm_command->execute(*enemyAI, deltaTime);
+	}
 }
 
 void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> enemyAI, std::shared_ptr<Sprite> blinkysAI, std::shared_ptr<AIPatterns> pattern, std::shared_ptr<TileMap> map, float deltaTime)
@@ -73,7 +75,7 @@ void RandomChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 		return;
 	}
 	//prevents enemies from going out of bounds onto the blue tiles
-	if (enemyAI->tileChanged)
+	if (enemyAI->tileChanged || mm_command == nullptr)
 	{
 		enemyAI->setPreviousPosition(enemyAI->getTileIndices());
 		mm_command = pattern->nextMovement;
@@ -202,10 +204,11 @@ void PatrolChase::chase(std::shared_ptr<Sprite> pacman, std::shared_ptr<Sprite> 
 				}
 				mm_command = pattern->nextMovement;
 			}
-			mm_command->execute(*enemyAI, deltaTime);
+			if (mm_command != nullptr) {
+				mm_command->execute(*enemyAI, deltaTime);
+			}
 			break;
 		case PATROLMODE::PATROL:
-
 			switch (stageNum)
 			{
 			case STAGE::TOLOOP:

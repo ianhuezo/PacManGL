@@ -25,6 +25,7 @@ public:
 	void drawPacMan();
 	void drawEnemies();
 	void processAI(float deltaTime);
+	void processModes(duration<double>& timePassed);
 
 	void processCommands(const std::shared_ptr<InputCommand>& command, float deltaTime);
 	std::shared_ptr<PacManSprite> pacman;
@@ -34,6 +35,8 @@ public:
 	std::shared_ptr<Sprite> inky;
 	Shader shader{ "vertexShader.vs", "fragmentShader.fs" };
 private:
+	//static variable for points
+	int m_score = 0;
 	//eating the pellets on the board
 	void eatFood();
 
@@ -50,8 +53,10 @@ private:
 	int m_screenWidth;
 	int m_screenHeight;
 	int m_modeAI = MODE::CHASE;
+	int m_savedMode = -1;
 	float m_tileLength;
 
+	//clocks to measure the game state
 	high_resolution_clock::time_point t1 = high_resolution_clock::now();
 	high_resolution_clock::time_point t2 = high_resolution_clock::now();
 

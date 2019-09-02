@@ -44,7 +44,7 @@ void TileMap::updateTileMap()
 
 void TileMap::clearTile(int row, int col)
 {
-	tileArr[row][col] = BindedTile(*nullTexture, nullTile,'-',tileArr[row][col].position);
+	tileArr[row][col] = BindedTile(*nullTexture, nullTile,'0',tileArr[row][col].position);
 	putTile(row, col);
 }
 

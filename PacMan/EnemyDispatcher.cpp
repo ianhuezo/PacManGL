@@ -30,10 +30,12 @@ EnemyDispatcher::EnemyDispatcher(std::shared_ptr<AIPatterns> initialAI, std::sha
 
 void EnemyDispatcher::releaseInky()
 {
+	m_enemies["inky"].startingMovement = std::make_shared<LeavePen>();
 }
 
 void EnemyDispatcher::releaseClyde()
 {
+	m_enemies["clyde"].startingMovement = std::make_shared<LeavePen>();
 }
 
 
@@ -125,23 +127,36 @@ void EnemyDispatcher::setAIModes(int globalAIMode)
 {
 	for (auto& enemy : m_enemies)
 	{
-		//conditions for the enemy to change tiles
-		if (enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED &&
+		//reset frightened mode if the sprite was already in slow mode
+		if (enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED) {
+			enemy.second.frightMode = std::make_shared<SlowFrightened>();
+		}
+		//everyone but blinky get there starting movement changed back to the original
+		if (enemy.second.sprite->getMoveMode() != MODE::STARTING && enemy.second.startingMovement != nullptr) {
+			enemy.second.startingMovement = std::make_shared<LeavePen>();
+		}
+		//frightened mode until a timer is tripped
+		if (enemy.second.sprite->getMoveMode() == MODE::FRIGHTENED) {
+			enemy.second.sprite->setMoveMode(MODE::FRIGHTENED);
+		}
+		//starting in starting mod
+		else if (enemy.second.startingMovement != nullptr && enemy.second.sprite->inPen())
+		{
+			enemy.second.sprite->setMoveMode(MODE::STARTING);
+		}
+		//both statements for globalAIMode
+		else if (enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED &&
 			enemy.second.sprite->tileChanged &&
 			!enemy.second.sprite->inTunnel() &&
 			enemy.second.startingMovement == nullptr)
 		{
 			enemy.second.sprite->setMoveMode(globalAIMode);
 		}
-		else if (enemy.second.sprite->tileChanged && 
+		else if (enemy.second.sprite->tileChanged &&
 			!enemy.second.sprite->inPen() &&
 			enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED)
 		{
 			enemy.second.sprite->setMoveMode(globalAIMode);
-		}
-		else if (enemy.second.startingMovement != nullptr && enemy.second.sprite->inPen())
-		{
-			enemy.second.sprite->setMoveMode(MODE::STARTING);
 		}
 	}
 }
@@ -165,6 +180,7 @@ void EnemyDispatcher::decideMode(float deltaTime)
 			enemy.second.startingMovement->start(enemy.second.sprite, enemy.second.spriteAI, deltaTime);
 			break;
 		default:
+			enemy.second.chaseMode->chase(m_target, enemy.second.sprite, enemy.second.spriteDependency, enemy.second.spriteAI, m_originalMap, deltaTime);
 			break;
 		}
 	}
@@ -183,10 +199,15 @@ void EnemyDispatcher::collided(std::shared_ptr<Sprite> pacman)
 {
 	for (auto& enemy : m_enemies)
 	{
-		if (pacman->pacmanIsHit(*enemy.second.sprite))
+		if (pacman->pacmanIsHit(*enemy.second.sprite) && enemy.second.sprite->getMoveMode() != MODE::FRIGHTENED)
 		{
 			enemy.second.sprite->resetSprite();
-			return;
 		}
+		if (pacman->pacmanIsHit(*enemy.second.sprite) && enemy.second.sprite->getMoveMode() == MODE::FRIGHTENED)
+		{
+
+			enemy.second.frightMode = std::make_shared<BackToStart>();
+		}
+
 	}
 }

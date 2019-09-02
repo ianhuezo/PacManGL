@@ -13,17 +13,31 @@ StartingMovement::~StartingMovement()
 
 void LeavePen::start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
-	//just used to determine where the center is so the sprite can exit
+	enemy->setMoveMode(MODE::STARTING);
 	switch (stage) {
+		case EXIT::CENTER:
+			if (enemy->getTileIndices() != penCenter)
+			{
+				pattern->AStar(enemy->getTileIndices(), penCenter, enemy->getPreviousPosition());
+				mm_command = pattern->nextMovement;
+			}
+			else {
+				stage = EXIT::UP;
+			}
+			break;
 		case EXIT::UP:
 			mm_command = std::make_shared<UpCommand>();
-			mm_command->execute(*enemy, deltaTime);
 			break;
+	}
+	if (mm_command != nullptr)
+	{
+		mm_command->execute(*enemy, deltaTime);
 	}
 }
 
 void LeftPen::start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
+	enemy->setMoveMode(MODE::STARTING);
 	switch (stage)
 	{
 	case LEFT::CENTER:
@@ -77,6 +91,7 @@ void LeftPen::start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> p
 
 void RightPen::start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> pattern, float deltaTime)
 {
+	enemy->setMoveMode(MODE::STARTING);
 	switch (stage)
 	{
 	case RIGHT::CENTER:
@@ -126,4 +141,9 @@ void RightPen::start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> 
 		}
 		break;
 	}
+}
+
+void NoMovement::start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> pattern, float deltaTime)
+{
+	enemy->setMoveMode(MODE::STARTING);
 }

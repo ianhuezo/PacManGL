@@ -55,7 +55,6 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 		//bindings for sprites in pens
 		if (mm_indices.x > 10 && mm_indices.x < 17 && mm_indices.y > 14 && mm_indices.y < 19)
 		{
-			std::cout << "In Pen" << std::endl;
 			m_inPen = true;
 		}
 		else
@@ -143,6 +142,14 @@ char Sprite::checkDown()
 char Sprite::checkCurrent()
 {
 	return charMap.getBindedTile(mm_indices.y, mm_indices.x).c_tile;
+}
+
+void Sprite::setMoveMode(int mode)
+{
+	if (m_spriteMode != m_previousMode) {
+		m_previousMode = m_spriteMode;
+	}
+	m_spriteMode = mode;
 }
 
 void Sprite::resetSprite()

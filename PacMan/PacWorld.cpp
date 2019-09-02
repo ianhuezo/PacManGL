@@ -78,14 +78,44 @@ void PacWorld::drawEnemies()
 void PacWorld::processAI(float deltaTime)
 {
 	duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-	if (time_span.count() > 7)
-	{
-		t1 = high_resolution_clock::now();
-		m_modeAI = (m_modeAI == MODE::SCATTER) ? MODE::CHASE : MODE::SCATTER;
-	}
-	eDispatcher->collided(pacman);
+
+	//process modes before dispatcher makes a decision
+	processModes(time_span);
 	eDispatcher->targetHero(pacman, m_modeAI, deltaTime);
+	eDispatcher->collided(pacman);
 	t2 = high_resolution_clock::now();
+}
+
+void PacWorld::processModes(duration<double>& timePassed)
+{
+	//method is used case by case in determining how the sprites act on the board overall i.e. frightened, scattered, etc
+
+	switch (m_modeAI)
+	{
+	case MODE::SCATTER:
+		if (timePassed.count() > 7) {
+			t1 = high_resolution_clock::now();
+			m_modeAI = (m_modeAI == MODE::SCATTER) ? MODE::CHASE : MODE::SCATTER;
+		}
+		break;
+	case MODE::CHASE:
+		if (timePassed.count() > 7) {
+			t1 = high_resolution_clock::now();
+			m_modeAI = (m_modeAI == MODE::SCATTER) ? MODE::CHASE : MODE::SCATTER;
+		}
+		break;
+	case MODE::FRIGHTENED:
+		if (timePassed.count() > 2) {
+			t1 = high_resolution_clock::now();
+			std::cout << "Going to Chase mode" << std::endl;
+			m_modeAI = MODE::CHASE;
+		}
+		break;
+	default:
+		m_modeAI = MODE::CHASE;
+		break;
+	}
+
 }
 
 
@@ -118,13 +148,32 @@ void PacWorld::processCommands(const std::shared_ptr<InputCommand>& command, flo
 
 void PacWorld::eatFood()
 {
-	if (pacman->checkCurrent() == '-' || pacman->checkCurrent() == 'a' || pacman->checkCurrent() == '+')
+	int y = static_cast<int>(pacman->getTileIndices().y);
+	int x = static_cast<int>(pacman->getTileIndices().x);
+	//82 tiles and then release clyde
+	if (m_boardMap->getBindedTile(y,x).c_tile == '-' || m_boardMap->getBindedTile(y, x).c_tile == 'a')
 	{
-		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
+		m_boardMap->clearTile(y, x);
+		m_score += 1;
 	}
-	else if (m_boardMap->getChars()[static_cast<int>(pacman->getTileIndices().y)][static_cast<int>(pacman->getTileIndices().x)] == 'b')
+	else if (m_boardMap->getBindedTile(y, x).c_tile == 'b')
 	{
-		m_boardMap->clearTile(static_cast<int>(pacman->getTileIndices().y), static_cast<int>(pacman->getTileIndices().x));
+		m_boardMap->clearTile(y, x);
+		m_score += 1;
+		m_savedMode = m_modeAI;
+		//reset clock so frightened mode starts
+		t1 = high_resolution_clock::now();
+		std::cout << "Changing Mode" << std::endl;
 		m_modeAI = MODE::FRIGHTENED;
+	}
+	if (m_score == 82)
+	{
+		eDispatcher->releaseClyde();
+		std::cout << "Releasing Clyde" << std::endl;
+	}
+	if (m_score == 30)
+	{
+		eDispatcher->releaseInky();
+		std::cout << "Releasing Inky" << std::endl;
 	}
 }

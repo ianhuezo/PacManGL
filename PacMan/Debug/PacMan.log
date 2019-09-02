@@ -1,5 +1,10 @@
-﻿  Frightened.cpp
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(109): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\ianhu\source\repos\pacman\pacman\sprite.h(109): warning C4056: overflow in floating-point constant arithmetic
-c:\users\ianhu\source\repos\pacman\pacman\frightened.cpp(19): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+﻿  stdafx.cpp
+  EnemyDispatcher.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(110): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(110): warning C4056: overflow in floating-point constant arithmetic
+  PacWorld.cpp
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(110): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\ianhu\source\repos\pacman\pacman\sprite.h(110): warning C4056: overflow in floating-point constant arithmetic
+  Generating Code...
+  glad.c
   PacMan.vcxproj -> C:\Users\ianhu\source\repos\PacMan\Debug\PacMan.exe

@@ -18,6 +18,12 @@ protected:
 	std::shared_ptr<InputCommand> mm_command = nullptr;
 };
 
+class NoMovement : public StartingMovement
+{
+public:
+	virtual void start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> pattern, float deltaTime);
+};
+
 class LeftPen : public StartingMovement
 {
 	virtual void start(std::shared_ptr<Sprite> enemy, std::shared_ptr<AIPatterns> pattern, float deltaTime);
@@ -26,7 +32,7 @@ class LeftPen : public StartingMovement
 		UP,
 		DOWN
 	};
-	int stage = LEFT::UP;
+	int stage = LEFT::CENTER;
 };
 
 class RightPen : public StartingMovement
@@ -37,7 +43,7 @@ class RightPen : public StartingMovement
 		UP,
 		DOWN
 	};
-	int stage = RIGHT::UP;
+	int stage = RIGHT::CENTER;
 };
 
 class CenterPen : public StartingMovement
@@ -54,7 +60,8 @@ class LeavePen : public StartingMovement
 		UP
 	};
 	float alignDistance = 0;
-	glm::vec2 penCenter = glm::vec2(13, 17);
-	int stage = EXIT::UP;
+	glm::vec2 penCenter = glm::vec2(14, 17);
+	int stage = EXIT::CENTER;
 };
+
 
