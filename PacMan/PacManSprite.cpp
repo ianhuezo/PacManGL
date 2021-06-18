@@ -5,7 +5,7 @@
 void PacManSprite::moveUp(float deltaTime)
 {
 	if (m_time <= 0) {
-		m_time = deltaTime + deltaTime + deltaTime;
+		m_time = createFrameBuffer(deltaTime, FRAME_TIME);
 		switchAnimation(DIRECTION::UP, m_stage);
 	}
 	m_time -= deltaTime;
@@ -16,7 +16,7 @@ void PacManSprite::moveUp(float deltaTime)
 void PacManSprite::moveDown(float deltaTime)
 {
 	if (m_time <= 0) {
-		m_time = deltaTime + deltaTime + deltaTime;
+		m_time = createFrameBuffer(deltaTime, FRAME_TIME);
 		switchAnimation(DIRECTION::DOWN, m_stage);
 	}
 	m_time -= deltaTime;
@@ -28,7 +28,7 @@ void PacManSprite::moveDown(float deltaTime)
 void PacManSprite::moveLeft(float deltaTime)
 {
 	if (m_time <= 0) {
-		m_time = deltaTime + deltaTime + deltaTime;
+		m_time = createFrameBuffer(deltaTime, FRAME_TIME);
 		switchAnimation(DIRECTION::LEFT, m_stage);
 	}
 	m_time -= deltaTime;
@@ -39,7 +39,7 @@ void PacManSprite::moveLeft(float deltaTime)
 void PacManSprite::moveRight(float deltaTime)
 {
 	if (m_time <= 0) {
-		m_time = deltaTime + deltaTime + deltaTime;
+		m_time = createFrameBuffer(deltaTime, FRAME_TIME);
 		switchAnimation(DIRECTION::RIGHT, m_stage);
 	}
 	m_time -= deltaTime;
@@ -131,4 +131,13 @@ void PacManSprite::switchAnimation(int direction, int& stage)
 			}
 			break;
 		}
+}
+
+float PacManSprite::createFrameBuffer(float time, int numTimes)
+{
+	while (numTimes > -1) {
+		time += time;
+		numTimes -= 1;
+	}
+	return time;
 }

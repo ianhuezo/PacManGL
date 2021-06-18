@@ -63,6 +63,8 @@ private:
 	//clocks to measure the game state
 	high_resolution_clock::time_point t1 = high_resolution_clock::now();
 	high_resolution_clock::time_point t2 = high_resolution_clock::now();
+	//clock to measure vulnerable state
+	high_resolution_clock::time_point t3 = high_resolution_clock::now();
 
 	glm::vec2 m_mapPixel[ROW_SIZE][COL_SIZE];
 	glm::mat4 m_projection;

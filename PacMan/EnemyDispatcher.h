@@ -11,6 +11,7 @@
 #include <map>
 #include "StartingMovement.h"
 #include "Frightened.h"
+#include <chrono>
 struct EnemyAI {
 	std::shared_ptr<Sprite> sprite = nullptr;
 	std::shared_ptr<Sprite> spriteDependency = nullptr;
@@ -31,6 +32,9 @@ public:
 	void releaseClyde();
 	void targetHero(std::shared_ptr<Sprite> pacman, int enemyMode, float deltaTime);
 	void collided(std::shared_ptr<Sprite> pacman);
+	void setToGlobalPattern(int pattern);
+	bool isVulnerable = false;
+
 	~EnemyDispatcher();
 private:
 	void initChase();

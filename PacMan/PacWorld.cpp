@@ -105,9 +105,10 @@ void PacWorld::processModes(duration<double>& timePassed)
 		}
 		break;
 	case MODE::FRIGHTENED:
-		if (timePassed.count() > 2) {
+		if (timePassed.count() > 7) {
 			t1 = high_resolution_clock::now();
 			std::cout << "Going to Chase mode" << std::endl;
+			eDispatcher->isVulnerable = false;
 			m_modeAI = MODE::CHASE;
 		}
 		break;
@@ -164,6 +165,7 @@ void PacWorld::eatFood()
 		//reset clock so frightened mode starts
 		t1 = high_resolution_clock::now();
 		std::cout << "Changing Mode" << std::endl;
+		eDispatcher->isVulnerable = true;
 		m_modeAI = MODE::FRIGHTENED;
 	}
 	if (m_score == 82)

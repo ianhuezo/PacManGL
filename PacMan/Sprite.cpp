@@ -75,6 +75,9 @@ void Sprite::generalMove(float& pixelPosition, float& fixedPosition, float& inde
 void Sprite::moveUp(float deltaTime)
 {
 	spriteDirection = MOVE::UP;
+	if (m_spriteMode == MODE::FRIGHTENED) {
+		mm_texture = m_texturefright;
+	}
 	float velocity = -spriteSpeed * deltaTime;
 	mm_model = glm::translate(mm_model, glm::vec3(0, velocity, 0.0f));
 	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, velocity, -1.0f);
@@ -83,6 +86,9 @@ void Sprite::moveUp(float deltaTime)
 void Sprite::moveDown(float deltaTime)
 {
 	spriteDirection = MOVE::DOWN;
+	if (m_spriteMode == MODE::FRIGHTENED) {
+		mm_texture = m_texturefright;
+	}
 	float velocity = spriteSpeed * deltaTime;
 	mm_model = glm::translate(mm_model, glm::vec3(0, velocity, 0.0f));
 	generalMove(mm_pixelPosition.y, mm_fixedPosition.y, mm_indices.y, velocity, 1);
@@ -91,6 +97,9 @@ void Sprite::moveDown(float deltaTime)
 void Sprite::moveRight(float deltaTime)
 {
 	spriteDirection = MOVE::RIGHT;
+	if (m_spriteMode == MODE::FRIGHTENED) {
+		mm_texture = m_texturefright;
+	}
 	float velocity = spriteSpeed * deltaTime;
 	if (mm_pixelPosition.x >= rightTunnel.x && this->spriteDirection == MOVE::RIGHT)
 	{
@@ -104,6 +113,9 @@ void Sprite::moveRight(float deltaTime)
 void Sprite::moveLeft(float deltaTime)
 {
 	spriteDirection = MOVE::LEFT;
+	if (m_spriteMode == MODE::FRIGHTENED) {
+		mm_texture = m_texturefright;
+	}
 	float velocity = -spriteSpeed * deltaTime;
 	if (mm_pixelPosition.x <= 0 && this->spriteDirection == MOVE::LEFT)
 	{
@@ -117,6 +129,9 @@ void Sprite::moveLeft(float deltaTime)
 void Sprite::moveStill(float deltaTime)
 {
 	spriteDirection = MOVE::STILL;
+	if (m_spriteMode == MODE::FRIGHTENED) {
+		mm_texture = m_texturefright;
+	}
 }
 
 char Sprite::checkLeft()

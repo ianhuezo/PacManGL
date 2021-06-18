@@ -22,6 +22,8 @@ public:
 	virtual void moveRight(float deltaTime);
 private:
 	void switchAnimation(int direction, int& stage);
+	float createFrameBuffer(float time, int numTimes);
+	int FRAME_TIME = 4;
 	//mouth of pacman stage
 	enum STAGE {
 		CLOSED,

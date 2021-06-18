@@ -136,7 +136,7 @@ void EnemyDispatcher::setAIModes(int globalAIMode)
 			enemy.second.startingMovement = std::make_shared<LeavePen>();
 		}
 		//frightened mode until a timer is tripped
-		if (enemy.second.sprite->getMoveMode() == MODE::FRIGHTENED) {
+		if (enemy.second.sprite->getMoveMode() == MODE::FRIGHTENED && isVulnerable == false) {
 			enemy.second.sprite->setMoveMode(MODE::FRIGHTENED);
 		}
 		//starting in starting mod
@@ -210,4 +210,8 @@ void EnemyDispatcher::collided(std::shared_ptr<Sprite> pacman)
 		}
 
 	}
+}
+
+void EnemyDispatcher::setToGlobalPattern(int pattern)
+{
 }

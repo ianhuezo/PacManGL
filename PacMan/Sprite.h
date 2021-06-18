@@ -29,6 +29,7 @@ public:
 
 	//the current mode of the sprite
 	void setMoveMode(int mode);
+	//makes the sprite a ghost texture
 
 	virtual ~Sprite() {};
 	void drawSprite();
@@ -91,7 +92,7 @@ protected:
 
 	glm::mat4 tunnelPositionLeft;
 	glm::mat4 tunnelPositionRight;
-
+	//tunnel logic
 	bool m_inTunnel = false;
 
 	//pen logic
@@ -113,9 +114,12 @@ protected:
 	glm::vec2 mm_previousPosition = glm::vec2(0, 0);
 	//distance to pacman
 	int mm_distanceToPacman = FLT_MAX;
+	//whether sprite is in ghost mode or not
 
 	bool killedPacman = false;
 
 	std::shared_ptr<Sprite> mm_originalSprite = nullptr;
+
+	std::shared_ptr<Texture2D> m_texturefright = std::make_shared<Texture2D>("yeetableghost.png");
 };
 
